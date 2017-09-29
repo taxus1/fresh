@@ -1,10 +1,10 @@
 # MySQL.  Versions 4.1 and 5.0 are recommended.
 #
 development:
-  host: 120.26.10.20
-  username: truck
-  password: jjb910123
-  database: truck30
+  host: 127.0.0.1
+  username: root
+  password: root
+  database: tpshop2.0
   maxConns: 1
   idleConns: 1
   encoding: utf8
@@ -22,10 +22,10 @@ test:
   encoding: utf8
 
 production:
-  host: 120.26.10.20
-  username: truck
-  password: jjb910123
-  database: truck30
+  host: 127.0.0.1
+  username: root
+  password: root
+  database: tpshop2.0
   maxConns: 1
   idleConns: 1
   encoding: utf8

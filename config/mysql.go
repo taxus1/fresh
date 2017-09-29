@@ -10,15 +10,14 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type mysql struct {
-	Session   *sql.DB
-	MaxConns  int
-	IdleConns int
+// Mysql Mysql数据源
+type Mysql struct {
+	Session *sql.DB
 }
 
 // NewMysql 获取mysql数据库连接对象
-func NewMysql(c *MysqlConfig) (*mysql, error) {
-	m := new(mysql)
+func NewMysql(c *MysqlConfig) (*Mysql, error) {
+	m := new(Mysql)
 	d := fmt.Sprintf(
 		"%s:%s@tcp(%s:3306)/%s?parseTime=true&charset=%s",
 		c.Current().Username,
@@ -41,7 +40,7 @@ func NewMysql(c *MysqlConfig) (*mysql, error) {
 }
 
 //BuildInsert SQL Insert语句生成, eg. INSERT INTO xxx (`a`) VALUES (1), (2)
-func (m *mysql) BuildInsert(table string, cols []string, len int) string {
+func (m *Mysql) BuildInsert(table string, cols []string, records int) string {
 	buf := bytes.Buffer{}
 	buf.WriteString("INSERT INTO ")
 	buf.WriteString(m.QuoteIdent(table))
@@ -62,7 +61,7 @@ func (m *mysql) BuildInsert(table string, cols []string, len int) string {
 	buf.WriteString(placeholderBuf.String())
 
 	placeholderStr := placeholderBuf.String()
-	for i := 1; i < len; i++ {
+	for i := 1; i < records; i++ {
 		buf.WriteString(",")
 		buf.WriteString(placeholderStr)
 	}
@@ -70,7 +69,7 @@ func (m *mysql) BuildInsert(table string, cols []string, len int) string {
 }
 
 //SaveOne 单行数据插入
-func (m *mysql) SaveOne(sql string, args []interface{}) (int64, error) {
+func (m *Mysql) SaveOne(sql string, args ...interface{}) (int64, error) {
 	stmt, _ := m.Session.Prepare(sql)
 	res, err := stmt.Exec(args...)
 	if err != nil {
@@ -84,7 +83,7 @@ func (m *mysql) SaveOne(sql string, args []interface{}) (int64, error) {
 }
 
 // TxExec 事务执行方法
-func (m *mysql) TxExec(f func(tx *sql.Tx) error) (err error) {
+func (m *Mysql) TxExec(f func(tx *sql.Tx) error) (err error) {
 	//开启事务
 	tx, err := m.Session.Begin()
 	if err != nil {
@@ -99,13 +98,13 @@ func (m *mysql) TxExec(f func(tx *sql.Tx) error) (err error) {
 }
 
 // SaveTx 带事务的数据插入
-func (m *mysql) SaveTx(tx *sql.Tx, sql string, args []interface{}) (id int64, err error) {
+func (m *Mysql) SaveTx(tx *sql.Tx, sql string, args []interface{}) (id int64, err error) {
 	_, id, err = m.execTx(tx, sql, args...)
 	return
 }
 
 //Update 单行数据更新
-func (m *mysql) Update(sql string, args ...interface{}) (int64, error) {
+func (m *Mysql) Update(sql string, args ...interface{}) (int64, error) {
 	stmt, err := m.Session.Prepare(sql)
 	if err != nil {
 		return 0, err
@@ -122,12 +121,12 @@ func (m *mysql) Update(sql string, args ...interface{}) (int64, error) {
 }
 
 //UpdateTx 单行数据更新
-func (m *mysql) UpdateTx(tx *sql.Tx, sql string, args ...interface{}) (eff int64, err error) {
+func (m *Mysql) UpdateTx(tx *sql.Tx, sql string, args ...interface{}) (eff int64, err error) {
 	eff, _, err = m.execTx(tx, sql, args...)
 	return
 }
 
-func (m *mysql) execTx(tx *sql.Tx, sql string, args ...interface{}) (int64, int64, error) {
+func (m *Mysql) execTx(tx *sql.Tx, sql string, args ...interface{}) (int64, int64, error) {
 	stmt, err := tx.Prepare(sql)
 	// defer stmt.Close()
 	if err != nil {
@@ -153,7 +152,7 @@ func (m *mysql) execTx(tx *sql.Tx, sql string, args ...interface{}) (int64, int6
 }
 
 //GetOne 获取单行数据，返回所有数据类型为string
-func (m *mysql) GetOne(rows *sql.Rows) []string {
+func (m *Mysql) GetOne(rows *sql.Rows) []string {
 	if rows == nil {
 		return nil
 	}
@@ -182,7 +181,7 @@ func (m *mysql) GetOne(rows *sql.Rows) []string {
 }
 
 //GetOneMap 获取一行返回map
-func (m *mysql) GetOneMap(rows *sql.Rows) map[string]string {
+func (m *Mysql) GetOneMap(rows *sql.Rows) map[string]string {
 	if rows == nil {
 		return nil
 	}
@@ -211,16 +210,16 @@ func (m *mysql) GetOneMap(rows *sql.Rows) map[string]string {
 }
 
 //QuoteIdent sql语句字段引号 eg.`a`
-func (m *mysql) QuoteIdent(s string) string {
+func (m *Mysql) QuoteIdent(s string) string {
 	return m.quoteIdent(s, "`")
 }
 
 //Placeholder sql语句预处理值占位符
-func (m *mysql) placeholder() string {
+func (m *Mysql) placeholder() string {
 	return "?"
 }
 
-func (m *mysql) quoteIdent(s, quote string) string {
+func (m *Mysql) quoteIdent(s, quote string) string {
 	part := strings.SplitN(s, ".", 2)
 	if len(part) == 2 {
 		return m.quoteIdent(part[0], quote) + "." + m.quoteIdent(part[1], quote)
@@ -232,7 +231,7 @@ func (m *mysql) quoteIdent(s, quote string) string {
 type Scanner func(rs *sql.Rows) error
 
 // QueryMore 查询多行
-func (m *mysql) QueryMore(query string, f Scanner, args ...interface{}) error {
+func (m *Mysql) QueryMore(query string, f Scanner, args ...interface{}) error {
 	rs, err := m.Session.Query(query, args...)
 	if err != nil {
 		return err
