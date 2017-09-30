@@ -4,7 +4,7 @@ development:
   host: 127.0.0.1
   username: root
   password: root
-  database: tpshop2.0
+  database: xxxxxx
   maxConns: 1
   idleConns: 1
   encoding: utf8
@@ -13,10 +13,10 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  host: 120.26.10.20
-  username: truck
-  password: jjb910123
-  database: truck30
+  host: 127.0.0.1
+  username: xxxxxx
+  password: xxxxxx
+  database: xxxxxx
   maxConns: 1
   idleConns: 1
   encoding: utf8
@@ -25,7 +25,7 @@ production:
   host: 127.0.0.1
   username: root
   password: root
-  database: tpshop2.0
+  database: xxxxxx.0
   maxConns: 1
   idleConns: 1
   encoding: utf8
