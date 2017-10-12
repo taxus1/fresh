@@ -20,3 +20,66 @@ var CartCols = []string{
 	"add_time",
 	"sku",
 }
+
+// OrderCols 订单
+var OrderCols = []string{
+	"order_sn",
+	"user_id",
+	"order_status",
+	"shipping_status",
+	"pay_status",
+	"consignee",
+	"country",
+	"province",
+	"city",
+	"district",
+	"twon",
+	"address",
+	"zipcode",
+	"mobile",
+	"email",
+	"shipping_code",
+	"shipping_name",
+	"invoice_title",
+	"goods_price",
+	"shipping_price",
+	"order_amount",
+	"total_amount",
+	"add_time",
+	"deleted",
+}
+
+// OrderActionCols 订单操作记录
+var OrderActionCols = []string{
+	"order_id",
+	"action_user",
+	"order_status",
+	"shipping_status",
+	"pay_status",
+	"action_note",
+	"status_desc",
+	"log_time",
+}
+
+// OrderGoodsCols 订单商品
+var OrderGoodsCols = []string{
+	"order_id",
+	"goods_id",
+	"goods_name",
+	"goods_sn",
+	"goods_num",
+	"market_price",
+	"goods_price",
+	"cost_price",
+	"member_goods_price",
+	"give_integral",
+	"spec_key",
+	"spec_key_name",
+	"bar_code",
+	"is_comment",
+	"prom_type",
+	"prom_id",
+	"is_send",
+	"delivery_id",
+	"sku",
+}

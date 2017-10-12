@@ -20,7 +20,7 @@ func TestMysqlConnect(t *testing.T) {
 		panic(err)
 	}
 
-	c.Env = "test"
+	c.Env = "dev"
 	log.Printf("%v \n", c.Current())
 
 	m, err := NewMysql(c)

@@ -1,10 +1,14 @@
 package model
 
 import (
+	"database/sql"
 	"fmt"
+	"log"
+	"strconv"
 	"time"
 )
 
+// Cart 购物车
 type Cart struct {
 	ID               uint32  // 购物车表 int(8)
 	UserID           uint32  // 用户id mediumint(8)
@@ -24,11 +28,76 @@ type Cart struct {
 	PromType         uint8   // 0 普通订单,1 限时抢购, 2 团购 , 3 促销优惠 tinyint(1)
 	PromID           uint32  // 活动iD int(11)
 	Sku              string  // sku varchar(128)
+
+	CostPrice float32 // 成本价，下单时放进order_goods
 }
+
+// Carts 购物车
+type Carts []*Cart
 
 // NewCart 新建购物车
 func NewCart() *Cart {
 	return &Cart{}
+}
+
+// LoadUserCarts 加载用户购物车
+func LoadUserCarts(userID uint32) (*Carts, error) {
+	var cs Carts
+	query := `SELECT c.* FROM tp_cart c WHERE user_id = ?`
+	f := func(rs *sql.Rows) error {
+		for rs.Next() {
+			c := new(Cart)
+			if err := rs.Scan(c.Fields()...); err != nil {
+				return err
+			}
+			cs = append(cs, c)
+		}
+		return nil
+	}
+	err := DataSource.QueryMore(query, f, userID)
+	if err != nil && err != sql.ErrNoRows {
+		err = fmt.Errorf("[LoadUserCarts] %v", err)
+	}
+	return &cs, err
+}
+
+// LoadSelectedCarts 获取购物车中选中的商品
+func LoadSelectedCarts(userID uint32) (*Carts, error) {
+	var cs Carts
+	query := ` SELECT c.*, g.cost_price FROM tp_cart c
+		LEFT JOIN tp_goods g ON c.goods_id = g.goods_id
+		WHERE selected = 1 AND user_id = ?
+	`
+	f := func(rs *sql.Rows) error {
+		for rs.Next() {
+			c := new(Cart)
+			if err := rs.Scan(c.Fields()...); err != nil {
+				return err
+			}
+			cs = append(cs, c)
+		}
+		return nil
+	}
+	err := DataSource.QueryMore(query, f, userID)
+	if err != nil && err != sql.ErrNoRows {
+		err = fmt.Errorf("[LoadSelectedCarts] %v", err)
+	}
+	return &cs, err
+}
+
+// Remove 删除购物车
+func (c *Carts) Remove(tx *sql.Tx) error {
+	var ids string
+	for i, v := range *c {
+		ids = ids + strconv.FormatUint(uint64(v.ID), 10)
+		if i < len(*c)-1 {
+			ids = ids + ","
+		}
+	}
+	delete := "DELETE FROM tp_cart WHERE id IN (" + ids + ")"
+	log.Printf("%s", ids)
+	_, err := tx.Exec(delete)
+	return err
 }
 
 // Add 添加商品到购物车
@@ -95,5 +164,30 @@ func (c *Cart) Values() []interface{} {
 		&c.Selected,
 		&c.AddTime,
 		&c.Sku,
+		&c.CostPrice,
+	}
+}
+
+func (c *Cart) Fields() []interface{} {
+	return []interface{}{
+		&c.ID,
+		&c.UserID,
+		&c.SessionID,
+		&c.GoodsID,
+		&c.GoodsSN,
+		&c.GoodsName,
+		&c.MarketPrice,
+		&c.GoodsPrice,
+		&c.MemberGoodsPrice,
+		&c.GoodsNum,
+		&c.SpecKey,
+		&c.SpecKeyName,
+		&c.BarCode,
+		&c.Selected,
+		&c.AddTime,
+		&c.PromType,
+		&c.PromID,
+		&c.Sku,
+		&c.CostPrice,
 	}
 }

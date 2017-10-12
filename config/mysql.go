@@ -98,7 +98,7 @@ func (m *Mysql) TxExec(f func(tx *sql.Tx) error) (err error) {
 }
 
 // SaveTx 带事务的数据插入
-func (m *Mysql) SaveTx(tx *sql.Tx, sql string, args []interface{}) (id int64, err error) {
+func (m *Mysql) SaveTx(tx *sql.Tx, sql string, args ...interface{}) (id int64, err error) {
 	_, id, err = m.execTx(tx, sql, args...)
 	return
 }
@@ -128,7 +128,7 @@ func (m *Mysql) UpdateTx(tx *sql.Tx, sql string, args ...interface{}) (eff int64
 
 func (m *Mysql) execTx(tx *sql.Tx, sql string, args ...interface{}) (int64, int64, error) {
 	stmt, err := tx.Prepare(sql)
-	// defer stmt.Close()
+	defer stmt.Close()
 	if err != nil {
 		return 0, 0, err
 	}

@@ -1,5 +1,11 @@
 package config
 
+import (
+	"io/ioutil"
+
+	yaml "gopkg.in/yaml.v2"
+)
+
 // DbBase 数据库配连接属性
 type DbBase struct {
 	Host      string `yaml:"host"`
@@ -30,4 +36,18 @@ func (m *MysqlConfig) Current() *DbBase {
 	default:
 		return m.Development
 	}
+}
+
+// LoadDbConf 从yml配置文件读取数据库配置
+func LoadDbConf() *MysqlConfig {
+	data, err := ioutil.ReadFile("./../config/database.yml")
+	if err != nil {
+		panic(err)
+	}
+
+	c := &MysqlConfig{}
+	if err = yaml.Unmarshal(data, c); err != nil {
+		panic(err)
+	}
+	return c
 }
