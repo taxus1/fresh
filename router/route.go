@@ -8,4 +8,5 @@ import (
 
 func InitRoute(app *iris.Application) {
 	app.Controller("/user", new(controllers.UserController))
+	
 }

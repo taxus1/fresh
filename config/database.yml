@@ -4,7 +4,7 @@ development:
   host: 127.0.0.1
   username: root
   password: root
-  database: xxx
+  database: tpshop2.0
   maxConns: 10
   idleConns: 1
   encoding: utf8
@@ -15,8 +15,8 @@ development:
 test:
   host: 127.0.0.1
   username: truck
-  password: xxx
-  database: xxx
+  password: jjb910123
+  database: truck30
   maxConns: 1
   idleConns: 1
   encoding: utf8
@@ -25,7 +25,7 @@ production:
   host: 127.0.0.1
   username: root
   password: root
-  database: xxxx
+  database: tpshop2.0
   maxConns: 1
   idleConns: 1
   encoding: utf8
