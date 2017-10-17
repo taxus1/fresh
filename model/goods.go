@@ -8,15 +8,15 @@ import (
 // Goods 商品
 type Goods struct {
 	ID               uint32  //商品id mediumint(8)
-	CatID            int64   //分类id int(11)
-	ExtendCatID      int64   //扩展分类id int(11)
+	CatID            uint32  //分类id int(11)
+	ExtendCatID      uint32  //扩展分类id int(11)
 	GoodsSN          string  //商品编号 varchar(60)
 	GoodsName        string  //商品名称 varchar(120)
-	ClickCount       int64   //点击数 int(10)
-	BrandID          int64   //品牌id smallint(5)
-	StoreCount       int32   //库存数量 smallint(5)
-	CommentCount     int32   //商品评论数 smallint(5)
-	Weight           int32   //商品重量克为单位 int(11)
+	ClickCount       uint32  //点击数 int(10)
+	BrandID          uint16  //品牌id smallint(5)
+	StoreCount       uint16  //库存数量 smallint(5)
+	CommentCount     uint16  //商品评论数 smallint(5)
+	Weight           uint32  //商品重量克为单位 int(11)
 	MarketPrice      float32 //市场价 decimal(10,
 	ShopPrice        float32 //本店价 decimal(10,
 	CostPrice        float32 //商品成本价 decimal(10,
@@ -28,7 +28,7 @@ type Goods struct {
 	IsReal           bool    //是否为实物 tinyint(3)
 	IsOnSale         bool    //是否上架 tinyint(1)
 	IsFreeShipping   bool    //是否包邮0否1是 tinyint(1)
-	OnTime           int32   //商品上架时间 int(10)
+	OnTime           int64   //商品上架时间 int(10)
 	Sort             int32   //商品排序 smallint(4)
 	IsRecommend      bool    //是否推荐 tinyint(1)
 	IsNew            bool    //是否新品 tinyint(1)

@@ -1,11 +1,6 @@
 package controllers
 
-import "github.com/kataras/iris/mvc"
+type userController controller
 
-type UserController struct {
-	mvc.Controller
-}
-
-func (c *UserController) Get() {
-	c.Text = "xxx"
+func (c *userController) Get() {
 }

@@ -14,9 +14,9 @@ development:
 # Do not set this db to the same as development or production.
 test:
   host: 127.0.0.1
-  username: truck
-  password: jjb910123
-  database: truck30
+  username: root
+  password: root
+  database: root
   maxConns: 1
   idleConns: 1
   encoding: utf8
@@ -25,7 +25,7 @@ production:
   host: 127.0.0.1
   username: root
   password: root
-  database: tpshop2.0
+  database: root
   maxConns: 1
   idleConns: 1
   encoding: utf8

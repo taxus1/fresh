@@ -83,3 +83,23 @@ var OrderGoodsCols = []string{
 	"delivery_id",
 	"sku",
 }
+
+// AdCols 广告
+var AdCols = []string{
+	"ad_id",
+	"pid",
+	"media_type",
+	"ad_name",
+	"ad_link",
+	"ad_code",
+	"start_time",
+	"end_time",
+	"link_man",
+	"link_email",
+	"link_phone",
+	"click_count",
+	"enabled",
+	"orderby",
+	"target",
+	"bgcolor",
+}
