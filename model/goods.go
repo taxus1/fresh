@@ -69,6 +69,27 @@ func LoadNewGoods() ([]*Goods, error) {
 	return gs, err
 }
 
+// LoadRecommendGoods 加载所有新产品
+func LoadRecommendGoods() ([]*Goods, error) {
+	var gs []*Goods
+	q := `SELECT * FROM tp_goods WHERE is_recommend = 1 ORDER BY sort LIMIT 10`
+	f := func(rs *sql.Rows) error {
+		for rs.Next() {
+			g := new(Goods)
+			if err := rs.Scan(g.Values()...); err != nil {
+				return err
+			}
+			gs = append(gs, g)
+		}
+		return nil
+	}
+	err := DataSource.QueryMore(q, f)
+	if err != nil {
+		err = fmt.Errorf("[LoadRecommendGoods] %v", err)
+	}
+	return gs, err
+}
+
 // LoadGoodsBy ID获取商品
 func LoadGoodsBy(id int64) (*Goods, error) {
 	query := `SELECT * FROM tp_goods WHERE goods_id = ?`

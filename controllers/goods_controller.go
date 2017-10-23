@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"fresh/model"
-	cproto "fresh/proto"
+	pgoods "fresh/proto/goods"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/kataras/iris"
@@ -10,15 +10,15 @@ import (
 
 type goodsController controller
 
-func (c *goodsController) Get(ctx iris.Context) {
+func (c *goodsController) NewGoods(ctx iris.Context) {
 	gs, err := model.LoadNewGoods()
 	if err != nil {
 		ctx.Text(err.Error())
 		return
 	}
-	pgs := make([]*cproto.NewGoods, len(gs))
+	pgs := make([]*pgoods.NewGoods, len(gs))
 	for i, g := range gs {
-		pgs[i] = &cproto.NewGoods{
+		pgs[i] = &pgoods.NewGoods{
 			ID:           g.ID,
 			CatID:        g.CatID,
 			ExtendCatID:  g.ExtendCatID,
@@ -41,9 +41,36 @@ func (c *goodsController) Get(ctx iris.Context) {
 			IsOnSale:     g.IsOnSale,
 		}
 	}
-	data, err := proto.Marshal(&cproto.NewGoodsResult{Goodses: pgs})
+	data, err := proto.Marshal(&pgoods.NewGoodsResult{Goodses: pgs})
 	if err != nil {
 		ctx.Text(err.Error())
+		return
 	}
 	ctx.Binary(data)
+}
+
+func (c *goodsController) Recommend(ctx iris.Context) {
+	gs, err := model.LoadRecommendGoods()
+	if err != nil {
+		ctx.Text(err.Error())
+		return
+	}
+	pgs := make([]*pgoods.Recommend, len(gs))
+	for i, g := range gs {
+		pgs[i] = &pgoods.Recommend{
+			ID:        g.ID,
+			CatID:     g.CatID,
+			GoodsName: g.GoodsName,
+			ShopPrice: g.ShopPrice,
+		}
+	}
+	data, err := proto.Marshal(&pgoods.RecommendResult{Recommend: pgs})
+	if err != nil {
+		ctx.Text(err.Error())
+		return
+	}
+	ctx.ContentType("application/x-protobuf")
+	ctx.Write(data)
+
+	//ctx.Binary(data)
 }

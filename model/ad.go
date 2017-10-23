@@ -43,7 +43,7 @@ func LoadAds(pid uint32) (*Ads, error) {
 		}
 		return nil
 	}
-	current := time.Now().Day()
+	current := time.Now().Unix()
 	err := DataSource.QueryMore(query, f, pid, current, current)
 	if err != nil && err != sql.ErrNoRows {
 		err = fmt.Errorf("[LoadAd] %v", err)

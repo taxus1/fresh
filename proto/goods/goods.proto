@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package goods;
+
+// NewGoods 新上架商品
+message NewGoodsResult {
+  repeated NewGoods goodses = 1;
+}
+
+message NewGoods{
+  uint32 iD = 1;   //商品id
+	uint32 catID = 2;    //分类id
+	uint32 extendCatID = 3;    //扩展分类id
+	string goodsSN = 4;   //商品编号
+	string goodsName = 5;   //商品名称
+	uint32 clickCount = 6;    //点击数
+	uint32 brandID = 7;    //品牌id
+	uint32 storeCount = 8;    //库存数量
+	uint32 commentCount = 9;    //商品评论数
+	uint32 weight = 10;    //商品重量克为单位
+	float marketPrice = 11;  //市场价
+	float shopPrice = 12;  //本店价
+	float costPrice = 13;  //商品成本价
+	string priceLadder = 14;   //价格阶梯
+	string keywords = 15;   //商品关键词
+	string goodsRemark = 16;   //商品简单描述
+	string goodsContent = 17;   //商品详细描述
+	string originalImg = 18;   //商品上传原始图
+	bool isReal = 19;     //是否为实物
+	bool isOnSale = 20;     //是否上架
+}
+
+
+// 首页推荐商品
+
+message RecommendResult {
+  repeated Recommend recommend = 1;
+}
+
+message Recommend {
+  uint32 iD = 1;  //商品id
+	uint32 catID = 2;   //分类id
+	string goodsName = 3;  //商品名称
+  float shopPrice = 4;  // 本店价格
+}

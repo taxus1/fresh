@@ -19,5 +19,10 @@ func (r *Route) Init(app *iris.Application) {
 
 	// iris.Post("/", controller.WechatCtr.Validate, controller.WechatCtr.Message)
 
-	app.Get("/goods", ctr.GoodsController.Get)
+	goods := app.Party("/goods")
+	goods.Get("/new", ctr.GoodsController.NewGoods)
+	goods.Get("/recommend", ctr.GoodsController.Recommend)
+
+	home := app.Party("/home")
+	home.Get("/banner", ctr.HomeController.Banner)
 }
