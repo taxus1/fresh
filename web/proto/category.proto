@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package category;
+
+// CategoryResult 商品分类
+message CategoryResult {
+  repeated Category categories = 1;
+}
+
+message Category{
+  uint32 iD = 1;  //商品分类id
+  string mobileName = 2; //手机端显示的商品分类名
+}

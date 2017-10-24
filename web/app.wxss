@@ -1,8 +1,9 @@
-page {
-  background-color: white;
-}
-
-.separate {
-  height: 18rpx;
-  background-color: #f2f2f2;
-}
+/**app.wxss**/
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+} 

@@ -1,77 +1,59 @@
+<!--index.wxml-->
+<!--1px = 750/320 = 2.34rpx;-->
 <view class="container">
-
-  <view class="page-body">
-    <view class="page-section page-section-spacing swiper">
-      <swiper indicator-dots="{{indicatorDots}}"
-        autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-        <block wx:for="{{background}}" wx:key="*this">
-          <swiper-item>
-            <view class="swiper-item {{item}}"></view>
+   <view class="swiper-container">
+        <swiper class="swiper_box" 
+                    autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="swiperchange">
+            <block wx:for="{{banners}}" wx:key="pID">
+                <swiper-item>
+                    <image bindtap="tapBanner" data-id="{{item.pID}}" src="{{item.adCode}}" class="slide-image" width="750rpx" height="562.5rpx"/>
+                </swiper-item>
+            </block>
+        </swiper>
+        <view class="dots">  
+            <block wx:for="{{banners}}" wx:key="unique">  
+                <view class="dot{{index == swiperCurrent ? ' active' : ''}}"></view>  
+            </block>  
+        </view>  
+   </view>
+    <view class="type-container">
+        <scroll-view class="type-navbar" scroll-x="true">
+            <view class="type-box" wx:for-items="{{categories}}" wx:key="iD">
+                <view id="{{item.iD}}" class="type-navbar-item {{activeCategoryId == item.iD ? 'type-item-on' : ''}}" bindtap="tabClick">
+                    {{item.mobileName}}
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+    <view wx:if="{{noticeList}}" class="notice">
+      <view class="notice_iteml">公告：</view>
+      <swiper wx:if="{{noticeList}}" class="notice_swiper" vertical="true" autoplay="true" circular="true" interval="3000">
+        <navigator wx:for-items="{{noticeList.dataList}}" wx:key="id" url="/pages/notice/show?id={{item.id}}" open-type="navigate">
+          <swiper-item >
+            <view class="notice_itemr">{{item.title}}</view>
           </swiper-item>
-        </block>
+        </navigator>
       </swiper>
     </view>
-  </view>
+    <view class="coupons" hidden="{{hasNoCoupons}}">
+        <scroll-view class="coupons-scroll" scroll-x="true">
+            <view class="coupons-item" wx:for-items="{{coupons}}" wx:for-index="idx" wx:key="id"  bindtap="gitCoupon" data-id="{{item.id}}">
+               <view style="font-size: 35rpx"> ￥ {{item.moneyMax}}元 </view>
+               <view> {{item.name}} </view>
+               <view> 满 {{item.moneyHreshold}} 元使用 </view>
+               <view wx:if="{{item.dateEndType == 0}}"> {{item.dateEnd}} 前有效 </view>
+               <view wx:if="{{item.dateEndType == 1}}"> 领取 {{item.dateEndDays}} 天内有效 </view>
+            </view>
+        </scroll-view>
+    </view>
+    <view class="goods-container">
+        <view class="goods-box" wx:for-items="{{goods}}" wx:key="{{index}}" bindtap="toDetailsTap" data-id="{{item.iD}}">
+           <view class="img-box">
+              <image src="{{item.pic}}_m" class="image" mode="aspectFill" lazy-load="true"/>
+           </view>
+           <view class="goods-title">{{item.goodsName}}</view>
+           <view class="goods-price">¥ {{item.shopPrice}}</view>
+        </view>
+    </view>
+    <view hidden="{{loadingMoreHidden ? true : false}}" class="no-more-goods">没有更多啦</view>
 </view>
-
-  <scroll-view scroll-y="true" height="100%">
-    <swiper style="height:410rpx;" indicator-dots="true" autoplay="true" interval="5000" duration="1000">
-      <block wx:for="{{slides}}" wx:for-item="slide" wx:key="id">
-        <swiper-item>
-          <navigator url="{{slide.url}}">
-            <image class="slide-img" src="{{slide.img}}" mode="aspectFit"/>
-          </navigator>
-        </swiper-item>
-      </block>
-    </swiper>
-
-    <view class="navs">
-      <block wx:for-items="{{navs}}" wx:key="name">
-        <view class="nav-item" catchtap="catchTapCategory" data-type="{{item.name}}" data-typeid="{{item.typeId}}">
-          <image src="{{item.icon}}" class="nav-image"/>
-          <text>{{item.name}}</text>
-        </view>
-      </block>
-    </view>
-
-
-    <view class="separate"></view>
-    <view class="cate-container">
-      <view class="category-title">
-        <view class="icon"><image src="../../images/hot_small.png"></image></view>
-        <view><text class="name">每周爆款</text></view>
-      </view>
-      <block wx:for="{{hot_products}}" wx:for-item="item" wx:key="id">
-        <view class="item" bindtap="bindShowProduct" data-id="{{item.id}}">
-          <image class="head-img" src="{{item['promotion-url']}}" mode="aspectFit"></image>
-        </view>
-      </block>
-    </view>
-
-    <view class="separate"></view>
-    <view class="cate-container">
-      <view class="category-title">
-        <view class="icon"><image src="../../images/new_small.png"></image></view>
-        <view><text class="name">新品上架</text></view>
-      </view>
-      <block wx:for="{{new_products}}" wx:for-item="item" wx:key="id">
-        <view class="item" bindtap="bindShowProduct" data-id="{{item.id}}">
-          <image class="head-img" src="{{item['promotion-url']}}" mode="aspectFit"></image>
-        </view>
-      </block>
-    </view>
-
-    <view class="separate"></view>
-    <view class="cate-container">
-      <view class="category-title">
-        <view class="icon"><image src="../../images/volume_small.png"></image></view>
-        <view><text class="name">热销商品</text></view>
-      </view>
-      <block wx:for="{{popularity_products}}" wx:for-item="item" wx:key="id">
-        <view class="item" bindtap="bindShowProduct" data-id="{{item.id}}">
-          <image class="head-img" src="{{item['promotion-url']}}" mode="aspectFit"></image>
-        </view>
-      </block>
-    </view>
-
-  </scroll-view>

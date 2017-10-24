@@ -1,151 +1,123 @@
-const jsonApi = require('utils/jsonapi-datastore/dist/jsonapi-datastore.js')
-require('utils/polyfill.js')
-
+//app.js
 App({
   onLaunch: function () {
-    var that = this
-    this.store = new(jsonApi.JsonApiDataStore)
-    this.jsonModel = jsonApi.JsonApiDataStoreModel
-    this.globalData.code = wx.getStorageSync('code')
-
-    this.getUserInfo(function() {
-      that.postEncryptedData(function(res){
-        that.globalData.wechatUserType = res.data.wechat_user_type
-      })
+    var that = this;
+    //  获取商城名称
+    wx.request({
+      url: 'https://api.it120.cc/'+ that.globalData.subDomain +'/config/get-value',
+      data: {
+        key: 'mallName'
+      },
+      success: function(res) {
+        if (res.data.code == 0) {
+          wx.setStorageSync('mallName', res.data.data.value);
+        }
+      }
     })
-    this.request({
-      url: `${that.globalData.API_URL}/manage_features`,
-      success: function(res) { that.globalData.featureManager = res.data }
-    })
+    this.login();
   },
-
-  getUserInfo: function (cb) {
-    var that = this
-    if(this.globalData.userInfo){
-      typeof cb == "function" && cb(this.globalData.userInfo)
-    }else{
-      wx.login({
+  login : function () {
+    var that = this;
+    var token = that.globalData.token;
+    if (token) {
+      wx.request({
+        url: 'https://api.it120.cc/' + that.globalData.subDomain + '/user/check-token',
+        data: {
+          token: token
+        },
         success: function (res) {
-          if (res.code) {
-            that.globalData.code = res.code
-            wx.setStorageSync('code', res.code)
-            wx.getUserInfo({
-              success: function (res) {
-                that.globalData.encrypted = {encryptedData: res.encryptedData, iv: res.iv}
-                that.globalData.userInfo = res.userInfo
-                typeof cb == "function" && cb(that.globalData.userInfo)
-              }
-            })
-          } else {
-            console.log('获取用户登录态失败！' + res.errMsg)
+          if (res.data.code != 0) {
+            that.globalData.token = null;
+            that.login();
           }
         }
       })
+      return;
     }
-  },
-
-  request: function(obj) {
-    var header = obj.header || {}
-    if (!header['Content-Type']) {
-      header['Content-Type'] = 'application/json'
-    }
-    if (!header['Authorization']) {
-      header['Authorization'] = this.globalData.token
-    }
-
-    // This must be wx.request !
-    wx.request({
-      url: obj.url,
-      data: obj.data || {},
-      method: obj.method || 'GET',
-      header: header,
-      success: function(res) {
-        typeof obj.success == "function" && obj.success(res)
-      },
-      fail: obj.fail || function() {},
-      complete: obj.complete || function() {}
-    })
-  },
-
-  authRequest: function(obj) {
-    var that = this
-    if (!that.globalData.token) {
-      var token = wx.getStorageSync('userToken')
-      if (!token) {
-        wx.hideToast()
-        wx.showModal({
-          title: '未登录',
-          content: '请前往 “我的” 页面绑定手机号',
-          showCancel: false,
+    wx.login({
+      success: function (res) {
+        wx.request({
+          url: 'https://api.it120.cc/'+ that.globalData.subDomain +'/user/wxapp/login',
+          data: {
+            code: res.code
+          },
           success: function(res) {
-            // 清除没用的token
-            wx.removeStorage({key: 'userToken'})
-            that.globalData.token = undefined
-            if (getCurrentPages().length > 1) {
-              wx.navigateBack()
+            if (res.data.code == 10000) {
+              // 去注册
+              that.registerUser();
+              return;
             }
+            if (res.data.code != 0) {
+              // 登录错误
+              wx.hideLoading();
+              wx.showModal({
+                title: '提示',
+                content: '无法登录，请重试',
+                showCancel:false
+              })
+              return;
+            }
+            //console.log(res.data.data.token)
+            that.globalData.token = res.data.data.token;
           }
         })
-        return
       }
-      that.globalData.token = token
-      that.request({
-        url: `${that.globalData.API_URL}/sessions/login`,
-        method: 'POST',
-        data: {code: that.globalData.code},
-        success: function(res) {
-          if (!res.data.token) {
-            wx.hideToast()
-            wx.showModal({
-              title: '未登录',
-              content: '请前往 “我的” 页面绑定手机号',
-              showCancel: false,
-              success: function(res) {
-                // 清除没用的token
-                wx.removeStorage({key: 'userToken'})
-                that.globalData.token = undefined
-                if (getCurrentPages().length > 1) {
-                  wx.navigateBack()
-                }
-              }
-            })
-          } else {
-            that.globalData.currentCustomer = res.data.customer
-            that.globalData.token = res.data.token
-            wx.setStorage({
-              key: 'userToken',
-              data: res.data.token
-            })
-            that.request(obj)
-          }
-        },
-        fail: function(res) {}
-      })
-    } else {
-      that.request(obj)
-    }
-  },
-
-  postEncryptedData: function (resolve) {
-    this.request({
-      method: 'POST',
-      url: `${this.globalData.API_URL}/sessions/wechat_user_type`,
-      data: {
-        code: this.globalData.code,
-        encrypted: this.globalData.encrypted,
-        userInfo: this.globalData.userInfo
-      },
-      success: resolve,
-      fail: function(res) {}
     })
   },
-
+  registerUser: function () {
+    var that = this;
+    wx.login({
+      success: function (res) {
+        var code = res.code; // 微信登录接口返回的 code 参数，下面注册接口需要用到
+        wx.getUserInfo({
+          success: function (res) {
+            var iv = res.iv;
+            var encryptedData = res.encryptedData;
+            // 下面开始调用注册接口
+            wx.request({
+              url: 'https://api.it120.cc/' + that.globalData.subDomain +'/user/wxapp/register/complex',
+              data: {code:code,encryptedData:encryptedData,iv:iv}, // 设置请求的 参数
+              success: (res) =>{
+                wx.hideLoading();
+                that.login();
+              }
+            })
+          }
+        })
+      }
+    })
+  },
+  sendTempleMsg: function (orderId, trigger, template_id, form_id, page, postJsonString){
+    var that = this;
+    wx.request({
+      url: 'https://api.it120.cc/' + that.globalData.subDomain + '/template-msg/put',
+      method:'POST',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        token: that.globalData.token,
+        type:0,
+        module:'order',
+        business_id: orderId,
+        trigger: trigger,
+        template_id: template_id,
+        form_id: form_id,
+        url:page,
+        postJsonString: postJsonString
+      },
+      success: (res) => {
+        //console.log('*********************');
+        //console.log(res.data);
+        //console.log('*********************');
+      }
+    })
+  },
   globalData:{
-    wechatUserType: 'normal',
-    featureManager: {},
-    userInfo: null,
-    currentCustomer: null,
-    // API_URL: 'http://localhost:3000',
-    API_URL: 'https://rapi.bayekeji.com'
+    userInfo:null,
+    domain: "http://127.0.0.1:8080",
+    version: "1.6.1",
+    shareProfile: '百款精品商品，总有一款适合您' // 首页转发的时候话术
   }
+  // 根据自己需要修改下单时候的模板消息内容设置，可增加关闭订单、收货时候模板消息提醒
 })

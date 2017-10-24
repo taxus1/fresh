@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package ad;
+
+// Ad 广告
+message Ad {
+  uint32 pID = 1;         // 广告位置ID
+  uint32 mediaType = 2;    // 广告类型
+  string adName = 3;      // 广告名称
+  string adLink = 4;      // 链接地址
+  string adCode = 5;      // 图片地址
+}
+
+// HomeBannerAds 首页轮播广告
+message HomeBannerAds {
+  repeated Ad ads = 1;
+}
