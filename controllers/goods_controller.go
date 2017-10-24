@@ -4,11 +4,12 @@ import (
 	"fresh/model"
 	pgoods "fresh/proto/goods"
 
-	"github.com/golang/protobuf/proto"
 	"github.com/kataras/iris"
 )
 
-type goodsController controller
+type goodsController struct {
+	*controller
+}
 
 func (c *goodsController) NewGoods(ctx iris.Context) {
 	gs, err := model.LoadNewGoods()
@@ -41,15 +42,13 @@ func (c *goodsController) NewGoods(ctx iris.Context) {
 			IsOnSale:     g.IsOnSale,
 		}
 	}
-	data, err := proto.Marshal(&pgoods.NewGoodsResult{Goodses: pgs})
-	if err != nil {
-		ctx.Text(err.Error())
-		return
-	}
-	ctx.Binary(data)
+	c.WriteProto(ctx, &pgoods.NewGoodsResult{Goodses: pgs})
 }
 
 func (c *goodsController) Recommend(ctx iris.Context) {
+	// data := &pgoods.RecommendResult{}
+	// err := c.ReadProto(ctx, data)
+	// log.Printf("%v", data)
 	gs, err := model.LoadRecommendGoods()
 	if err != nil {
 		ctx.Text(err.Error())
@@ -64,13 +63,5 @@ func (c *goodsController) Recommend(ctx iris.Context) {
 			ShopPrice: g.ShopPrice,
 		}
 	}
-	data, err := proto.Marshal(&pgoods.RecommendResult{Recommend: pgs})
-	if err != nil {
-		ctx.Text(err.Error())
-		return
-	}
-	ctx.ContentType("application/x-protobuf")
-	ctx.Write(data)
-
-	//ctx.Binary(data)
+	c.WriteProto(ctx, &pgoods.RecommendResult{Recommend: pgs})
 }

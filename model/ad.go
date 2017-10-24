@@ -32,7 +32,7 @@ type Ads []*Ad
 // LoadAds 根据广告位pid获取广告
 func LoadAds(pid uint32) (*Ads, error) {
 	var ads Ads
-	query := `SELECT * FROM tp_ad WHERE pid = ? AND start_time < ? AND ? < end_time AND enabled = 1 ORDER BY orderby`
+	query := `SELECT * FROM tp_ad WHERE pid = ? AND start_time < ? AND ? < end_time AND enabled = 1 ORDER BY orderby LIMIT 5`
 	f := func(rs *sql.Rows) error {
 		for rs.Next() {
 			ad := new(Ad)

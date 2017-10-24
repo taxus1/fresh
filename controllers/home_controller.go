@@ -3,14 +3,16 @@ package controllers
 import (
 	"fresh/model"
 	pad "fresh/proto/ad"
+	pcategory "fresh/proto/category"
 
 	"github.com/kataras/iris"
-
-	"github.com/golang/protobuf/proto"
 )
 
-type homeController controller
+type homeController struct {
+	*controller
+}
 
+// Banner 首页轮播广告
 func (h *homeController) Banner(ctx iris.Context) {
 	ads, err := model.LoadAds(9)
 	if err != nil {
@@ -28,11 +30,23 @@ func (h *homeController) Banner(ctx iris.Context) {
 			AdCode:    v.AdCode,
 		}
 	}
-	data, err := proto.Marshal(&pad.HomeBannerAds{Ads: pads})
+	h.WriteProto(ctx, &pad.HomeBannerAds{Ads: pads})
+}
+
+// Category 商品分类
+func (h *homeController) Category(ctx iris.Context) {
+	cats, err := model.LoadGoodsCategory()
 	if err != nil {
 		ctx.Text(err.Error())
 		return
 	}
 
-	ctx.Binary(data)
+	pcats := make([]*pcategory.Category, len(cats))
+	for i, v := range cats {
+		pcats[i] = &pcategory.Category{
+			ID:         uint32(v.ID),
+			MobileName: v.MobileName,
+		}
+	}
+	h.WriteProto(ctx, &pcategory.CategoryResult{Categories: pcats})
 }

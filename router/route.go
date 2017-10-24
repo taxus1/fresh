@@ -7,7 +7,8 @@ import (
 )
 
 // Route 路由对象
-type Route struct{}
+type Route struct {
+}
 
 // New 新建路由
 func New() *Route {
@@ -16,13 +17,14 @@ func New() *Route {
 
 // Init 注册路由
 func (r *Route) Init(app *iris.Application) {
-
+	ctr.InitControllers()
 	// iris.Post("/", controller.WechatCtr.Validate, controller.WechatCtr.Message)
 
 	goods := app.Party("/goods")
 	goods.Get("/new", ctr.GoodsController.NewGoods)
-	goods.Get("/recommend", ctr.GoodsController.Recommend)
+	goods.Post("/recommend", ctr.GoodsController.Recommend)
 
 	home := app.Party("/home")
 	home.Get("/banner", ctr.HomeController.Banner)
+	home.Get("/category", ctr.HomeController.Category)
 }

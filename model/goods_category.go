@@ -7,7 +7,7 @@ import (
 
 // GoodsCategory 商品分类
 type GoodsCategory struct {
-	ID             int64  //商品分类id
+	ID             uint16 //商品分类id
 	Name           string //商品分类名称
 	MobileName     string //手机端显示的商品分类名
 	ParentID       int64  //父id
@@ -34,7 +34,7 @@ func LoadGoodsCategory() ([]*GoodsCategory, error) {
 		}
 		return nil
 	}
-	sqlStr := `SELECT * FROM tp_goods_category`
+	sqlStr := `SELECT * FROM tp_goods_category WHERE is_show = 1 ORDER BY sort_order limit 10`
 	err := DataSource.QueryMore(sqlStr, f)
 	if err != nil {
 		err = fmt.Errorf("[LoadGoodsCategory] %v", err)
