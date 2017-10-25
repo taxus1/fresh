@@ -91,7 +91,7 @@ func LoadRecommendGoods() ([]*Goods, error) {
 }
 
 // LoadGoodsBy ID获取商品
-func LoadGoodsBy(id int64) (*Goods, error) {
+func LoadGoodsBy(id uint32) (*Goods, error) {
 	query := `SELECT * FROM tp_goods WHERE goods_id = ?`
 	g := &Goods{}
 	err := DataSource.Session.QueryRow(query, id).Scan(g.Values()...)

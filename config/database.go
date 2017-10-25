@@ -40,8 +40,8 @@ func (m *MysqlConfig) Current() *DbBase {
 
 // LoadDbConf 从yml配置文件读取数据库配置
 func LoadDbConf() *MysqlConfig {
-	data, err := ioutil.ReadFile("./config/database.yml")
-	// data, err := ioutil.ReadFile("./../config/database.yml")
+	// data, err := ioutil.ReadFile("./config/database.yml")
+	data, err := ioutil.ReadFile("./../config/database.yml")
 	if err != nil {
 		panic(err)
 	}
