@@ -3,6 +3,8 @@ package model
 import (
 	"database/sql"
 	"fmt"
+	"strconv"
+	"strings"
 )
 
 // GoodsSpec 商品规格
@@ -44,11 +46,24 @@ func LoadGoodsSpec(goodsID uint32) (GoodsSpecs, error) {
 	return gss, err
 }
 
+// GetSpecItem 商品规格列表里面获取不重复的规格ID
 func (g *GoodsSpecs) GetSpecItem() []uint32 {
-	items := make([]uint32, len(*g))
+	items := []uint32{}
+	m := map[uint64]bool{}
 	for _, v := range *g {
-
+		if len(v.Key) == 0 {
+			continue
+		}
+		ids := strings.Split(v.Key, "_")
+		for _, id := range ids {
+			key, _ := strconv.ParseUint(id, 10, 0)
+			if _, ok := m[key]; !ok {
+				m[key] = true
+				items = append(items, uint32(key))
+			}
+		}
 	}
+	return items
 }
 
 func (g *GoodsSpec) Values() []interface{} {

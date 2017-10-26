@@ -48,4 +48,5 @@ func TestLoadGoodsSpec(t *testing.T) {
 	for _, gs := range gss {
 		log.Println(*gs)
 	}
+	log.Println(gss.GetSpecItem())
 }
