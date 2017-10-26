@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-// GoodsSpec 商品规格
-type GoodsSpec struct {
+// GoodsSpecPrice 商品规格
+type GoodsSpecPrice struct {
 	ID         uint32  //规格商品id bigint(20)
 	GoodsID    uint32  //商品id int(11)
 	Key        string  //规格键名 varchar(255)
@@ -22,15 +22,15 @@ type GoodsSpec struct {
 	PromType   uint8   //参加活动类型 tinyint(2)
 }
 
-// GoodsSpecs 规格
-type GoodsSpecs []*GoodsSpec
+// GoodsSpecPrices 规格
+type GoodsSpecPrices []*GoodsSpecPrice
 
-// LoadGoodsSpec 获取商品规格
-func LoadGoodsSpec(goodsID uint32) (GoodsSpecs, error) {
-	var gss GoodsSpecs
+// LoadGoodsSpecPrice 获取商品不同规格的不同价格
+func LoadGoodsSpecPrice(goodsID uint32) (GoodsSpecPrices, error) {
+	var gss GoodsSpecPrices
 	f := func(rs *sql.Rows) error {
 		for rs.Next() {
-			gs := new(GoodsSpec)
+			gs := new(GoodsSpecPrice)
 			if err := rs.Scan(gs.Values()...); err != nil {
 				return err
 			}
@@ -41,13 +41,13 @@ func LoadGoodsSpec(goodsID uint32) (GoodsSpecs, error) {
 	sqlStr := `SELECT * FROM tp_spec_goods_price WHERE goods_id = ?`
 	err := DataSource.QueryMore(sqlStr, f, goodsID)
 	if err != nil {
-		err = fmt.Errorf("[LoadGoodsSpec] %v", err)
+		err = fmt.Errorf("[LoadGoodsSpecPrice] %v", err)
 	}
 	return gss, err
 }
 
 // GetSpecItem 商品规格列表里面获取不重复的规格ID
-func (g *GoodsSpecs) GetSpecItem() []uint32 {
+func (g *GoodsSpecPrices) GetSpecItem() []uint32 {
 	items := []uint32{}
 	m := map[uint64]bool{}
 	for _, v := range *g {
@@ -66,7 +66,7 @@ func (g *GoodsSpecs) GetSpecItem() []uint32 {
 	return items
 }
 
-func (g *GoodsSpec) Values() []interface{} {
+func (g *GoodsSpecPrice) Values() []interface{} {
 	return []interface{}{
 		&g.ID,
 		&g.GoodsID,
@@ -80,4 +80,61 @@ func (g *GoodsSpec) Values() []interface{} {
 		&g.PromID,
 		&g.PromType,
 	}
+}
+
+type spec struct {
+	ItemID uint32
+	Item   string
+	Src    string
+}
+
+// GoodsSpec 商品规格
+type GoodsSpec struct {
+	SpecName string
+	SpecList []*spec
+}
+
+// LoadGoodsSpec 获取商品的规格
+func LoadGoodsSpec(ids []uint32, goodsID uint32) ([]*GoodsSpec, error) {
+	var id, specID sql.NullInt64
+	var item, name, src sql.NullString
+	var err error
+	idstr := []string{}
+	for _, v := range ids {
+		idstr = append(idstr, strconv.Itoa(int(v)))
+	}
+	query := `
+	SELECT si.*, s.name, sim.src
+	FROM tp_spec_item si
+			LEFT JOIN tp_spec s ON si.spec_id = s.id
+	    LEFT JOIN tp_spec_image sim ON si.id = sim.spec_image_id AND sim.goods_id = ?
+	WHERE si.id IN (` + strings.Join(idstr, ",") + `) ORDER BY s.order , spec_id
+	`
+	gss, i, m := []*GoodsSpec{}, 0, map[int64]int{}
+	f := func(rs *sql.Rows) error {
+		for rs.Next() {
+			if err = rs.Scan(&id, &specID, &item, &name, &src); err != nil {
+				return err
+			}
+			var gs *GoodsSpec
+			s := &spec{
+				ItemID: uint32(DataSource.ConvInt64(id).Int64),
+				Item:   DataSource.ConvString(item).String,
+				Src:    DataSource.ConvString(src).String,
+			}
+			if _, ok := m[DataSource.ConvInt64(specID).Int64]; ok {
+				gs = gss[m[specID.Int64]]
+				gs.SpecList = append(gs.SpecList, s)
+			} else {
+				m[specID.Int64] = i
+				gs = &GoodsSpec{SpecName: DataSource.ConvString(name).String}
+				gs.SpecList = append(gs.SpecList, s)
+				gss = append(gss, gs)
+			}
+			i++
+		}
+		return nil
+	}
+	err = DataSource.QueryMorePrepare(query, f, goodsID)
+	return gss, err
 }

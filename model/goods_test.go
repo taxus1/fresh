@@ -41,12 +41,27 @@ func TestGoodsClick(t *testing.T) {
 	log.Printf("测试商品点击，原值=%d, 期望=%d", click, g.ClickCount)
 }
 
-func TestLoadGoodsSpec(t *testing.T) {
-	gss, err := LoadGoodsSpec(gid)
+var items []uint32
+
+func TestLoadGoodsSpecPrice(t *testing.T) {
+	gss, err := LoadGoodsSpecPrice(gid)
 	checkErr(err)
-	log.Printf("[LoadGoodsCategory]:[%d]", len(gss))
 	for _, gs := range gss {
 		log.Println(*gs)
 	}
-	log.Println(gss.GetSpecItem())
+	items = gss.GetSpecItem()
+	log.Println(items)
+}
+
+func TestLoadGoodsSpec(t *testing.T) {
+	gss, err := LoadGoodsSpec(items, gid)
+	checkErr(err)
+
+	for _, gs := range gss {
+		log.Printf("%v", gs.SpecName)
+		for _, v := range gs.SpecList {
+			log.Printf("%v", v)
+		}
+
+	}
 }

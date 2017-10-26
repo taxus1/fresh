@@ -3,7 +3,6 @@ package model
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"time"
 )
 
@@ -35,7 +34,6 @@ func (o *OrderAction) Create(tx *sql.Tx, order *Order, actionUser uint32, action
 	o.ActionNote = actionNote
 	o.StateDesc = stateDesc
 	insert := DataSource.BuildInsert("tp_order_action", OrderActionCols, 1)
-	log.Printf("%v", o)
 	_, err := DataSource.SaveTx(tx, insert, o.Values()...)
 	if err != nil {
 		err = fmt.Errorf("[OrderAction.Create] %v", err)

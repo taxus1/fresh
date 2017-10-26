@@ -240,3 +240,53 @@ func (m *Mysql) QueryMore(query string, f Scanner, args ...interface{}) error {
 
 	return f(rs)
 }
+
+// QueryMorePrepare 查询多行
+func (m *Mysql) QueryMorePrepare(query string, f Scanner, args ...interface{}) error {
+	stmt, err := m.Session.Prepare(query)
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	rs, err := stmt.Query(args...)
+	if err != nil {
+		return err
+	}
+	defer rs.Close()
+
+	return f(rs)
+}
+
+// ConvString 转换sql.NullString
+func (m *Mysql) ConvString(str sql.NullString) sql.NullString {
+	if !str.Valid {
+		str.String, str.Valid = "", true
+	}
+	return str
+}
+
+// ConvInt64 转换sql.NullInt64
+func (m *Mysql) ConvInt64(i64 sql.NullInt64) sql.NullInt64 {
+	if !i64.Valid {
+		i64.Int64, i64.Valid = 0, true
+	}
+	return i64
+}
+
+// ConvFloat64 转换sql.NullFloat64
+func (m *Mysql) ConvFloat64(f64 sql.NullFloat64) sql.NullFloat64 {
+	if !f64.Valid {
+		f64.Float64, f64.Valid = 0.0, true
+	}
+	return f64
+}
+
+// ConvBool 转换sql.NullBool
+func (m *Mysql) ConvBool(bo sql.NullBool) sql.NullBool {
+	if !bo.Valid {
+		bo.Bool, bo.Valid = false, true
+	}
+	return bo
+}
