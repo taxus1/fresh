@@ -25,12 +25,13 @@ type Comment struct {
 	ZanNum      uint32 // 被赞数 int(10)
 	ZanUserID   string // 点赞用户id varchar(255)
 	IsAnonymous bool   // 是否匿名评价:0不是，1是 tinyint(1)
+	HeadPic     string // 评论人头像
 }
 
-// LoadComment 加载商品评论
-func LoadComment(goodsID uint32) ([]*Comment, error) {
+// LoadComments 加载商品评论
+func (g *Goods) LoadComments() ([]*Comment, error) {
 	cs := []*Comment{}
-	query := `SELECT * FROM tp_comment WHERE goods_id = ?`
+	query := `SELECT c.*, u.head_pic FROM tp_comment c LEFT JOIN tp_users u ON c.user_id = u.user_id WHERE goods_id = ?`
 	f := func(rs *sql.Rows) error {
 		for rs.Next() {
 			c := new(Comment)
@@ -41,9 +42,9 @@ func LoadComment(goodsID uint32) ([]*Comment, error) {
 		}
 		return nil
 	}
-	err := DataSource.QueryMore(query, f, goodsID)
+	err := DataSource.QueryMore(query, f, g.ID)
 	if err != nil {
-		err = fmt.Errorf("[LoadComment] %v", err)
+		err = fmt.Errorf("[LoadComments] %v", err)
 	}
 	return cs, err
 }
@@ -68,5 +69,6 @@ func (c *Comment) Values() []interface{} {
 		&c.ZanNum,
 		&c.ZanUserID,
 		&c.IsAnonymous,
+		&c.HeadPic,
 	}
 }

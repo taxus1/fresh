@@ -25,8 +25,8 @@ type GoodsSpecPrice struct {
 // GoodsSpecPrices 规格
 type GoodsSpecPrices []*GoodsSpecPrice
 
-// LoadGoodsSpecPrice 获取商品不同规格的不同价格
-func LoadGoodsSpecPrice(goodsID uint32) (GoodsSpecPrices, error) {
+// LoadSpecPrice 获取商品不同规格的不同价格
+func (g *Goods) LoadSpecPrice() (GoodsSpecPrices, error) {
 	var gss GoodsSpecPrices
 	f := func(rs *sql.Rows) error {
 		for rs.Next() {
@@ -39,7 +39,7 @@ func LoadGoodsSpecPrice(goodsID uint32) (GoodsSpecPrices, error) {
 		return nil
 	}
 	sqlStr := `SELECT * FROM tp_spec_goods_price WHERE goods_id = ?`
-	err := DataSource.QueryMore(sqlStr, f, goodsID)
+	err := DataSource.QueryMore(sqlStr, f, g.ID)
 	if err != nil {
 		err = fmt.Errorf("[LoadGoodsSpecPrice] %v", err)
 	}
@@ -82,7 +82,8 @@ func (g *GoodsSpecPrice) Values() []interface{} {
 	}
 }
 
-type spec struct {
+// SpecItem 规格条目
+type SpecItem struct {
 	ItemID uint32
 	Item   string
 	Src    string
@@ -91,11 +92,11 @@ type spec struct {
 // GoodsSpec 商品规格
 type GoodsSpec struct {
 	SpecName string
-	SpecList []*spec
+	SpecList []*SpecItem
 }
 
-// LoadGoodsSpec 获取商品的规格
-func LoadGoodsSpec(ids []uint32, goodsID uint32) ([]*GoodsSpec, error) {
+// LoadSpec 获取商品的规格
+func (g *Goods) LoadSpec(ids []uint32) ([]*GoodsSpec, error) {
 	var id, specID sql.NullInt64
 	var item, name, src sql.NullString
 	var err error
@@ -117,7 +118,7 @@ func LoadGoodsSpec(ids []uint32, goodsID uint32) ([]*GoodsSpec, error) {
 				return err
 			}
 			var gs *GoodsSpec
-			s := &spec{
+			s := &SpecItem{
 				ItemID: uint32(DataSource.ConvInt64(id).Int64),
 				Item:   DataSource.ConvString(item).String,
 				Src:    DataSource.ConvString(src).String,
@@ -135,6 +136,6 @@ func LoadGoodsSpec(ids []uint32, goodsID uint32) ([]*GoodsSpec, error) {
 		}
 		return nil
 	}
-	err = DataSource.QueryMorePrepare(query, f, goodsID)
+	err = DataSource.QueryMorePrepare(query, f, g.ID)
 	return gss, err
 }

@@ -44,7 +44,8 @@ func TestGoodsClick(t *testing.T) {
 var items []uint32
 
 func TestLoadGoodsSpecPrice(t *testing.T) {
-	gss, err := LoadGoodsSpecPrice(gid)
+	g := &Goods{ID: gid}
+	gss, err := g.LoadSpecPrice()
 	checkErr(err)
 	for _, gs := range gss {
 		log.Println(*gs)
@@ -54,7 +55,8 @@ func TestLoadGoodsSpecPrice(t *testing.T) {
 }
 
 func TestLoadGoodsSpec(t *testing.T) {
-	gss, err := LoadGoodsSpec(items, gid)
+	g := &Goods{ID: gid}
+	gss, err := g.LoadSpec(items)
 	checkErr(err)
 
 	for _, gs := range gss {
@@ -62,6 +64,15 @@ func TestLoadGoodsSpec(t *testing.T) {
 		for _, v := range gs.SpecList {
 			log.Printf("%v", v)
 		}
+	}
+}
 
+func TestLoadComments(t *testing.T) {
+	g := &Goods{ID: gid}
+	cs, err := g.LoadComments()
+	checkErr(err)
+
+	for _, c := range cs {
+		log.Printf("%v", c)
 	}
 }
