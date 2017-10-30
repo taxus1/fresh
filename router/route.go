@@ -23,6 +23,7 @@ func (r *Route) Init(app *iris.Application) {
 	goods := app.Party("/goods")
 	goods.Get("/new", ctr.GoodsController.NewGoods)
 	goods.Post("/recommend", ctr.GoodsController.Recommend)
+	goods.Get("/detail/:id", ctr.GoodsController.Detail)
 
 	home := app.Party("/home")
 	home.Get("/banner", ctr.HomeController.Banner)

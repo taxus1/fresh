@@ -3,6 +3,7 @@ package controllers
 import (
 	"fresh/model"
 	pgoods "fresh/proto/goods"
+	"log"
 
 	"github.com/kataras/iris"
 )
@@ -50,6 +51,7 @@ func (c *goodsController) Recommend(ctx iris.Context) {
 // Detail 商品详情
 func (c *goodsController) Detail(ctx iris.Context) {
 	id, _ := ctx.URLParamInt64("id")
+	log.Println(id)
 	g, err := model.LoadGoodsBy(uint32(id))
 	if err != nil {
 		ctx.Text(err.Error())

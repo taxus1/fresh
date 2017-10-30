@@ -8,6 +8,7 @@ import (
 
 	pad "fresh/proto/ad"
 	pcategory "fresh/proto/category"
+	pgoods "fresh/proto/goods"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/kataras/iris/httptest"
@@ -71,4 +72,17 @@ func TestLoadHomeCategory(t *testing.T) {
 	for _, v := range data.GetCategories() {
 		log.Printf("%v \n", v)
 	}
+}
+
+func TestGoodsDetail(t *testing.T) {
+	app := newApp()
+	e := httptest.New(t, app)
+
+	body := e.GET("/goods/detail/1").Expect().Status(httptest.StatusOK).Body()
+	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
+	data := &pgoods.DetailResult{}
+	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
+		panic(err)
+	}
+	log.Printf("%v \n", data)
 }
