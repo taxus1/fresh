@@ -6,13 +6,15 @@ import (
 	"log"
 	"testing"
 
-	pad "fresh/proto/ad"
-	pcategory "fresh/proto/category"
+	// pad "fresh/proto/ad"
+	// pcategory "fresh/proto/category"
 	pgoods "fresh/proto/goods"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/kataras/iris/httptest"
 )
+
+var app = newApp()
 
 // func TestLoadNewGoods(t *testing.T) {
 // 	app := newApp()
@@ -44,38 +46,34 @@ import (
 // 	}
 // }
 
-func TestLoadHomeBannerAds(t *testing.T) {
-	app := newApp()
-	e := httptest.New(t, app)
-
-	body := e.GET("/home/banner").Expect().Status(httptest.StatusOK).Body()
-	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
-	data := &pad.HomeBannerAds{}
-	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
-		panic(err)
-	}
-	for _, v := range data.GetAds() {
-		log.Printf("%v \n", v)
-	}
-}
-
-func TestLoadHomeCategory(t *testing.T) {
-	app := newApp()
-	e := httptest.New(t, app)
-
-	body := e.GET("/home/category").Expect().Status(httptest.StatusOK).Body()
-	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
-	data := &pcategory.CategoryResult{}
-	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
-		panic(err)
-	}
-	for _, v := range data.GetCategories() {
-		log.Printf("%v \n", v)
-	}
-}
+// func TestLoadHomeBannerAds(t *testing.T) {
+// 	e := httptest.New(t, app)
+// 	body := e.GET("/home/banner").Expect().Status(httptest.StatusOK).Body()
+// 	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
+// 	data := &pad.HomeBannerAds{}
+// 	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
+// 		panic(err)
+// 	}
+// 	for _, v := range data.GetAds() {
+// 		log.Printf("%v \n", v)
+// 	}
+// }
+//
+// func TestLoadHomeCategory(t *testing.T) {
+// 	e := httptest.New(t, app)
+//
+// 	body := e.GET("/home/category").Expect().Status(httptest.StatusOK).Body()
+// 	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
+// 	data := &pcategory.CategoryResult{}
+// 	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
+// 		panic(err)
+// 	}
+// 	for _, v := range data.GetCategories() {
+// 		log.Printf("%v \n", v)
+// 	}
+// }
 
 func TestGoodsDetail(t *testing.T) {
-	app := newApp()
 	e := httptest.New(t, app)
 
 	body := e.GET("/goods/detail/1").Expect().Status(httptest.StatusOK).Body()

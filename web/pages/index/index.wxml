@@ -2,19 +2,19 @@
 <!--1px = 750/320 = 2.34rpx;-->
 <view class="container">
    <view class="swiper-container">
-        <swiper class="swiper_box" 
+        <swiper class="swiper_box"
                     autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="swiperchange">
             <block wx:for="{{banners}}" wx:key="pID">
                 <swiper-item>
-                    <image bindtap="tapBanner" data-id="{{item.pID}}" src="{{item.adCode}}" class="slide-image" width="750rpx" height="562.5rpx"/>
+                    <image bindtap="tapBanner" data-id="{{item.adCode}}" src="{{item.adCode}}" class="slide-image" width="750rpx" height="562.5rpx"/>
                 </swiper-item>
             </block>
         </swiper>
-        <view class="dots">  
-            <block wx:for="{{banners}}" wx:key="unique">  
-                <view class="dot{{index == swiperCurrent ? ' active' : ''}}"></view>  
-            </block>  
-        </view>  
+        <view class="dots">
+            <block wx:for="{{banners}}" wx:key="unique">
+                <view class="dot{{index == swiperCurrent ? ' active' : ''}}"></view>
+            </block>
+        </view>
    </view>
     <view class="type-container">
         <scroll-view class="type-navbar" scroll-x="true">

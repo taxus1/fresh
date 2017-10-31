@@ -5,6 +5,7 @@ var app = getApp()
 var pgoods = require('../../proto/goods.js').goods
 var pad = require('../../proto/ad.js').ad
 var pcategory = require('../../proto/category.js').category
+var util = require('../../utils/util.js')
 
 Page({
   data: {
@@ -14,7 +15,7 @@ Page({
     duration: 1000,
     loadingHidden: false , // loading
     userInfo: {},
-    swiperCurrent: 0,  
+    swiperCurrent: 0,
     selectCurrent:0,
     categories: [],
     activeCategoryId: 0,
@@ -35,15 +36,17 @@ Page({
   //事件处理函数
   swiperchange: function(e) {
       //console.log(e.detail.current)
-       this.setData({  
-        swiperCurrent: e.detail.current  
-    })  
+       this.setData({
+        swiperCurrent: e.detail.current
+    })
   },
+
   toDetailsTap:function(e){
     wx.navigateTo({
       url:"/pages/goods-details/index?id="+e.currentTarget.dataset.id
     })
   },
+
   tapBanner: function(e) {
     if (e.currentTarget.dataset.id != 0) {
       wx.navigateTo({
@@ -51,11 +54,13 @@ Page({
       })
     }
   },
+
   bindTypeTap: function(e) {
-     this.setData({  
-        selectCurrent: e.index  
-    })  
+     this.setData({
+        selectCurrent: e.index
+    })
   },
+
   scroll: function (e) {
     //  console.log(e) ;
     var that = this,scrollTop=that.data.scrollTop;
@@ -65,6 +70,7 @@ Page({
     // console.log('e.detail.scrollTop:'+e.detail.scrollTop) ;
     // console.log('scrollTop:'+scrollTop)
   },
+
   onLoad: function () {
     var that = this
     wx.setNavigationBarTitle({
@@ -82,10 +88,7 @@ Page({
     wx.request({
       url: app.globalData.domain + '/home/banner',
       success: function(res) {
-        var data = wx.base64ToArrayBuffer(res.data);
-        var result = pad.HomeBannerAds.decode(new Uint8Array(data));
-        console.log(result);
-
+        var result = util.convResult(res.data, pad.HomeBannerAds);
         if (res.code == 404) {
           wx.showModal({
             title: '提示',
@@ -103,9 +106,7 @@ Page({
       url: app.globalData.domain +'/home/category',
       success: function(res) {
         var categories = [{id:0, mobileName:"全部"}];
-        var data = wx.base64ToArrayBuffer(res.data);
-        var result = pcategory.CategoryResult.decode(new Uint8Array(data));
-        console.log(result);
+        var result = util.convResult(res.data, pcategory.CategoryResult);
         if (res.statusCode == 200) {
           for (var i = 0; i < result.categories.length; i++) {
             categories.push(result.categories[i]);
@@ -121,6 +122,7 @@ Page({
     that.getCoupons ();
     that.getNotice ();
   },
+
   getGoodsList: function (categoryId) {
     if (categoryId == 0) {
       categoryId = "";
@@ -135,8 +137,7 @@ Page({
           goods:[],
           loadingMoreHidden:true
         });
-        var data = wx.base64ToArrayBuffer(res.data);
-        var result = pgoods.RecommendResult.decode(new Uint8Array(data));
+        var result = util.convResult(res.data, pgoods.RecommendResult);
         if (res.statusCode != 200 || result.recommend.length == 0) {
           that.setData({
             loadingMoreHidden:false,
@@ -146,13 +147,14 @@ Page({
         that.setData({
           goods:result.recommend,
         });
-       
+
       }
     })
   },
+
   getCoupons: function () {
     var that = this;
-    wx.request({  
+    wx.request({
       url: 'https://api.it120.cc/' + app.globalData.subDomain + '/discounts/coupons',
       data: {
         type: ''
@@ -167,6 +169,7 @@ Page({
       }
     })
   },
+
   gitCoupon : function (e) {
     var that = this;
     wx.request({
@@ -224,6 +227,7 @@ Page({
       }
     })
   },
+
   onShareAppMessage: function () {
     return {
       title: wx.getStorageSync('mallName') + '——' + app.globalData.shareProfile,
@@ -236,6 +240,7 @@ Page({
       }
     }
   },
+
   getNotice: function () {
     var that = this;
     wx.request({

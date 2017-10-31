@@ -16,6 +16,11 @@ function formatNumber(n) {
   return n[1] ? n : '0' + n
 }
 
+function convResult(base64, proto){
+  return proto.decode(new Uint8Array(wx.base64ToArrayBuffer(base64)));
+}
+
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  convResult: convResult,
 }

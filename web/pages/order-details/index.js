@@ -1,7 +1,10 @@
 var app = getApp();
+var util = require('../../utils/util.js')
+var pgoods = require('../../proto/goods.js').goods
 Page({
     data:{
       orderId:0,
+      goodsId: 0,
         goodsList:[
             {
                 pic:'/images/goods02.png',
@@ -20,21 +23,20 @@ Page({
         ],
         yunPrice:"10.00"
     },
+
     onLoad:function(e){
       var orderId = e.id;
       this.data.orderId = orderId;
       this.setData({
-        orderId: orderId
+        orderId: orderId,
+        goodsId: orderId
       });
     },
+
     onShow : function () {
       var that = this;
       wx.request({
-        url: 'https://api.it120.cc/' + app.globalData.subDomain + '/order/detail',
-        data: {
-          token: app.globalData.token,
-          id: that.data.orderId
-        },
+        url: app.globalData.domain + '/goods/detail/' + that.data.goodsId,
         success: (res) => {
           wx.hideLoading();
           if (res.data.code != 0) {
@@ -61,6 +63,7 @@ Page({
         yunPrice: yunPrice
       });
     },
+
     wuliuDetailsTap:function(e){
       var orderId = e.currentTarget.dataset.id;
       wx.navigateTo({

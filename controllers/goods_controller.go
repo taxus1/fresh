@@ -3,7 +3,6 @@ package controllers
 import (
 	"fresh/model"
 	pgoods "fresh/proto/goods"
-	"log"
 
 	"github.com/kataras/iris"
 )
@@ -50,8 +49,7 @@ func (c *goodsController) Recommend(ctx iris.Context) {
 
 // Detail 商品详情
 func (c *goodsController) Detail(ctx iris.Context) {
-	id, _ := ctx.URLParamInt64("id")
-	log.Println(id)
+	id, _ := ctx.Params().GetInt("id")
 	g, err := model.LoadGoodsBy(uint32(id))
 	if err != nil {
 		ctx.Text(err.Error())
@@ -107,6 +105,7 @@ func (c *goodsController) convGoods(g *model.Goods) *pgoods.Goods {
 		OriginalImg:  g.OriginalImg,
 		IsReal:       g.IsReal,
 		IsOnSale:     g.IsOnSale,
+		SalesSum:     g.SalesSum,
 	}
 }
 

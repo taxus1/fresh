@@ -24,7 +24,7 @@ $root.goods = (function() {
          * Properties of a NewGoodsResult.
          * @memberof goods
          * @interface INewGoodsResult
-         * @property {Array.<goods.INewGoods>} [goodses] NewGoodsResult goodses
+         * @property {Array.<goods.IGoods>} [goodses] NewGoodsResult goodses
          */
 
         /**
@@ -44,7 +44,7 @@ $root.goods = (function() {
 
         /**
          * NewGoodsResult goodses.
-         * @member {Array.<goods.INewGoods>}goodses
+         * @member {Array.<goods.IGoods>}goodses
          * @memberof goods.NewGoodsResult
          * @instance
          */
@@ -76,7 +76,7 @@ $root.goods = (function() {
                 writer = $Writer.create();
             if (message.goodses != null && message.goodses.length)
                 for (var i = 0; i < message.goodses.length; ++i)
-                    $root.goods.NewGoods.encode(message.goodses[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    $root.goods.Goods.encode(message.goodses[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
             return writer;
         };
 
@@ -114,7 +114,7 @@ $root.goods = (function() {
                 case 1:
                     if (!(message.goodses && message.goodses.length))
                         message.goodses = [];
-                    message.goodses.push($root.goods.NewGoods.decode(reader, reader.uint32()));
+                    message.goodses.push($root.goods.Goods.decode(reader, reader.uint32()));
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -155,7 +155,7 @@ $root.goods = (function() {
                 if (!Array.isArray(message.goodses))
                     return "goodses: array expected";
                 for (var i = 0; i < message.goodses.length; ++i) {
-                    var error = $root.goods.NewGoods.verify(message.goodses[i]);
+                    var error = $root.goods.Goods.verify(message.goodses[i]);
                     if (error)
                         return "goodses." + error;
                 }
@@ -182,7 +182,7 @@ $root.goods = (function() {
                 for (var i = 0; i < object.goodses.length; ++i) {
                     if (typeof object.goodses[i] !== "object")
                         throw TypeError(".goods.NewGoodsResult.goodses: object expected");
-                    message.goodses[i] = $root.goods.NewGoods.fromObject(object.goodses[i]);
+                    message.goodses[i] = $root.goods.Goods.fromObject(object.goodses[i]);
                 }
             }
             return message;
@@ -206,7 +206,7 @@ $root.goods = (function() {
             if (message.goodses && message.goodses.length) {
                 object.goodses = [];
                 for (var j = 0; j < message.goodses.length; ++j)
-                    object.goodses[j] = $root.goods.NewGoods.toObject(message.goodses[j], options);
+                    object.goodses[j] = $root.goods.Goods.toObject(message.goodses[j], options);
             }
             return object;
         };
@@ -225,42 +225,43 @@ $root.goods = (function() {
         return NewGoodsResult;
     })();
 
-    goods.NewGoods = (function() {
+    goods.Goods = (function() {
 
         /**
-         * Properties of a NewGoods.
+         * Properties of a Goods.
          * @memberof goods
-         * @interface INewGoods
-         * @property {number} [iD] NewGoods iD
-         * @property {number} [catID] NewGoods catID
-         * @property {number} [extendCatID] NewGoods extendCatID
-         * @property {string} [goodsSN] NewGoods goodsSN
-         * @property {string} [goodsName] NewGoods goodsName
-         * @property {number} [clickCount] NewGoods clickCount
-         * @property {number} [brandID] NewGoods brandID
-         * @property {number} [storeCount] NewGoods storeCount
-         * @property {number} [commentCount] NewGoods commentCount
-         * @property {number} [weight] NewGoods weight
-         * @property {number} [marketPrice] NewGoods marketPrice
-         * @property {number} [shopPrice] NewGoods shopPrice
-         * @property {number} [costPrice] NewGoods costPrice
-         * @property {string} [priceLadder] NewGoods priceLadder
-         * @property {string} [keywords] NewGoods keywords
-         * @property {string} [goodsRemark] NewGoods goodsRemark
-         * @property {string} [goodsContent] NewGoods goodsContent
-         * @property {string} [originalImg] NewGoods originalImg
-         * @property {boolean} [isReal] NewGoods isReal
-         * @property {boolean} [isOnSale] NewGoods isOnSale
+         * @interface IGoods
+         * @property {number} [iD] Goods iD
+         * @property {number} [catID] Goods catID
+         * @property {number} [extendCatID] Goods extendCatID
+         * @property {string} [goodsSN] Goods goodsSN
+         * @property {string} [goodsName] Goods goodsName
+         * @property {number} [clickCount] Goods clickCount
+         * @property {number} [brandID] Goods brandID
+         * @property {number} [storeCount] Goods storeCount
+         * @property {number} [commentCount] Goods commentCount
+         * @property {number} [weight] Goods weight
+         * @property {number} [marketPrice] Goods marketPrice
+         * @property {number} [shopPrice] Goods shopPrice
+         * @property {number} [costPrice] Goods costPrice
+         * @property {string} [priceLadder] Goods priceLadder
+         * @property {string} [keywords] Goods keywords
+         * @property {string} [goodsRemark] Goods goodsRemark
+         * @property {string} [goodsContent] Goods goodsContent
+         * @property {string} [originalImg] Goods originalImg
+         * @property {boolean} [isReal] Goods isReal
+         * @property {boolean} [isOnSale] Goods isOnSale
+         * @property {number} [salesSum] Goods salesSum
          */
 
         /**
-         * Constructs a new NewGoods.
+         * Constructs a new Goods.
          * @memberof goods
-         * @classdesc Represents a NewGoods.
+         * @classdesc Represents a Goods.
          * @constructor
-         * @param {goods.INewGoods=} [properties] Properties to set
+         * @param {goods.IGoods=} [properties] Properties to set
          */
-        function NewGoods(properties) {
+        function Goods(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -268,187 +269,195 @@ $root.goods = (function() {
         }
 
         /**
-         * NewGoods iD.
+         * Goods iD.
          * @member {number}iD
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.iD = 0;
+        Goods.prototype.iD = 0;
 
         /**
-         * NewGoods catID.
+         * Goods catID.
          * @member {number}catID
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.catID = 0;
+        Goods.prototype.catID = 0;
 
         /**
-         * NewGoods extendCatID.
+         * Goods extendCatID.
          * @member {number}extendCatID
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.extendCatID = 0;
+        Goods.prototype.extendCatID = 0;
 
         /**
-         * NewGoods goodsSN.
+         * Goods goodsSN.
          * @member {string}goodsSN
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.goodsSN = "";
+        Goods.prototype.goodsSN = "";
 
         /**
-         * NewGoods goodsName.
+         * Goods goodsName.
          * @member {string}goodsName
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.goodsName = "";
+        Goods.prototype.goodsName = "";
 
         /**
-         * NewGoods clickCount.
+         * Goods clickCount.
          * @member {number}clickCount
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.clickCount = 0;
+        Goods.prototype.clickCount = 0;
 
         /**
-         * NewGoods brandID.
+         * Goods brandID.
          * @member {number}brandID
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.brandID = 0;
+        Goods.prototype.brandID = 0;
 
         /**
-         * NewGoods storeCount.
+         * Goods storeCount.
          * @member {number}storeCount
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.storeCount = 0;
+        Goods.prototype.storeCount = 0;
 
         /**
-         * NewGoods commentCount.
+         * Goods commentCount.
          * @member {number}commentCount
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.commentCount = 0;
+        Goods.prototype.commentCount = 0;
 
         /**
-         * NewGoods weight.
+         * Goods weight.
          * @member {number}weight
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.weight = 0;
+        Goods.prototype.weight = 0;
 
         /**
-         * NewGoods marketPrice.
+         * Goods marketPrice.
          * @member {number}marketPrice
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.marketPrice = 0;
+        Goods.prototype.marketPrice = 0;
 
         /**
-         * NewGoods shopPrice.
+         * Goods shopPrice.
          * @member {number}shopPrice
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.shopPrice = 0;
+        Goods.prototype.shopPrice = 0;
 
         /**
-         * NewGoods costPrice.
+         * Goods costPrice.
          * @member {number}costPrice
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.costPrice = 0;
+        Goods.prototype.costPrice = 0;
 
         /**
-         * NewGoods priceLadder.
+         * Goods priceLadder.
          * @member {string}priceLadder
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.priceLadder = "";
+        Goods.prototype.priceLadder = "";
 
         /**
-         * NewGoods keywords.
+         * Goods keywords.
          * @member {string}keywords
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.keywords = "";
+        Goods.prototype.keywords = "";
 
         /**
-         * NewGoods goodsRemark.
+         * Goods goodsRemark.
          * @member {string}goodsRemark
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.goodsRemark = "";
+        Goods.prototype.goodsRemark = "";
 
         /**
-         * NewGoods goodsContent.
+         * Goods goodsContent.
          * @member {string}goodsContent
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.goodsContent = "";
+        Goods.prototype.goodsContent = "";
 
         /**
-         * NewGoods originalImg.
+         * Goods originalImg.
          * @member {string}originalImg
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.originalImg = "";
+        Goods.prototype.originalImg = "";
 
         /**
-         * NewGoods isReal.
+         * Goods isReal.
          * @member {boolean}isReal
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.isReal = false;
+        Goods.prototype.isReal = false;
 
         /**
-         * NewGoods isOnSale.
+         * Goods isOnSale.
          * @member {boolean}isOnSale
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          */
-        NewGoods.prototype.isOnSale = false;
+        Goods.prototype.isOnSale = false;
 
         /**
-         * Creates a new NewGoods instance using the specified properties.
-         * @function create
-         * @memberof goods.NewGoods
-         * @static
-         * @param {goods.INewGoods=} [properties] Properties to set
-         * @returns {goods.NewGoods} NewGoods instance
+         * Goods salesSum.
+         * @member {number}salesSum
+         * @memberof goods.Goods
+         * @instance
          */
-        NewGoods.create = function create(properties) {
-            return new NewGoods(properties);
+        Goods.prototype.salesSum = 0;
+
+        /**
+         * Creates a new Goods instance using the specified properties.
+         * @function create
+         * @memberof goods.Goods
+         * @static
+         * @param {goods.IGoods=} [properties] Properties to set
+         * @returns {goods.Goods} Goods instance
+         */
+        Goods.create = function create(properties) {
+            return new Goods(properties);
         };
 
         /**
-         * Encodes the specified NewGoods message. Does not implicitly {@link goods.NewGoods.verify|verify} messages.
+         * Encodes the specified Goods message. Does not implicitly {@link goods.Goods.verify|verify} messages.
          * @function encode
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @static
-         * @param {goods.INewGoods} message NewGoods message or plain object to encode
+         * @param {goods.IGoods} message Goods message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        NewGoods.encode = function encode(message, writer) {
+        Goods.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             if (message.iD != null && message.hasOwnProperty("iD"))
@@ -491,37 +500,39 @@ $root.goods = (function() {
                 writer.uint32(/* id 19, wireType 0 =*/152).bool(message.isReal);
             if (message.isOnSale != null && message.hasOwnProperty("isOnSale"))
                 writer.uint32(/* id 20, wireType 0 =*/160).bool(message.isOnSale);
+            if (message.salesSum != null && message.hasOwnProperty("salesSum"))
+                writer.uint32(/* id 21, wireType 0 =*/168).uint32(message.salesSum);
             return writer;
         };
 
         /**
-         * Encodes the specified NewGoods message, length delimited. Does not implicitly {@link goods.NewGoods.verify|verify} messages.
+         * Encodes the specified Goods message, length delimited. Does not implicitly {@link goods.Goods.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @static
-         * @param {goods.INewGoods} message NewGoods message or plain object to encode
+         * @param {goods.IGoods} message Goods message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        NewGoods.encodeDelimited = function encodeDelimited(message, writer) {
+        Goods.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a NewGoods message from the specified reader or buffer.
+         * Decodes a Goods message from the specified reader or buffer.
          * @function decode
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {goods.NewGoods} NewGoods
+         * @returns {goods.Goods} Goods
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        NewGoods.decode = function decode(reader, length) {
+        Goods.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.goods.NewGoods();
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.goods.Goods();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -585,6 +596,9 @@ $root.goods = (function() {
                 case 20:
                     message.isOnSale = reader.bool();
                     break;
+                case 21:
+                    message.salesSum = reader.uint32();
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -594,30 +608,30 @@ $root.goods = (function() {
         };
 
         /**
-         * Decodes a NewGoods message from the specified reader or buffer, length delimited.
+         * Decodes a Goods message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {goods.NewGoods} NewGoods
+         * @returns {goods.Goods} Goods
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        NewGoods.decodeDelimited = function decodeDelimited(reader) {
+        Goods.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a NewGoods message.
+         * Verifies a Goods message.
          * @function verify
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        NewGoods.verify = function verify(message) {
+        Goods.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (message.iD != null && message.hasOwnProperty("iD"))
@@ -680,21 +694,24 @@ $root.goods = (function() {
             if (message.isOnSale != null && message.hasOwnProperty("isOnSale"))
                 if (typeof message.isOnSale !== "boolean")
                     return "isOnSale: boolean expected";
+            if (message.salesSum != null && message.hasOwnProperty("salesSum"))
+                if (!$util.isInteger(message.salesSum))
+                    return "salesSum: integer expected";
             return null;
         };
 
         /**
-         * Creates a NewGoods message from a plain object. Also converts values to their respective internal types.
+         * Creates a Goods message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {goods.NewGoods} NewGoods
+         * @returns {goods.Goods} Goods
          */
-        NewGoods.fromObject = function fromObject(object) {
-            if (object instanceof $root.goods.NewGoods)
+        Goods.fromObject = function fromObject(object) {
+            if (object instanceof $root.goods.Goods)
                 return object;
-            var message = new $root.goods.NewGoods();
+            var message = new $root.goods.Goods();
             if (object.iD != null)
                 message.iD = object.iD >>> 0;
             if (object.catID != null)
@@ -735,19 +752,21 @@ $root.goods = (function() {
                 message.isReal = Boolean(object.isReal);
             if (object.isOnSale != null)
                 message.isOnSale = Boolean(object.isOnSale);
+            if (object.salesSum != null)
+                message.salesSum = object.salesSum >>> 0;
             return message;
         };
 
         /**
-         * Creates a plain object from a NewGoods message. Also converts values to other types if specified.
+         * Creates a plain object from a Goods message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @static
-         * @param {goods.NewGoods} message NewGoods
+         * @param {goods.Goods} message Goods
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        NewGoods.toObject = function toObject(message, options) {
+        Goods.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             var object = {};
@@ -772,6 +791,7 @@ $root.goods = (function() {
                 object.originalImg = "";
                 object.isReal = false;
                 object.isOnSale = false;
+                object.salesSum = 0;
             }
             if (message.iD != null && message.hasOwnProperty("iD"))
                 object.iD = message.iD;
@@ -813,21 +833,23 @@ $root.goods = (function() {
                 object.isReal = message.isReal;
             if (message.isOnSale != null && message.hasOwnProperty("isOnSale"))
                 object.isOnSale = message.isOnSale;
+            if (message.salesSum != null && message.hasOwnProperty("salesSum"))
+                object.salesSum = message.salesSum;
             return object;
         };
 
         /**
-         * Converts this NewGoods to JSON.
+         * Converts this Goods to JSON.
          * @function toJSON
-         * @memberof goods.NewGoods
+         * @memberof goods.Goods
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        NewGoods.prototype.toJSON = function toJSON() {
+        Goods.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
-        return NewGoods;
+        return Goods;
     })();
 
     goods.RecommendResult = (function() {
@@ -1288,6 +1310,1898 @@ $root.goods = (function() {
         };
 
         return Recommend;
+    })();
+
+    goods.DetailResult = (function() {
+
+        /**
+         * Properties of a DetailResult.
+         * @memberof goods
+         * @interface IDetailResult
+         * @property {goods.IGoods} [goods] DetailResult goods
+         * @property {Array.<goods.ISpec>} [specs] DetailResult specs
+         * @property {Array.<goods.ISpecPrice>} [specPrices] DetailResult specPrices
+         * @property {Array.<goods.IComment>} [comms] DetailResult comms
+         * @property {Array.<goods.IGallery>} [gallers] DetailResult gallers
+         */
+
+        /**
+         * Constructs a new DetailResult.
+         * @memberof goods
+         * @classdesc Represents a DetailResult.
+         * @constructor
+         * @param {goods.IDetailResult=} [properties] Properties to set
+         */
+        function DetailResult(properties) {
+            this.specs = [];
+            this.specPrices = [];
+            this.comms = [];
+            this.gallers = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * DetailResult goods.
+         * @member {(goods.IGoods|null|undefined)}goods
+         * @memberof goods.DetailResult
+         * @instance
+         */
+        DetailResult.prototype.goods = null;
+
+        /**
+         * DetailResult specs.
+         * @member {Array.<goods.ISpec>}specs
+         * @memberof goods.DetailResult
+         * @instance
+         */
+        DetailResult.prototype.specs = $util.emptyArray;
+
+        /**
+         * DetailResult specPrices.
+         * @member {Array.<goods.ISpecPrice>}specPrices
+         * @memberof goods.DetailResult
+         * @instance
+         */
+        DetailResult.prototype.specPrices = $util.emptyArray;
+
+        /**
+         * DetailResult comms.
+         * @member {Array.<goods.IComment>}comms
+         * @memberof goods.DetailResult
+         * @instance
+         */
+        DetailResult.prototype.comms = $util.emptyArray;
+
+        /**
+         * DetailResult gallers.
+         * @member {Array.<goods.IGallery>}gallers
+         * @memberof goods.DetailResult
+         * @instance
+         */
+        DetailResult.prototype.gallers = $util.emptyArray;
+
+        /**
+         * Creates a new DetailResult instance using the specified properties.
+         * @function create
+         * @memberof goods.DetailResult
+         * @static
+         * @param {goods.IDetailResult=} [properties] Properties to set
+         * @returns {goods.DetailResult} DetailResult instance
+         */
+        DetailResult.create = function create(properties) {
+            return new DetailResult(properties);
+        };
+
+        /**
+         * Encodes the specified DetailResult message. Does not implicitly {@link goods.DetailResult.verify|verify} messages.
+         * @function encode
+         * @memberof goods.DetailResult
+         * @static
+         * @param {goods.IDetailResult} message DetailResult message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        DetailResult.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.goods != null && message.hasOwnProperty("goods"))
+                $root.goods.Goods.encode(message.goods, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            if (message.specs != null && message.specs.length)
+                for (var i = 0; i < message.specs.length; ++i)
+                    $root.goods.Spec.encode(message.specs[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            if (message.specPrices != null && message.specPrices.length)
+                for (var i = 0; i < message.specPrices.length; ++i)
+                    $root.goods.SpecPrice.encode(message.specPrices[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            if (message.comms != null && message.comms.length)
+                for (var i = 0; i < message.comms.length; ++i)
+                    $root.goods.Comment.encode(message.comms[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+            if (message.gallers != null && message.gallers.length)
+                for (var i = 0; i < message.gallers.length; ++i)
+                    $root.goods.Gallery.encode(message.gallers[i], writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified DetailResult message, length delimited. Does not implicitly {@link goods.DetailResult.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof goods.DetailResult
+         * @static
+         * @param {goods.IDetailResult} message DetailResult message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        DetailResult.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a DetailResult message from the specified reader or buffer.
+         * @function decode
+         * @memberof goods.DetailResult
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {goods.DetailResult} DetailResult
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        DetailResult.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.goods.DetailResult();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.goods = $root.goods.Goods.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    if (!(message.specs && message.specs.length))
+                        message.specs = [];
+                    message.specs.push($root.goods.Spec.decode(reader, reader.uint32()));
+                    break;
+                case 3:
+                    if (!(message.specPrices && message.specPrices.length))
+                        message.specPrices = [];
+                    message.specPrices.push($root.goods.SpecPrice.decode(reader, reader.uint32()));
+                    break;
+                case 4:
+                    if (!(message.comms && message.comms.length))
+                        message.comms = [];
+                    message.comms.push($root.goods.Comment.decode(reader, reader.uint32()));
+                    break;
+                case 5:
+                    if (!(message.gallers && message.gallers.length))
+                        message.gallers = [];
+                    message.gallers.push($root.goods.Gallery.decode(reader, reader.uint32()));
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a DetailResult message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof goods.DetailResult
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {goods.DetailResult} DetailResult
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        DetailResult.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a DetailResult message.
+         * @function verify
+         * @memberof goods.DetailResult
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        DetailResult.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.goods != null && message.hasOwnProperty("goods")) {
+                var error = $root.goods.Goods.verify(message.goods);
+                if (error)
+                    return "goods." + error;
+            }
+            if (message.specs != null && message.hasOwnProperty("specs")) {
+                if (!Array.isArray(message.specs))
+                    return "specs: array expected";
+                for (var i = 0; i < message.specs.length; ++i) {
+                    error = $root.goods.Spec.verify(message.specs[i]);
+                    if (error)
+                        return "specs." + error;
+                }
+            }
+            if (message.specPrices != null && message.hasOwnProperty("specPrices")) {
+                if (!Array.isArray(message.specPrices))
+                    return "specPrices: array expected";
+                for (var i = 0; i < message.specPrices.length; ++i) {
+                    error = $root.goods.SpecPrice.verify(message.specPrices[i]);
+                    if (error)
+                        return "specPrices." + error;
+                }
+            }
+            if (message.comms != null && message.hasOwnProperty("comms")) {
+                if (!Array.isArray(message.comms))
+                    return "comms: array expected";
+                for (var i = 0; i < message.comms.length; ++i) {
+                    error = $root.goods.Comment.verify(message.comms[i]);
+                    if (error)
+                        return "comms." + error;
+                }
+            }
+            if (message.gallers != null && message.hasOwnProperty("gallers")) {
+                if (!Array.isArray(message.gallers))
+                    return "gallers: array expected";
+                for (var i = 0; i < message.gallers.length; ++i) {
+                    error = $root.goods.Gallery.verify(message.gallers[i]);
+                    if (error)
+                        return "gallers." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a DetailResult message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof goods.DetailResult
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {goods.DetailResult} DetailResult
+         */
+        DetailResult.fromObject = function fromObject(object) {
+            if (object instanceof $root.goods.DetailResult)
+                return object;
+            var message = new $root.goods.DetailResult();
+            if (object.goods != null) {
+                if (typeof object.goods !== "object")
+                    throw TypeError(".goods.DetailResult.goods: object expected");
+                message.goods = $root.goods.Goods.fromObject(object.goods);
+            }
+            if (object.specs) {
+                if (!Array.isArray(object.specs))
+                    throw TypeError(".goods.DetailResult.specs: array expected");
+                message.specs = [];
+                for (var i = 0; i < object.specs.length; ++i) {
+                    if (typeof object.specs[i] !== "object")
+                        throw TypeError(".goods.DetailResult.specs: object expected");
+                    message.specs[i] = $root.goods.Spec.fromObject(object.specs[i]);
+                }
+            }
+            if (object.specPrices) {
+                if (!Array.isArray(object.specPrices))
+                    throw TypeError(".goods.DetailResult.specPrices: array expected");
+                message.specPrices = [];
+                for (var i = 0; i < object.specPrices.length; ++i) {
+                    if (typeof object.specPrices[i] !== "object")
+                        throw TypeError(".goods.DetailResult.specPrices: object expected");
+                    message.specPrices[i] = $root.goods.SpecPrice.fromObject(object.specPrices[i]);
+                }
+            }
+            if (object.comms) {
+                if (!Array.isArray(object.comms))
+                    throw TypeError(".goods.DetailResult.comms: array expected");
+                message.comms = [];
+                for (var i = 0; i < object.comms.length; ++i) {
+                    if (typeof object.comms[i] !== "object")
+                        throw TypeError(".goods.DetailResult.comms: object expected");
+                    message.comms[i] = $root.goods.Comment.fromObject(object.comms[i]);
+                }
+            }
+            if (object.gallers) {
+                if (!Array.isArray(object.gallers))
+                    throw TypeError(".goods.DetailResult.gallers: array expected");
+                message.gallers = [];
+                for (var i = 0; i < object.gallers.length; ++i) {
+                    if (typeof object.gallers[i] !== "object")
+                        throw TypeError(".goods.DetailResult.gallers: object expected");
+                    message.gallers[i] = $root.goods.Gallery.fromObject(object.gallers[i]);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a DetailResult message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof goods.DetailResult
+         * @static
+         * @param {goods.DetailResult} message DetailResult
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        DetailResult.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults) {
+                object.specs = [];
+                object.specPrices = [];
+                object.comms = [];
+                object.gallers = [];
+            }
+            if (options.defaults)
+                object.goods = null;
+            if (message.goods != null && message.hasOwnProperty("goods"))
+                object.goods = $root.goods.Goods.toObject(message.goods, options);
+            if (message.specs && message.specs.length) {
+                object.specs = [];
+                for (var j = 0; j < message.specs.length; ++j)
+                    object.specs[j] = $root.goods.Spec.toObject(message.specs[j], options);
+            }
+            if (message.specPrices && message.specPrices.length) {
+                object.specPrices = [];
+                for (var j = 0; j < message.specPrices.length; ++j)
+                    object.specPrices[j] = $root.goods.SpecPrice.toObject(message.specPrices[j], options);
+            }
+            if (message.comms && message.comms.length) {
+                object.comms = [];
+                for (var j = 0; j < message.comms.length; ++j)
+                    object.comms[j] = $root.goods.Comment.toObject(message.comms[j], options);
+            }
+            if (message.gallers && message.gallers.length) {
+                object.gallers = [];
+                for (var j = 0; j < message.gallers.length; ++j)
+                    object.gallers[j] = $root.goods.Gallery.toObject(message.gallers[j], options);
+            }
+            return object;
+        };
+
+        /**
+         * Converts this DetailResult to JSON.
+         * @function toJSON
+         * @memberof goods.DetailResult
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        DetailResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return DetailResult;
+    })();
+
+    goods.Spec = (function() {
+
+        /**
+         * Properties of a Spec.
+         * @memberof goods
+         * @interface ISpec
+         * @property {string} [specName] Spec specName
+         * @property {Array.<goods.ISpecItem>} [items] Spec items
+         */
+
+        /**
+         * Constructs a new Spec.
+         * @memberof goods
+         * @classdesc Represents a Spec.
+         * @constructor
+         * @param {goods.ISpec=} [properties] Properties to set
+         */
+        function Spec(properties) {
+            this.items = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Spec specName.
+         * @member {string}specName
+         * @memberof goods.Spec
+         * @instance
+         */
+        Spec.prototype.specName = "";
+
+        /**
+         * Spec items.
+         * @member {Array.<goods.ISpecItem>}items
+         * @memberof goods.Spec
+         * @instance
+         */
+        Spec.prototype.items = $util.emptyArray;
+
+        /**
+         * Creates a new Spec instance using the specified properties.
+         * @function create
+         * @memberof goods.Spec
+         * @static
+         * @param {goods.ISpec=} [properties] Properties to set
+         * @returns {goods.Spec} Spec instance
+         */
+        Spec.create = function create(properties) {
+            return new Spec(properties);
+        };
+
+        /**
+         * Encodes the specified Spec message. Does not implicitly {@link goods.Spec.verify|verify} messages.
+         * @function encode
+         * @memberof goods.Spec
+         * @static
+         * @param {goods.ISpec} message Spec message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Spec.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.specName != null && message.hasOwnProperty("specName"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.specName);
+            if (message.items != null && message.items.length)
+                for (var i = 0; i < message.items.length; ++i)
+                    $root.goods.SpecItem.encode(message.items[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified Spec message, length delimited. Does not implicitly {@link goods.Spec.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof goods.Spec
+         * @static
+         * @param {goods.ISpec} message Spec message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Spec.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a Spec message from the specified reader or buffer.
+         * @function decode
+         * @memberof goods.Spec
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {goods.Spec} Spec
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Spec.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.goods.Spec();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.specName = reader.string();
+                    break;
+                case 2:
+                    if (!(message.items && message.items.length))
+                        message.items = [];
+                    message.items.push($root.goods.SpecItem.decode(reader, reader.uint32()));
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a Spec message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof goods.Spec
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {goods.Spec} Spec
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Spec.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a Spec message.
+         * @function verify
+         * @memberof goods.Spec
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        Spec.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.specName != null && message.hasOwnProperty("specName"))
+                if (!$util.isString(message.specName))
+                    return "specName: string expected";
+            if (message.items != null && message.hasOwnProperty("items")) {
+                if (!Array.isArray(message.items))
+                    return "items: array expected";
+                for (var i = 0; i < message.items.length; ++i) {
+                    var error = $root.goods.SpecItem.verify(message.items[i]);
+                    if (error)
+                        return "items." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a Spec message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof goods.Spec
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {goods.Spec} Spec
+         */
+        Spec.fromObject = function fromObject(object) {
+            if (object instanceof $root.goods.Spec)
+                return object;
+            var message = new $root.goods.Spec();
+            if (object.specName != null)
+                message.specName = String(object.specName);
+            if (object.items) {
+                if (!Array.isArray(object.items))
+                    throw TypeError(".goods.Spec.items: array expected");
+                message.items = [];
+                for (var i = 0; i < object.items.length; ++i) {
+                    if (typeof object.items[i] !== "object")
+                        throw TypeError(".goods.Spec.items: object expected");
+                    message.items[i] = $root.goods.SpecItem.fromObject(object.items[i]);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a Spec message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof goods.Spec
+         * @static
+         * @param {goods.Spec} message Spec
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Spec.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults)
+                object.items = [];
+            if (options.defaults)
+                object.specName = "";
+            if (message.specName != null && message.hasOwnProperty("specName"))
+                object.specName = message.specName;
+            if (message.items && message.items.length) {
+                object.items = [];
+                for (var j = 0; j < message.items.length; ++j)
+                    object.items[j] = $root.goods.SpecItem.toObject(message.items[j], options);
+            }
+            return object;
+        };
+
+        /**
+         * Converts this Spec to JSON.
+         * @function toJSON
+         * @memberof goods.Spec
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        Spec.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return Spec;
+    })();
+
+    goods.SpecItem = (function() {
+
+        /**
+         * Properties of a SpecItem.
+         * @memberof goods
+         * @interface ISpecItem
+         * @property {number} [itemID] SpecItem itemID
+         * @property {string} [item] SpecItem item
+         * @property {string} [src] SpecItem src
+         */
+
+        /**
+         * Constructs a new SpecItem.
+         * @memberof goods
+         * @classdesc Represents a SpecItem.
+         * @constructor
+         * @param {goods.ISpecItem=} [properties] Properties to set
+         */
+        function SpecItem(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * SpecItem itemID.
+         * @member {number}itemID
+         * @memberof goods.SpecItem
+         * @instance
+         */
+        SpecItem.prototype.itemID = 0;
+
+        /**
+         * SpecItem item.
+         * @member {string}item
+         * @memberof goods.SpecItem
+         * @instance
+         */
+        SpecItem.prototype.item = "";
+
+        /**
+         * SpecItem src.
+         * @member {string}src
+         * @memberof goods.SpecItem
+         * @instance
+         */
+        SpecItem.prototype.src = "";
+
+        /**
+         * Creates a new SpecItem instance using the specified properties.
+         * @function create
+         * @memberof goods.SpecItem
+         * @static
+         * @param {goods.ISpecItem=} [properties] Properties to set
+         * @returns {goods.SpecItem} SpecItem instance
+         */
+        SpecItem.create = function create(properties) {
+            return new SpecItem(properties);
+        };
+
+        /**
+         * Encodes the specified SpecItem message. Does not implicitly {@link goods.SpecItem.verify|verify} messages.
+         * @function encode
+         * @memberof goods.SpecItem
+         * @static
+         * @param {goods.ISpecItem} message SpecItem message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        SpecItem.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.itemID != null && message.hasOwnProperty("itemID"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.itemID);
+            if (message.item != null && message.hasOwnProperty("item"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.item);
+            if (message.src != null && message.hasOwnProperty("src"))
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.src);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified SpecItem message, length delimited. Does not implicitly {@link goods.SpecItem.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof goods.SpecItem
+         * @static
+         * @param {goods.ISpecItem} message SpecItem message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        SpecItem.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a SpecItem message from the specified reader or buffer.
+         * @function decode
+         * @memberof goods.SpecItem
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {goods.SpecItem} SpecItem
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        SpecItem.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.goods.SpecItem();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.itemID = reader.uint32();
+                    break;
+                case 2:
+                    message.item = reader.string();
+                    break;
+                case 3:
+                    message.src = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a SpecItem message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof goods.SpecItem
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {goods.SpecItem} SpecItem
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        SpecItem.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a SpecItem message.
+         * @function verify
+         * @memberof goods.SpecItem
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        SpecItem.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.itemID != null && message.hasOwnProperty("itemID"))
+                if (!$util.isInteger(message.itemID))
+                    return "itemID: integer expected";
+            if (message.item != null && message.hasOwnProperty("item"))
+                if (!$util.isString(message.item))
+                    return "item: string expected";
+            if (message.src != null && message.hasOwnProperty("src"))
+                if (!$util.isString(message.src))
+                    return "src: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a SpecItem message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof goods.SpecItem
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {goods.SpecItem} SpecItem
+         */
+        SpecItem.fromObject = function fromObject(object) {
+            if (object instanceof $root.goods.SpecItem)
+                return object;
+            var message = new $root.goods.SpecItem();
+            if (object.itemID != null)
+                message.itemID = object.itemID >>> 0;
+            if (object.item != null)
+                message.item = String(object.item);
+            if (object.src != null)
+                message.src = String(object.src);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a SpecItem message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof goods.SpecItem
+         * @static
+         * @param {goods.SpecItem} message SpecItem
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        SpecItem.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.itemID = 0;
+                object.item = "";
+                object.src = "";
+            }
+            if (message.itemID != null && message.hasOwnProperty("itemID"))
+                object.itemID = message.itemID;
+            if (message.item != null && message.hasOwnProperty("item"))
+                object.item = message.item;
+            if (message.src != null && message.hasOwnProperty("src"))
+                object.src = message.src;
+            return object;
+        };
+
+        /**
+         * Converts this SpecItem to JSON.
+         * @function toJSON
+         * @memberof goods.SpecItem
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        SpecItem.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return SpecItem;
+    })();
+
+    goods.SpecPrice = (function() {
+
+        /**
+         * Properties of a SpecPrice.
+         * @memberof goods
+         * @interface ISpecPrice
+         * @property {number} [iD] SpecPrice iD
+         * @property {number} [goodsID] SpecPrice goodsID
+         * @property {string} [key] SpecPrice key
+         * @property {string} [keyName] SpecPrice keyName
+         * @property {number} [price] SpecPrice price
+         * @property {number} [storeCount] SpecPrice storeCount
+         * @property {string} [barCode] SpecPrice barCode
+         * @property {string} [sku] SpecPrice sku
+         * @property {string} [specImg] SpecPrice specImg
+         */
+
+        /**
+         * Constructs a new SpecPrice.
+         * @memberof goods
+         * @classdesc Represents a SpecPrice.
+         * @constructor
+         * @param {goods.ISpecPrice=} [properties] Properties to set
+         */
+        function SpecPrice(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * SpecPrice iD.
+         * @member {number}iD
+         * @memberof goods.SpecPrice
+         * @instance
+         */
+        SpecPrice.prototype.iD = 0;
+
+        /**
+         * SpecPrice goodsID.
+         * @member {number}goodsID
+         * @memberof goods.SpecPrice
+         * @instance
+         */
+        SpecPrice.prototype.goodsID = 0;
+
+        /**
+         * SpecPrice key.
+         * @member {string}key
+         * @memberof goods.SpecPrice
+         * @instance
+         */
+        SpecPrice.prototype.key = "";
+
+        /**
+         * SpecPrice keyName.
+         * @member {string}keyName
+         * @memberof goods.SpecPrice
+         * @instance
+         */
+        SpecPrice.prototype.keyName = "";
+
+        /**
+         * SpecPrice price.
+         * @member {number}price
+         * @memberof goods.SpecPrice
+         * @instance
+         */
+        SpecPrice.prototype.price = 0;
+
+        /**
+         * SpecPrice storeCount.
+         * @member {number}storeCount
+         * @memberof goods.SpecPrice
+         * @instance
+         */
+        SpecPrice.prototype.storeCount = 0;
+
+        /**
+         * SpecPrice barCode.
+         * @member {string}barCode
+         * @memberof goods.SpecPrice
+         * @instance
+         */
+        SpecPrice.prototype.barCode = "";
+
+        /**
+         * SpecPrice sku.
+         * @member {string}sku
+         * @memberof goods.SpecPrice
+         * @instance
+         */
+        SpecPrice.prototype.sku = "";
+
+        /**
+         * SpecPrice specImg.
+         * @member {string}specImg
+         * @memberof goods.SpecPrice
+         * @instance
+         */
+        SpecPrice.prototype.specImg = "";
+
+        /**
+         * Creates a new SpecPrice instance using the specified properties.
+         * @function create
+         * @memberof goods.SpecPrice
+         * @static
+         * @param {goods.ISpecPrice=} [properties] Properties to set
+         * @returns {goods.SpecPrice} SpecPrice instance
+         */
+        SpecPrice.create = function create(properties) {
+            return new SpecPrice(properties);
+        };
+
+        /**
+         * Encodes the specified SpecPrice message. Does not implicitly {@link goods.SpecPrice.verify|verify} messages.
+         * @function encode
+         * @memberof goods.SpecPrice
+         * @static
+         * @param {goods.ISpecPrice} message SpecPrice message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        SpecPrice.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.iD != null && message.hasOwnProperty("iD"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.iD);
+            if (message.goodsID != null && message.hasOwnProperty("goodsID"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.goodsID);
+            if (message.key != null && message.hasOwnProperty("key"))
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.key);
+            if (message.keyName != null && message.hasOwnProperty("keyName"))
+                writer.uint32(/* id 4, wireType 2 =*/34).string(message.keyName);
+            if (message.price != null && message.hasOwnProperty("price"))
+                writer.uint32(/* id 5, wireType 5 =*/45).float(message.price);
+            if (message.storeCount != null && message.hasOwnProperty("storeCount"))
+                writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.storeCount);
+            if (message.barCode != null && message.hasOwnProperty("barCode"))
+                writer.uint32(/* id 7, wireType 2 =*/58).string(message.barCode);
+            if (message.sku != null && message.hasOwnProperty("sku"))
+                writer.uint32(/* id 8, wireType 2 =*/66).string(message.sku);
+            if (message.specImg != null && message.hasOwnProperty("specImg"))
+                writer.uint32(/* id 9, wireType 2 =*/74).string(message.specImg);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified SpecPrice message, length delimited. Does not implicitly {@link goods.SpecPrice.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof goods.SpecPrice
+         * @static
+         * @param {goods.ISpecPrice} message SpecPrice message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        SpecPrice.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a SpecPrice message from the specified reader or buffer.
+         * @function decode
+         * @memberof goods.SpecPrice
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {goods.SpecPrice} SpecPrice
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        SpecPrice.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.goods.SpecPrice();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.iD = reader.uint32();
+                    break;
+                case 2:
+                    message.goodsID = reader.uint32();
+                    break;
+                case 3:
+                    message.key = reader.string();
+                    break;
+                case 4:
+                    message.keyName = reader.string();
+                    break;
+                case 5:
+                    message.price = reader.float();
+                    break;
+                case 6:
+                    message.storeCount = reader.uint32();
+                    break;
+                case 7:
+                    message.barCode = reader.string();
+                    break;
+                case 8:
+                    message.sku = reader.string();
+                    break;
+                case 9:
+                    message.specImg = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a SpecPrice message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof goods.SpecPrice
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {goods.SpecPrice} SpecPrice
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        SpecPrice.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a SpecPrice message.
+         * @function verify
+         * @memberof goods.SpecPrice
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        SpecPrice.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.iD != null && message.hasOwnProperty("iD"))
+                if (!$util.isInteger(message.iD))
+                    return "iD: integer expected";
+            if (message.goodsID != null && message.hasOwnProperty("goodsID"))
+                if (!$util.isInteger(message.goodsID))
+                    return "goodsID: integer expected";
+            if (message.key != null && message.hasOwnProperty("key"))
+                if (!$util.isString(message.key))
+                    return "key: string expected";
+            if (message.keyName != null && message.hasOwnProperty("keyName"))
+                if (!$util.isString(message.keyName))
+                    return "keyName: string expected";
+            if (message.price != null && message.hasOwnProperty("price"))
+                if (typeof message.price !== "number")
+                    return "price: number expected";
+            if (message.storeCount != null && message.hasOwnProperty("storeCount"))
+                if (!$util.isInteger(message.storeCount))
+                    return "storeCount: integer expected";
+            if (message.barCode != null && message.hasOwnProperty("barCode"))
+                if (!$util.isString(message.barCode))
+                    return "barCode: string expected";
+            if (message.sku != null && message.hasOwnProperty("sku"))
+                if (!$util.isString(message.sku))
+                    return "sku: string expected";
+            if (message.specImg != null && message.hasOwnProperty("specImg"))
+                if (!$util.isString(message.specImg))
+                    return "specImg: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a SpecPrice message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof goods.SpecPrice
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {goods.SpecPrice} SpecPrice
+         */
+        SpecPrice.fromObject = function fromObject(object) {
+            if (object instanceof $root.goods.SpecPrice)
+                return object;
+            var message = new $root.goods.SpecPrice();
+            if (object.iD != null)
+                message.iD = object.iD >>> 0;
+            if (object.goodsID != null)
+                message.goodsID = object.goodsID >>> 0;
+            if (object.key != null)
+                message.key = String(object.key);
+            if (object.keyName != null)
+                message.keyName = String(object.keyName);
+            if (object.price != null)
+                message.price = Number(object.price);
+            if (object.storeCount != null)
+                message.storeCount = object.storeCount >>> 0;
+            if (object.barCode != null)
+                message.barCode = String(object.barCode);
+            if (object.sku != null)
+                message.sku = String(object.sku);
+            if (object.specImg != null)
+                message.specImg = String(object.specImg);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a SpecPrice message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof goods.SpecPrice
+         * @static
+         * @param {goods.SpecPrice} message SpecPrice
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        SpecPrice.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.iD = 0;
+                object.goodsID = 0;
+                object.key = "";
+                object.keyName = "";
+                object.price = 0;
+                object.storeCount = 0;
+                object.barCode = "";
+                object.sku = "";
+                object.specImg = "";
+            }
+            if (message.iD != null && message.hasOwnProperty("iD"))
+                object.iD = message.iD;
+            if (message.goodsID != null && message.hasOwnProperty("goodsID"))
+                object.goodsID = message.goodsID;
+            if (message.key != null && message.hasOwnProperty("key"))
+                object.key = message.key;
+            if (message.keyName != null && message.hasOwnProperty("keyName"))
+                object.keyName = message.keyName;
+            if (message.price != null && message.hasOwnProperty("price"))
+                object.price = options.json && !isFinite(message.price) ? String(message.price) : message.price;
+            if (message.storeCount != null && message.hasOwnProperty("storeCount"))
+                object.storeCount = message.storeCount;
+            if (message.barCode != null && message.hasOwnProperty("barCode"))
+                object.barCode = message.barCode;
+            if (message.sku != null && message.hasOwnProperty("sku"))
+                object.sku = message.sku;
+            if (message.specImg != null && message.hasOwnProperty("specImg"))
+                object.specImg = message.specImg;
+            return object;
+        };
+
+        /**
+         * Converts this SpecPrice to JSON.
+         * @function toJSON
+         * @memberof goods.SpecPrice
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        SpecPrice.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return SpecPrice;
+    })();
+
+    goods.Comment = (function() {
+
+        /**
+         * Properties of a Comment.
+         * @memberof goods
+         * @interface IComment
+         * @property {number} [iD] Comment iD
+         * @property {number} [goodsID] Comment goodsID
+         * @property {string} [email] Comment email
+         * @property {string} [username] Comment username
+         * @property {string} [content] Comment content
+         * @property {number} [addTime] Comment addTime
+         * @property {boolean} [isShow] Comment isShow
+         * @property {number} [parentID] Comment parentID
+         * @property {number} [userID] Comment userID
+         * @property {string} [img] Comment img
+         * @property {number} [deliverRank] Comment deliverRank
+         * @property {number} [goodsRank] Comment goodsRank
+         * @property {number} [serviceRank] Comment serviceRank
+         * @property {number} [zanNum] Comment zanNum
+         * @property {boolean} [isAnonymous] Comment isAnonymous
+         * @property {string} [headPic] Comment headPic
+         */
+
+        /**
+         * Constructs a new Comment.
+         * @memberof goods
+         * @classdesc Represents a Comment.
+         * @constructor
+         * @param {goods.IComment=} [properties] Properties to set
+         */
+        function Comment(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Comment iD.
+         * @member {number}iD
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.iD = 0;
+
+        /**
+         * Comment goodsID.
+         * @member {number}goodsID
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.goodsID = 0;
+
+        /**
+         * Comment email.
+         * @member {string}email
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.email = "";
+
+        /**
+         * Comment username.
+         * @member {string}username
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.username = "";
+
+        /**
+         * Comment content.
+         * @member {string}content
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.content = "";
+
+        /**
+         * Comment addTime.
+         * @member {number}addTime
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.addTime = 0;
+
+        /**
+         * Comment isShow.
+         * @member {boolean}isShow
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.isShow = false;
+
+        /**
+         * Comment parentID.
+         * @member {number}parentID
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.parentID = 0;
+
+        /**
+         * Comment userID.
+         * @member {number}userID
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.userID = 0;
+
+        /**
+         * Comment img.
+         * @member {string}img
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.img = "";
+
+        /**
+         * Comment deliverRank.
+         * @member {number}deliverRank
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.deliverRank = 0;
+
+        /**
+         * Comment goodsRank.
+         * @member {number}goodsRank
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.goodsRank = 0;
+
+        /**
+         * Comment serviceRank.
+         * @member {number}serviceRank
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.serviceRank = 0;
+
+        /**
+         * Comment zanNum.
+         * @member {number}zanNum
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.zanNum = 0;
+
+        /**
+         * Comment isAnonymous.
+         * @member {boolean}isAnonymous
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.isAnonymous = false;
+
+        /**
+         * Comment headPic.
+         * @member {string}headPic
+         * @memberof goods.Comment
+         * @instance
+         */
+        Comment.prototype.headPic = "";
+
+        /**
+         * Creates a new Comment instance using the specified properties.
+         * @function create
+         * @memberof goods.Comment
+         * @static
+         * @param {goods.IComment=} [properties] Properties to set
+         * @returns {goods.Comment} Comment instance
+         */
+        Comment.create = function create(properties) {
+            return new Comment(properties);
+        };
+
+        /**
+         * Encodes the specified Comment message. Does not implicitly {@link goods.Comment.verify|verify} messages.
+         * @function encode
+         * @memberof goods.Comment
+         * @static
+         * @param {goods.IComment} message Comment message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Comment.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.iD != null && message.hasOwnProperty("iD"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.iD);
+            if (message.goodsID != null && message.hasOwnProperty("goodsID"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.goodsID);
+            if (message.email != null && message.hasOwnProperty("email"))
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.email);
+            if (message.username != null && message.hasOwnProperty("username"))
+                writer.uint32(/* id 4, wireType 2 =*/34).string(message.username);
+            if (message.content != null && message.hasOwnProperty("content"))
+                writer.uint32(/* id 5, wireType 2 =*/42).string(message.content);
+            if (message.addTime != null && message.hasOwnProperty("addTime"))
+                writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.addTime);
+            if (message.isShow != null && message.hasOwnProperty("isShow"))
+                writer.uint32(/* id 7, wireType 0 =*/56).bool(message.isShow);
+            if (message.parentID != null && message.hasOwnProperty("parentID"))
+                writer.uint32(/* id 8, wireType 0 =*/64).uint32(message.parentID);
+            if (message.userID != null && message.hasOwnProperty("userID"))
+                writer.uint32(/* id 9, wireType 0 =*/72).uint32(message.userID);
+            if (message.img != null && message.hasOwnProperty("img"))
+                writer.uint32(/* id 10, wireType 2 =*/82).string(message.img);
+            if (message.deliverRank != null && message.hasOwnProperty("deliverRank"))
+                writer.uint32(/* id 11, wireType 0 =*/88).uint32(message.deliverRank);
+            if (message.goodsRank != null && message.hasOwnProperty("goodsRank"))
+                writer.uint32(/* id 12, wireType 0 =*/96).uint32(message.goodsRank);
+            if (message.serviceRank != null && message.hasOwnProperty("serviceRank"))
+                writer.uint32(/* id 13, wireType 0 =*/104).uint32(message.serviceRank);
+            if (message.zanNum != null && message.hasOwnProperty("zanNum"))
+                writer.uint32(/* id 14, wireType 0 =*/112).uint32(message.zanNum);
+            if (message.isAnonymous != null && message.hasOwnProperty("isAnonymous"))
+                writer.uint32(/* id 15, wireType 0 =*/120).bool(message.isAnonymous);
+            if (message.headPic != null && message.hasOwnProperty("headPic"))
+                writer.uint32(/* id 16, wireType 2 =*/130).string(message.headPic);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified Comment message, length delimited. Does not implicitly {@link goods.Comment.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof goods.Comment
+         * @static
+         * @param {goods.IComment} message Comment message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Comment.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a Comment message from the specified reader or buffer.
+         * @function decode
+         * @memberof goods.Comment
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {goods.Comment} Comment
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Comment.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.goods.Comment();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.iD = reader.uint32();
+                    break;
+                case 2:
+                    message.goodsID = reader.uint32();
+                    break;
+                case 3:
+                    message.email = reader.string();
+                    break;
+                case 4:
+                    message.username = reader.string();
+                    break;
+                case 5:
+                    message.content = reader.string();
+                    break;
+                case 6:
+                    message.addTime = reader.uint32();
+                    break;
+                case 7:
+                    message.isShow = reader.bool();
+                    break;
+                case 8:
+                    message.parentID = reader.uint32();
+                    break;
+                case 9:
+                    message.userID = reader.uint32();
+                    break;
+                case 10:
+                    message.img = reader.string();
+                    break;
+                case 11:
+                    message.deliverRank = reader.uint32();
+                    break;
+                case 12:
+                    message.goodsRank = reader.uint32();
+                    break;
+                case 13:
+                    message.serviceRank = reader.uint32();
+                    break;
+                case 14:
+                    message.zanNum = reader.uint32();
+                    break;
+                case 15:
+                    message.isAnonymous = reader.bool();
+                    break;
+                case 16:
+                    message.headPic = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a Comment message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof goods.Comment
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {goods.Comment} Comment
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Comment.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a Comment message.
+         * @function verify
+         * @memberof goods.Comment
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        Comment.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.iD != null && message.hasOwnProperty("iD"))
+                if (!$util.isInteger(message.iD))
+                    return "iD: integer expected";
+            if (message.goodsID != null && message.hasOwnProperty("goodsID"))
+                if (!$util.isInteger(message.goodsID))
+                    return "goodsID: integer expected";
+            if (message.email != null && message.hasOwnProperty("email"))
+                if (!$util.isString(message.email))
+                    return "email: string expected";
+            if (message.username != null && message.hasOwnProperty("username"))
+                if (!$util.isString(message.username))
+                    return "username: string expected";
+            if (message.content != null && message.hasOwnProperty("content"))
+                if (!$util.isString(message.content))
+                    return "content: string expected";
+            if (message.addTime != null && message.hasOwnProperty("addTime"))
+                if (!$util.isInteger(message.addTime))
+                    return "addTime: integer expected";
+            if (message.isShow != null && message.hasOwnProperty("isShow"))
+                if (typeof message.isShow !== "boolean")
+                    return "isShow: boolean expected";
+            if (message.parentID != null && message.hasOwnProperty("parentID"))
+                if (!$util.isInteger(message.parentID))
+                    return "parentID: integer expected";
+            if (message.userID != null && message.hasOwnProperty("userID"))
+                if (!$util.isInteger(message.userID))
+                    return "userID: integer expected";
+            if (message.img != null && message.hasOwnProperty("img"))
+                if (!$util.isString(message.img))
+                    return "img: string expected";
+            if (message.deliverRank != null && message.hasOwnProperty("deliverRank"))
+                if (!$util.isInteger(message.deliverRank))
+                    return "deliverRank: integer expected";
+            if (message.goodsRank != null && message.hasOwnProperty("goodsRank"))
+                if (!$util.isInteger(message.goodsRank))
+                    return "goodsRank: integer expected";
+            if (message.serviceRank != null && message.hasOwnProperty("serviceRank"))
+                if (!$util.isInteger(message.serviceRank))
+                    return "serviceRank: integer expected";
+            if (message.zanNum != null && message.hasOwnProperty("zanNum"))
+                if (!$util.isInteger(message.zanNum))
+                    return "zanNum: integer expected";
+            if (message.isAnonymous != null && message.hasOwnProperty("isAnonymous"))
+                if (typeof message.isAnonymous !== "boolean")
+                    return "isAnonymous: boolean expected";
+            if (message.headPic != null && message.hasOwnProperty("headPic"))
+                if (!$util.isString(message.headPic))
+                    return "headPic: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a Comment message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof goods.Comment
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {goods.Comment} Comment
+         */
+        Comment.fromObject = function fromObject(object) {
+            if (object instanceof $root.goods.Comment)
+                return object;
+            var message = new $root.goods.Comment();
+            if (object.iD != null)
+                message.iD = object.iD >>> 0;
+            if (object.goodsID != null)
+                message.goodsID = object.goodsID >>> 0;
+            if (object.email != null)
+                message.email = String(object.email);
+            if (object.username != null)
+                message.username = String(object.username);
+            if (object.content != null)
+                message.content = String(object.content);
+            if (object.addTime != null)
+                message.addTime = object.addTime >>> 0;
+            if (object.isShow != null)
+                message.isShow = Boolean(object.isShow);
+            if (object.parentID != null)
+                message.parentID = object.parentID >>> 0;
+            if (object.userID != null)
+                message.userID = object.userID >>> 0;
+            if (object.img != null)
+                message.img = String(object.img);
+            if (object.deliverRank != null)
+                message.deliverRank = object.deliverRank >>> 0;
+            if (object.goodsRank != null)
+                message.goodsRank = object.goodsRank >>> 0;
+            if (object.serviceRank != null)
+                message.serviceRank = object.serviceRank >>> 0;
+            if (object.zanNum != null)
+                message.zanNum = object.zanNum >>> 0;
+            if (object.isAnonymous != null)
+                message.isAnonymous = Boolean(object.isAnonymous);
+            if (object.headPic != null)
+                message.headPic = String(object.headPic);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a Comment message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof goods.Comment
+         * @static
+         * @param {goods.Comment} message Comment
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Comment.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.iD = 0;
+                object.goodsID = 0;
+                object.email = "";
+                object.username = "";
+                object.content = "";
+                object.addTime = 0;
+                object.isShow = false;
+                object.parentID = 0;
+                object.userID = 0;
+                object.img = "";
+                object.deliverRank = 0;
+                object.goodsRank = 0;
+                object.serviceRank = 0;
+                object.zanNum = 0;
+                object.isAnonymous = false;
+                object.headPic = "";
+            }
+            if (message.iD != null && message.hasOwnProperty("iD"))
+                object.iD = message.iD;
+            if (message.goodsID != null && message.hasOwnProperty("goodsID"))
+                object.goodsID = message.goodsID;
+            if (message.email != null && message.hasOwnProperty("email"))
+                object.email = message.email;
+            if (message.username != null && message.hasOwnProperty("username"))
+                object.username = message.username;
+            if (message.content != null && message.hasOwnProperty("content"))
+                object.content = message.content;
+            if (message.addTime != null && message.hasOwnProperty("addTime"))
+                object.addTime = message.addTime;
+            if (message.isShow != null && message.hasOwnProperty("isShow"))
+                object.isShow = message.isShow;
+            if (message.parentID != null && message.hasOwnProperty("parentID"))
+                object.parentID = message.parentID;
+            if (message.userID != null && message.hasOwnProperty("userID"))
+                object.userID = message.userID;
+            if (message.img != null && message.hasOwnProperty("img"))
+                object.img = message.img;
+            if (message.deliverRank != null && message.hasOwnProperty("deliverRank"))
+                object.deliverRank = message.deliverRank;
+            if (message.goodsRank != null && message.hasOwnProperty("goodsRank"))
+                object.goodsRank = message.goodsRank;
+            if (message.serviceRank != null && message.hasOwnProperty("serviceRank"))
+                object.serviceRank = message.serviceRank;
+            if (message.zanNum != null && message.hasOwnProperty("zanNum"))
+                object.zanNum = message.zanNum;
+            if (message.isAnonymous != null && message.hasOwnProperty("isAnonymous"))
+                object.isAnonymous = message.isAnonymous;
+            if (message.headPic != null && message.hasOwnProperty("headPic"))
+                object.headPic = message.headPic;
+            return object;
+        };
+
+        /**
+         * Converts this Comment to JSON.
+         * @function toJSON
+         * @memberof goods.Comment
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        Comment.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return Comment;
+    })();
+
+    goods.Gallery = (function() {
+
+        /**
+         * Properties of a Gallery.
+         * @memberof goods
+         * @interface IGallery
+         * @property {string} [imageUrl] Gallery imageUrl
+         */
+
+        /**
+         * Constructs a new Gallery.
+         * @memberof goods
+         * @classdesc Represents a Gallery.
+         * @constructor
+         * @param {goods.IGallery=} [properties] Properties to set
+         */
+        function Gallery(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Gallery imageUrl.
+         * @member {string}imageUrl
+         * @memberof goods.Gallery
+         * @instance
+         */
+        Gallery.prototype.imageUrl = "";
+
+        /**
+         * Creates a new Gallery instance using the specified properties.
+         * @function create
+         * @memberof goods.Gallery
+         * @static
+         * @param {goods.IGallery=} [properties] Properties to set
+         * @returns {goods.Gallery} Gallery instance
+         */
+        Gallery.create = function create(properties) {
+            return new Gallery(properties);
+        };
+
+        /**
+         * Encodes the specified Gallery message. Does not implicitly {@link goods.Gallery.verify|verify} messages.
+         * @function encode
+         * @memberof goods.Gallery
+         * @static
+         * @param {goods.IGallery} message Gallery message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Gallery.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.imageUrl != null && message.hasOwnProperty("imageUrl"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.imageUrl);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified Gallery message, length delimited. Does not implicitly {@link goods.Gallery.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof goods.Gallery
+         * @static
+         * @param {goods.IGallery} message Gallery message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Gallery.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a Gallery message from the specified reader or buffer.
+         * @function decode
+         * @memberof goods.Gallery
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {goods.Gallery} Gallery
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Gallery.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.goods.Gallery();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.imageUrl = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a Gallery message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof goods.Gallery
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {goods.Gallery} Gallery
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Gallery.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a Gallery message.
+         * @function verify
+         * @memberof goods.Gallery
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        Gallery.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.imageUrl != null && message.hasOwnProperty("imageUrl"))
+                if (!$util.isString(message.imageUrl))
+                    return "imageUrl: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a Gallery message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof goods.Gallery
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {goods.Gallery} Gallery
+         */
+        Gallery.fromObject = function fromObject(object) {
+            if (object instanceof $root.goods.Gallery)
+                return object;
+            var message = new $root.goods.Gallery();
+            if (object.imageUrl != null)
+                message.imageUrl = String(object.imageUrl);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a Gallery message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof goods.Gallery
+         * @static
+         * @param {goods.Gallery} message Gallery
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Gallery.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.imageUrl = "";
+            if (message.imageUrl != null && message.hasOwnProperty("imageUrl"))
+                object.imageUrl = message.imageUrl;
+            return object;
+        };
+
+        /**
+         * Converts this Gallery to JSON.
+         * @function toJSON
+         * @memberof goods.Gallery
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        Gallery.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return Gallery;
     })();
 
     return goods;

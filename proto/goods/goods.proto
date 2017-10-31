@@ -28,6 +28,7 @@ message Goods{
 	string originalImg = 18;   //商品上传原始图
 	bool isReal = 19;     //是否为实物
 	bool isOnSale = 20;     //是否上架
+  uint32 salesSum = 21;   //销量
 }
 
 // 首页推荐商品
@@ -66,35 +67,35 @@ message SpecItem {
 
 // 不同规格对应的价格
 message SpecPrice {
-  uint32 ID = 1;  //规格商品id
-	uint32 GoodsID = 2;  //商品id
-	string Key = 3;  //规格键名
-	string KeyName = 4;  //规格键名中文
-	float Price = 5; //价格
-	uint32 StoreCount = 6;  //库存数量
-	string BarCode = 7;  //商品条形码
-	string Sku = 8;  //SKU
-	string SpecImg = 9;  //规格商品主图
+  uint32 iD = 1;  //规格商品id
+	uint32 goodsID = 2;  //商品id
+	string key = 3;  //规格键名
+	string keyName = 4;  //规格键名中文
+	float price = 5; //价格
+	uint32 storeCount = 6;  //库存数量
+	string barCode = 7;  //商品条形码
+	string sku = 8;  //SKU
+	string specImg = 9;  //规格商品主图
 }
 
 // 评论
 message Comment {
-  uint32 ID = 1; // 评论id
-	uint32 GoodsID = 2; // 商品id
-	string Email = 3; // email邮箱
-	string Username = 4; // 用户名
-	string Content = 5; // 评论内容
-	uint32 AddTime = 6; // 添加时间
-	bool IsShow = 7;   // 是否显示
-	uint32 ParentID = 8; // 父id
-	uint32 UserID = 9; // 评论用户
-	string Img = 10; // 晒单图片
-	uint32 DeliverRank = 11;  // 物流评价等级
-	uint32 GoodsRank = 12;  // 商品评价等级
-	uint32 ServiceRank = 13;  // 商家服务态度评价等级
-	uint32 ZanNum = 14; // 被赞数
-	bool IsAnonymous = 15;   // 是否匿名评价
-	string HeadPic = 16; // 评论人头像
+  uint32 iD = 1; // 评论id
+	uint32 goodsID = 2; // 商品id
+	string email = 3; // email邮箱
+	string username = 4; // 用户名
+	string content = 5; // 评论内容
+	uint32 addTime = 6; // 添加时间
+	bool isShow = 7;   // 是否显示
+	uint32 parentID = 8; // 父id
+	uint32 userID = 9; // 评论用户
+	string img = 10; // 晒单图片
+	uint32 deliverRank = 11;  // 物流评价等级
+	uint32 goodsRank = 12;  // 商品评价等级
+	uint32 serviceRank = 13;  // 商家服务态度评价等级
+	uint32 zanNum = 14; // 被赞数
+	bool isAnonymous = 15;   // 是否匿名评价
+	string headPic = 16; // 评论人头像
 }
 
 // 详情轮播图组

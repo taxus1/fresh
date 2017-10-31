@@ -39,7 +39,7 @@ type Goods struct {
 	GiveIntegral     int32   //购买商品赠送积分 mediumint(8)
 	ExchangeIntegral int64   //积分兑换：0不参与积分兑换，积分和现金的兑换比例见后台配置 int(10)
 	SuppliersID      int64   //供货商ID smallint(5)
-	SalesSum         int64   //商品销量 int(11)
+	SalesSum         uint32  //商品销量 int(11)
 	PromType         uint8   //4预售 tinyint(1)
 	PromID           int64   //优惠活动id int(11)
 	Commission       float32 //佣金用于分销分成 decimal(10,
