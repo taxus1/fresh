@@ -1916,6 +1916,7 @@ $root.goods = (function() {
          * @property {number} [itemID] SpecItem itemID
          * @property {string} [item] SpecItem item
          * @property {string} [src] SpecItem src
+         * @property {boolean} [active] SpecItem active
          */
 
         /**
@@ -1957,6 +1958,14 @@ $root.goods = (function() {
         SpecItem.prototype.src = "";
 
         /**
+         * SpecItem active.
+         * @member {boolean}active
+         * @memberof goods.SpecItem
+         * @instance
+         */
+        SpecItem.prototype.active = false;
+
+        /**
          * Creates a new SpecItem instance using the specified properties.
          * @function create
          * @memberof goods.SpecItem
@@ -1986,6 +1995,8 @@ $root.goods = (function() {
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.item);
             if (message.src != null && message.hasOwnProperty("src"))
                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.src);
+            if (message.active != null && message.hasOwnProperty("active"))
+                writer.uint32(/* id 4, wireType 0 =*/32).bool(message.active);
             return writer;
         };
 
@@ -2028,6 +2039,9 @@ $root.goods = (function() {
                     break;
                 case 3:
                     message.src = reader.string();
+                    break;
+                case 4:
+                    message.active = reader.bool();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -2073,6 +2087,9 @@ $root.goods = (function() {
             if (message.src != null && message.hasOwnProperty("src"))
                 if (!$util.isString(message.src))
                     return "src: string expected";
+            if (message.active != null && message.hasOwnProperty("active"))
+                if (typeof message.active !== "boolean")
+                    return "active: boolean expected";
             return null;
         };
 
@@ -2094,6 +2111,8 @@ $root.goods = (function() {
                 message.item = String(object.item);
             if (object.src != null)
                 message.src = String(object.src);
+            if (object.active != null)
+                message.active = Boolean(object.active);
             return message;
         };
 
@@ -2114,6 +2133,7 @@ $root.goods = (function() {
                 object.itemID = 0;
                 object.item = "";
                 object.src = "";
+                object.active = false;
             }
             if (message.itemID != null && message.hasOwnProperty("itemID"))
                 object.itemID = message.itemID;
@@ -2121,6 +2141,8 @@ $root.goods = (function() {
                 object.item = message.item;
             if (message.src != null && message.hasOwnProperty("src"))
                 object.src = message.src;
+            if (message.active != null && message.hasOwnProperty("active"))
+                object.active = message.active;
             return object;
         };
 

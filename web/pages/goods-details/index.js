@@ -24,6 +24,7 @@ Page({
     buyNumber:0,
     buyNumMin:1,
     buyNumMax:0,
+    store: 0,
 
     propertyChildIds:"",
     propertyChildNames:"",
@@ -57,22 +58,42 @@ Page({
     wx.request({
       url: app.globalData.domain + '/goods/detail/1', // + self.data.id,
       success: function(res) {
+        pgoods.SpecItem.prototype.active = false;
         var result = util.convResult(res.data, pgoods.DetailResult);
-        var selectSpecTemp = "";
-        for(var i = 0; i < result.specs.length; i++){
-          selectSpecTemp = selectSpecTemp + " " + result.specs[i].specName;
-        }
         console.log(result);
-        console.log(selectSpecTemp);
+        var defaultSpecIds = [];
+        result.specPrices.forEach(function (v) {
+          if (result.goods.shopPrice === v.price) {
+            defaultSpecIds = v.key.split("_");
+            return;
+          }
+        });
+        if (defaultSpecIds.length == 0 && result.specPrices.length > 0) {
+          defaultSpecIds = result.specPrices[0].key.split("_");
+        }
+        var selectSpecTemp = "";
+        var specs = result.specs;
+        for(var i = 0; i < specs.length; i++){
+          selectSpecTemp = selectSpecTemp + " " + specs[i].specName;
+          if (defaultSpecIds.length > 0) {
+            for (var j = 0; j < specs[i].items.length; j++) {
+              if (defaultSpecIds.indexOf(specs[i].items[j].itemID + "") > -1) {
+                specs[i].items[j].active = true;
+              }
+            }
+          }
+        }
         self.setData({
           selectSpec: self.data.selectSpec + selectSpecTemp,
           hasMoreSelect: selectSpecTemp.length > 0,
           goodsDetail: result.goods,
           gallers: result.gallers,
           comments: result.comms,
-          specs: result.specs,
-          specPrices: result.SpecPrices,
-          selectSizePrice: self.data.selectSize,
+          specs: specs,
+          actives: defaultSpecIds,
+          specPrices: result.specPrices,
+          selectSizePrice: result.goods.shopPrice.toFixed(2),
+          store: result.goods.storeCount,
           buyNumMax: result.goods.storeCount,
           buyNumber: result.goods.storeCount > 0 ? 1: 0
         });
@@ -152,62 +173,44 @@ Page({
    */
   labelItemTap: function(e) {
     var self = this;
-    /*
-    console.log(e)
-    console.log(e.currentTarget.dataset.propertyid)
-    console.log(e.currentTarget.dataset.propertyname)
-    console.log(e.currentTarget.dataset.propertychildid)
-    console.log(e.currentTarget.dataset.propertychildname)
-    */
+    var selected = [];
     // 取消该分类下的子栏目所有的选中状态
-    var childs = self.data.goodsDetail.properties[e.currentTarget.dataset.propertyindex].childsCurGoods;
-    for(var i = 0;i < childs.length;i++){
-      self.data.goodsDetail.properties[e.currentTarget.dataset.propertyindex].childsCurGoods[i].active = false;
-    }
-    // 设置当前选中状态
-    self.data.goodsDetail.properties[e.currentTarget.dataset.propertyindex].childsCurGoods[e.currentTarget.dataset.propertychildindex].active = true;
-    // 获取所有的选中规格尺寸数据
-    var needSelectNum = self.data.goodsDetail.properties.length;
-    var curSelectNum = 0;
-    var propertyChildIds= "";
-    var propertyChildNames = "";
-    for (var i = 0;i < self.data.goodsDetail.properties.length;i++) {
-      childs = self.data.goodsDetail.properties[i].childsCurGoods;
-      for (var j = 0;j < childs.length;j++) {
-        if(childs[j].active){
-          curSelectNum++;
-          propertyChildIds = propertyChildIds + self.data.goodsDetail.properties[i].id + ":"+ childs[j].id +",";
-          propertyChildNames = propertyChildNames + self.data.goodsDetail.properties[i].name + ":"+ childs[j].name +"  ";
+    self.data.specs.forEach(function (spec, i){
+      spec.items.forEach(function (item, j){
+        if (e.currentTarget.dataset.propertyindex == i && e.currentTarget.dataset.propertychildindex === j) {
+            item.active = true;
+        } else if (e.currentTarget.dataset.propertyindex == i) {
+          item.active = false;
         }
-      }
-    }
+        if (item.active) {
+          selected[i] = item.itemID;
+        }
+      });
+    });
+
     var canSubmit = false;
-    if (needSelectNum == curSelectNum) {
+    if (self.data.specs.length == selected.length) {
       canSubmit = true;
     }
-    // 计算当前价格
-    if (canSubmit) {
-      wx.request({
-        url: 'https://api.it120.cc/'+ app.globalData.subDomain +'/shop/goods/price',
-        data: {
-          goodsId: self.data.goodsDetail.basicInfo.id,
-          propertyChildIds:propertyChildIds
-        },
-        success: function(res) {
-          self.setData({
-            selectSizePrice:res.data.data.price,
-            propertyChildIds:propertyChildIds,
-            propertyChildNames:propertyChildNames,
-            buyNumMax:res.data.data.stores,
-            buyNumber:(res.data.data.stores>0) ? 1: 0
-          });
-        }
-      })
-    }
 
+    var selectSizePrice = 0.0;
+    var selectedKey = selected.sort(function(a, b){
+      return a > b;
+    }).join("_");
+    self.data.specPrices.forEach(function (sp, i){
+      if (sp.key === selectedKey && canSubmit) {
+        self.setData({
+          selectSizePrice: sp.price.toFixed(2),
+          store: sp.storeCount,
+          buyNumMax: sp.storeCount,
+          buyNumber: sp.storeCount > 0 ? 1 : 0,
+        });
+        return;
+      }
+    });
 
-    this.setData({
-      goodsDetail: self.data.goodsDetail,
+    self.setData({
+      specs: self.data.specs,
       canSubmit:canSubmit
     })
   },

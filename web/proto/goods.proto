@@ -63,6 +63,7 @@ message SpecItem {
   uint32 itemID = 1; //id
   string item = 2; // 名称
   string src = 3; // 规格图片
+  bool active = 4; //前端使用
 }
 
 // 不同规格对应的价格
