@@ -164,7 +164,6 @@ func (c *Cart) Values() []interface{} {
 		&c.Selected,
 		&c.AddTime,
 		&c.Sku,
-		&c.CostPrice,
 	}
 }
 

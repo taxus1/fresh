@@ -28,4 +28,7 @@ func (r *Route) Init(app *iris.Application) {
 	home := app.Party("/home")
 	home.Get("/banner", ctr.HomeController.Banner)
 	home.Get("/category", ctr.HomeController.Category)
+
+	cart := app.Party("/cart")
+	cart.Get("/add", ctr.CartController.Add)
 }

@@ -5,7 +5,25 @@ import (
 	"io/ioutil"
 
 	"github.com/golang/protobuf/proto"
+	"github.com/gorilla/securecookie"
 	"github.com/kataras/iris"
+	"github.com/kataras/iris/sessions"
+)
+
+var (
+	cookieName = "mycustomsessionid"
+	// AES only supports key sizes of 16, 24 or 32 bytes.
+	// You either need to provide exactly that amount or you derive the key from what you type in.
+	hashKey      = []byte("the-big-and-secret-fash-key-here")
+	blockKey     = []byte("lot-secret-of-characters-big-too")
+	secureCookie = securecookie.New(hashKey, blockKey)
+
+	sess = sessions.New(sessions.Config{
+		Cookie:  cookieName,
+		Encode:  secureCookie.Encode,
+		Decode:  secureCookie.Decode,
+		Expires: -1,
+	})
 )
 
 type controller struct {
@@ -42,6 +60,9 @@ var (
 
 	// GoodsController 商品
 	GoodsController *goodsController
+
+	// CartController 购物车
+	CartController *cartController
 )
 
 // InitControllers 初始化
@@ -49,4 +70,5 @@ func InitControllers() {
 	HomeController = &homeController{}
 	UserController = &userController{}
 	GoodsController = &goodsController{}
+	CartController = &cartController{}
 }

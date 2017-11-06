@@ -225,6 +225,12 @@
 			"revisionTime": "2017-06-03T19:18:43Z"
 		},
 		{
+			"checksumSHA1": "Ij5Z+koMayNWjXZAJM3PY9RENXA=",
+			"path": "github.com/gorilla/securecookie",
+			"revision": "e59506cc896acb7f7bf732d4fdf5e25f7ccd8983",
+			"revisionTime": "2017-02-24T19:38:04Z"
+		},
+		{
 			"checksumSHA1": "poYpUe2RyFrWeBoTAdB6eM4F+eM=",
 			"origin": "gopkg.in/kataras/iris.v6/vendor/github.com/hashicorp/go-version",
 			"path": "github.com/hashicorp/go-version",
