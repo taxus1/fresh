@@ -31,4 +31,5 @@ func (r *Route) Init(app *iris.Application) {
 
 	cart := app.Party("/cart")
 	cart.Get("/add", ctr.CartController.Add)
+	cart.Get("/list", ctr.CartController.List)
 }

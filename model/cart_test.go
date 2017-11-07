@@ -1,5 +1,10 @@
 package model
 
+import (
+	"log"
+	"testing"
+)
+
 // import (
 // 	"log"
 // 	"testing"
@@ -34,4 +39,16 @@ package model
 // 	checkErr(err)
 //
 // 	log.Println("删除购物车成功")
-// }
+//
+
+func TestLoadUserCarts(t *testing.T) {
+	u, err := LoadUserBy("00a1c0366b96e5c3bfff8bd1d85fa557")
+	checkErr(err)
+
+	cs, err := LoadUserCarts(u.ID)
+	checkErr(err)
+
+	for _, v := range cs {
+		log.Printf("[%s] %v", "TestLoadUserCarts", v)
+	}
+}

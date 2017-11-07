@@ -1,5 +1,7 @@
 //index.js
 var app = getApp()
+var util = require('../../utils/util.js')
+var pcart = require('../../proto/cart.js').cart
 Page({
   data: {
     goodsList:{
@@ -11,7 +13,7 @@ Page({
     },
     delBtnWidth:120,    //删除按钮宽度单位（rpx）
   },
- 
+
  //获取元素自适应后的实际宽度
   getEleWidth:function(w){
     var real = 0;
@@ -26,26 +28,35 @@ Page({
      // Do something when catch error
     }
   },
+
   initEleWidth:function(){
     var delBtnWidth = this.getEleWidth(this.data.delBtnWidth);
     this.setData({
       delBtnWidth:delBtnWidth
     });
   },
+
   onLoad: function () {
       this.initEleWidth();
       this.onShow();
   },
+
   onShow: function(){
-      var shopList = [];
-      // 获取购物车数据
-      var shopCarInfoMem = wx.getStorageSync('shopCarInfo');
-      if (shopCarInfoMem && shopCarInfoMem.shopList) {
-        shopList = shopCarInfoMem.shopList
+    var self =  this;
+    var shopList = [];
+    // 获取购物车数据
+    wx.request({
+      url: app.globalData.domain + '/cart/list',
+      header: {token: "00a1c0366b96e5c3bfff8bd1d85fa557"},
+      success: function(res){
+        var result = util.convResult(res.data, pcart.CartListResult);
+        self.data.goodsList.list = result.carts;
+        self.setGoodsList(self.getSaveHide(), self.totalPrice(), self.allSelect(), self.noSelect(), result.carts);
       }
-      this.data.goodsList.list = shopList;
-      this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),shopList);
+    });
+
   },
+
   toIndexPage:function(){
       wx.switchTab({
             url: "/pages/index/index"
@@ -77,14 +88,14 @@ Page({
       }
       var list = this.data.goodsList.list;
       if(index!="" && index !=null){
-        list[parseInt(index)].left = left; 
+        list[parseInt(index)].left = left;
         this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
       }
     }
   },
 
   touchE:function(e){
-    var index = e.currentTarget.dataset.index;    
+    var index = e.currentTarget.dataset.index;
     if(e.changedTouches.length==1){
       var endX = e.changedTouches[0].clientX;
       var disX = this.data.startX - endX;
@@ -93,7 +104,7 @@ Page({
       var left = disX > delBtnWidth/2 ? "margin-left:-"+delBtnWidth+"px":"margin-left:0px";
       var list = this.data.goodsList.list;
      if(index!=="" && index != null){
-        list[parseInt(index)].left = left; 
+        list[parseInt(index)].left = left;
         this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
 
       }
@@ -109,7 +120,7 @@ Page({
     var index = e.currentTarget.dataset.index;
     var list = this.data.goodsList.list;
     if(index!=="" && index != null){
-        list[parseInt(index)].active = !list[parseInt(index)].active ; 
+        list[parseInt(index)].selected = !list[parseInt(index)].selected ;
         this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
       }
    },
@@ -118,19 +129,18 @@ Page({
       var total = 0;
       for(var i = 0 ; i < list.length ; i++){
           var curItem = list[i];
-          if(curItem.active){
-            total+= parseFloat(curItem.price)*curItem.number;
+          if(curItem.selected){
+            total += parseFloat(curItem.goodsPrice)*curItem.goodsNum;
           }
       }
-      total = parseFloat(total.toFixed(2));//js浮点计算bug，取两位小数精度
-      return total;
+      return total.toFixed(2);
    },
    allSelect:function(){
       var list = this.data.goodsList.list;
       var allSelect = false;
       for(var i = 0 ; i < list.length ; i++){
           var curItem = list[i];
-          if(curItem.active){
+          if(curItem.selected){
             allSelect = true;
           }else{
              allSelect = false;
@@ -144,7 +154,7 @@ Page({
       var noSelect = 0;
       for(var i = 0 ; i < list.length ; i++){
           var curItem = list[i];
-          if(!curItem.active){
+          if(!curItem.selected){
             noSelect++;
           }
       }
@@ -182,33 +192,35 @@ Page({
       if(currentAllSelect){
         for(var i = 0 ; i < list.length ; i++){
             var curItem = list[i];
-            curItem.active = false;
+            curItem.selected = false;
         }
       }else{
         for(var i = 0 ; i < list.length ; i++){
             var curItem = list[i];
-            curItem.active = true;
+            curItem.selected = true;
         }
       }
-     
+
       this.setGoodsList(this.getSaveHide(),this.totalPrice(),!currentAllSelect,this.noSelect(),list);
    },
+
    jiaBtnTap:function(e){
     var index = e.currentTarget.dataset.index;
     var list = this.data.goodsList.list;
     if(index!=="" && index != null){
-      if(list[parseInt(index)].number<10){
-        list[parseInt(index)].number++; 
+      if(list[parseInt(index)].goodsNum<10){
+        list[parseInt(index)].goodsNum++;
         this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
       }
     }
    },
+
    jianBtnTap:function(e){
     var index = e.currentTarget.dataset.index;
     var list = this.data.goodsList.list;
     if(index!=="" && index != null){
-      if(list[parseInt(index)].number>1){
-        list[parseInt(index)].number-- ;
+      if(list[parseInt(index)].goodsNum>1){
+        list[parseInt(index)].goodsNum-- ;
         this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
       }
     }
@@ -357,7 +369,7 @@ Page({
             }
           })
         }
-        
+
       }
     },
     navigateToPayOrder:function () {

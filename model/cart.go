@@ -41,7 +41,7 @@ func NewCart() *Cart {
 }
 
 // LoadUserCarts 加载用户购物车
-func LoadUserCarts(userID uint32) (*Carts, error) {
+func LoadUserCarts(userID uint32) (Carts, error) {
 	var cs Carts
 	query := `SELECT c.* FROM tp_cart c WHERE user_id = ?`
 	f := func(rs *sql.Rows) error {
@@ -58,7 +58,18 @@ func LoadUserCarts(userID uint32) (*Carts, error) {
 	if err != nil && err != sql.ErrNoRows {
 		err = fmt.Errorf("[LoadUserCarts] %v", err)
 	}
-	return &cs, err
+	return cs, err
+}
+
+// CountUserCarts 加载用户购物车数量
+func CountUserCarts(userID uint32) (int32, error) {
+	var count int32
+	query := `SELECT count(1) FROM tp_cart c WHERE user_id = ?`
+	err := DataSource.Session.QueryRow(query, userID).Scan(&count)
+	if err != nil {
+		err = fmt.Errorf("[CountUserCarts] %v", err)
+	}
+	return count, err
 }
 
 // LoadSelectedCarts 获取购物车中选中的商品
@@ -68,10 +79,12 @@ func LoadSelectedCarts(userID uint32) (*Carts, error) {
 		LEFT JOIN tp_goods g ON c.goods_id = g.goods_id
 		WHERE selected = 1 AND user_id = ?
 	`
+
 	f := func(rs *sql.Rows) error {
 		for rs.Next() {
 			c := new(Cart)
-			if err := rs.Scan(c.Fields()...); err != nil {
+			fields := append(c.Fields(), &c.CostPrice)
+			if err := rs.Scan(fields...); err != nil {
 				return err
 			}
 			cs = append(cs, c)
@@ -187,6 +200,5 @@ func (c *Cart) Fields() []interface{} {
 		&c.PromType,
 		&c.PromID,
 		&c.Sku,
-		&c.CostPrice,
 	}
 }
