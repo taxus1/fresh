@@ -59,9 +59,7 @@ Page({
     wx.request({
       url: app.globalData.domain + '/goods/detail/1', // + self.data.id,
       success: function(res) {
-        pgoods.SpecItem.prototype.active = false;
         var result = util.convResult(res.data, pgoods.DetailResult);
-        console.log(result);
         var defaultSpecIds = [];
         var selectImg = "";
         result.specPrices.forEach(function (v) {
@@ -108,36 +106,25 @@ Page({
     })
     this.reputation(e.id);
   },
+
   goShopCar: function () {
     wx.reLaunch({
       url: "/pages/shop-cart/index"
     });
   },
+
   toAddShopCar: function () {
     this.setData({
       shopType: "addShopCar"
     })
     this.bindGuiGeTap();
   },
+
   tobuy: function () {
     this.setData({
       shopType: "tobuy"
     });
     this.bindGuiGeTap();
-    /*    if (this.data.goodsDetail.properties && !this.data.canSubmit) {
-          this.bindGuiGeTap();
-          return;
-        }
-        if(this.data.buyNumber < 1){
-          wx.showModal({
-            title: '提示',
-            content: '暂时缺货哦~',
-            showCancel:false
-          })
-          return;
-        }
-        this.addShopCar();
-        this.goShopCar();*/
   },
   /**
    * 规格选择弹出框
@@ -147,6 +134,7 @@ Page({
         hideShopPopup: false
     })
   },
+
   /**
    * 规格选择弹出框隐藏
    */
@@ -174,6 +162,7 @@ Page({
        hideShopPopup: true
     })
   },
+
   numJianTap: function() {
      if(this.data.buyNumber > this.data.buyNumMin){
         var currentNum = this.data.buyNumber;
@@ -291,11 +280,11 @@ Page({
     var shopCarInfo = self.bulidShopCarInfo(cart);
 
     wx.request({
-      url: app.globalData.domain + '/cart/add?goodsID=' + self.data.goodsDetail.iD + '&num=' + shopCarInfo[shopCarInfo.length - 1].num + '&itemID=' + shopCarInfo[shopCarInfo.length - 1].id, // + self.data.id,
+      url: app.globalData.domain + '/cart/add?goodsID=' + self.data.goodsDetail.ID + '&num=' + shopCarInfo[shopCarInfo.length - 1].num + '&itemID=' + shopCarInfo[shopCarInfo.length - 1].id, // + self.data.id,
       success: function(res) {
         self.setData({
           shopCarInfo:shopCarInfo,
-          shopNum: shopCarInfo.length,
+          shopNum: res.data,
         });
 
         // 写入本地存储

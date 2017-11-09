@@ -18,23 +18,23 @@ $root.cart = (function() {
      */
     var cart = {};
 
-    cart.CartListResult = (function() {
+    cart.ListResult = (function() {
 
         /**
-         * Properties of a CartListResult.
+         * Properties of a ListResult.
          * @memberof cart
-         * @interface ICartListResult
-         * @property {Array.<cart.ICart>} [carts] CartListResult carts
+         * @interface IListResult
+         * @property {Array.<cart.ICart>} [carts] ListResult carts
          */
 
         /**
-         * Constructs a new CartListResult.
+         * Constructs a new ListResult.
          * @memberof cart
-         * @classdesc Represents a CartListResult.
+         * @classdesc Represents a ListResult.
          * @constructor
-         * @param {cart.ICartListResult=} [properties] Properties to set
+         * @param {cart.IListResult=} [properties] Properties to set
          */
-        function CartListResult(properties) {
+        function ListResult(properties) {
             this.carts = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
@@ -43,35 +43,35 @@ $root.cart = (function() {
         }
 
         /**
-         * CartListResult carts.
+         * ListResult carts.
          * @member {Array.<cart.ICart>}carts
-         * @memberof cart.CartListResult
+         * @memberof cart.ListResult
          * @instance
          */
-        CartListResult.prototype.carts = $util.emptyArray;
+        ListResult.prototype.carts = $util.emptyArray;
 
         /**
-         * Creates a new CartListResult instance using the specified properties.
+         * Creates a new ListResult instance using the specified properties.
          * @function create
-         * @memberof cart.CartListResult
+         * @memberof cart.ListResult
          * @static
-         * @param {cart.ICartListResult=} [properties] Properties to set
-         * @returns {cart.CartListResult} CartListResult instance
+         * @param {cart.IListResult=} [properties] Properties to set
+         * @returns {cart.ListResult} ListResult instance
          */
-        CartListResult.create = function create(properties) {
-            return new CartListResult(properties);
+        ListResult.create = function create(properties) {
+            return new ListResult(properties);
         };
 
         /**
-         * Encodes the specified CartListResult message. Does not implicitly {@link cart.CartListResult.verify|verify} messages.
+         * Encodes the specified ListResult message. Does not implicitly {@link cart.ListResult.verify|verify} messages.
          * @function encode
-         * @memberof cart.CartListResult
+         * @memberof cart.ListResult
          * @static
-         * @param {cart.ICartListResult} message CartListResult message or plain object to encode
+         * @param {cart.IListResult} message ListResult message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CartListResult.encode = function encode(message, writer) {
+        ListResult.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             if (message.carts != null && message.carts.length)
@@ -81,33 +81,33 @@ $root.cart = (function() {
         };
 
         /**
-         * Encodes the specified CartListResult message, length delimited. Does not implicitly {@link cart.CartListResult.verify|verify} messages.
+         * Encodes the specified ListResult message, length delimited. Does not implicitly {@link cart.ListResult.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof cart.CartListResult
+         * @memberof cart.ListResult
          * @static
-         * @param {cart.ICartListResult} message CartListResult message or plain object to encode
+         * @param {cart.IListResult} message ListResult message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CartListResult.encodeDelimited = function encodeDelimited(message, writer) {
+        ListResult.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes a CartListResult message from the specified reader or buffer.
+         * Decodes a ListResult message from the specified reader or buffer.
          * @function decode
-         * @memberof cart.CartListResult
+         * @memberof cart.ListResult
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {cart.CartListResult} CartListResult
+         * @returns {cart.ListResult} ListResult
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CartListResult.decode = function decode(reader, length) {
+        ListResult.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.cart.CartListResult();
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.cart.ListResult();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -125,30 +125,30 @@ $root.cart = (function() {
         };
 
         /**
-         * Decodes a CartListResult message from the specified reader or buffer, length delimited.
+         * Decodes a ListResult message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof cart.CartListResult
+         * @memberof cart.ListResult
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {cart.CartListResult} CartListResult
+         * @returns {cart.ListResult} ListResult
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CartListResult.decodeDelimited = function decodeDelimited(reader) {
+        ListResult.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies a CartListResult message.
+         * Verifies a ListResult message.
          * @function verify
-         * @memberof cart.CartListResult
+         * @memberof cart.ListResult
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CartListResult.verify = function verify(message) {
+        ListResult.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (message.carts != null && message.hasOwnProperty("carts")) {
@@ -164,24 +164,24 @@ $root.cart = (function() {
         };
 
         /**
-         * Creates a CartListResult message from a plain object. Also converts values to their respective internal types.
+         * Creates a ListResult message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof cart.CartListResult
+         * @memberof cart.ListResult
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {cart.CartListResult} CartListResult
+         * @returns {cart.ListResult} ListResult
          */
-        CartListResult.fromObject = function fromObject(object) {
-            if (object instanceof $root.cart.CartListResult)
+        ListResult.fromObject = function fromObject(object) {
+            if (object instanceof $root.cart.ListResult)
                 return object;
-            var message = new $root.cart.CartListResult();
+            var message = new $root.cart.ListResult();
             if (object.carts) {
                 if (!Array.isArray(object.carts))
-                    throw TypeError(".cart.CartListResult.carts: array expected");
+                    throw TypeError(".cart.ListResult.carts: array expected");
                 message.carts = [];
                 for (var i = 0; i < object.carts.length; ++i) {
                     if (typeof object.carts[i] !== "object")
-                        throw TypeError(".cart.CartListResult.carts: object expected");
+                        throw TypeError(".cart.ListResult.carts: object expected");
                     message.carts[i] = $root.cart.Cart.fromObject(object.carts[i]);
                 }
             }
@@ -189,15 +189,15 @@ $root.cart = (function() {
         };
 
         /**
-         * Creates a plain object from a CartListResult message. Also converts values to other types if specified.
+         * Creates a plain object from a ListResult message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof cart.CartListResult
+         * @memberof cart.ListResult
          * @static
-         * @param {cart.CartListResult} message CartListResult
+         * @param {cart.ListResult} message ListResult
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CartListResult.toObject = function toObject(message, options) {
+        ListResult.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             var object = {};
@@ -212,17 +212,17 @@ $root.cart = (function() {
         };
 
         /**
-         * Converts this CartListResult to JSON.
+         * Converts this ListResult to JSON.
          * @function toJSON
-         * @memberof cart.CartListResult
+         * @memberof cart.ListResult
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CartListResult.prototype.toJSON = function toJSON() {
+        ListResult.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
-        return CartListResult;
+        return ListResult;
     })();
 
     cart.Cart = (function() {
@@ -231,7 +231,7 @@ $root.cart = (function() {
          * Properties of a Cart.
          * @memberof cart
          * @interface ICart
-         * @property {number} [iD] Cart iD
+         * @property {number} [ID] Cart ID
          * @property {number} [goodsID] Cart goodsID
          * @property {string} [goodsSN] Cart goodsSN
          * @property {string} [goodsName] Cart goodsName
@@ -258,12 +258,12 @@ $root.cart = (function() {
         }
 
         /**
-         * Cart iD.
-         * @member {number}iD
+         * Cart ID.
+         * @member {number}ID
          * @memberof cart.Cart
          * @instance
          */
-        Cart.prototype.iD = 0;
+        Cart.prototype.ID = 0;
 
         /**
          * Cart goodsID.
@@ -361,8 +361,8 @@ $root.cart = (function() {
         Cart.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.iD != null && message.hasOwnProperty("iD"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.iD);
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.ID);
             if (message.goodsID != null && message.hasOwnProperty("goodsID"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.goodsID);
             if (message.goodsSN != null && message.hasOwnProperty("goodsSN"))
@@ -416,7 +416,7 @@ $root.cart = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.iD = reader.uint32();
+                    message.ID = reader.uint32();
                     break;
                 case 2:
                     message.goodsID = reader.uint32();
@@ -480,9 +480,9 @@ $root.cart = (function() {
         Cart.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.iD != null && message.hasOwnProperty("iD"))
-                if (!$util.isInteger(message.iD))
-                    return "iD: integer expected";
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                if (!$util.isInteger(message.ID))
+                    return "ID: integer expected";
             if (message.goodsID != null && message.hasOwnProperty("goodsID"))
                 if (!$util.isInteger(message.goodsID))
                     return "goodsID: integer expected";
@@ -525,8 +525,8 @@ $root.cart = (function() {
             if (object instanceof $root.cart.Cart)
                 return object;
             var message = new $root.cart.Cart();
-            if (object.iD != null)
-                message.iD = object.iD >>> 0;
+            if (object.ID != null)
+                message.ID = object.ID >>> 0;
             if (object.goodsID != null)
                 message.goodsID = object.goodsID >>> 0;
             if (object.goodsSN != null)
@@ -562,7 +562,7 @@ $root.cart = (function() {
                 options = {};
             var object = {};
             if (options.defaults) {
-                object.iD = 0;
+                object.ID = 0;
                 object.goodsID = 0;
                 object.goodsSN = "";
                 object.goodsName = "";
@@ -573,8 +573,8 @@ $root.cart = (function() {
                 object.selected = false;
                 object.addTime = 0;
             }
-            if (message.iD != null && message.hasOwnProperty("iD"))
-                object.iD = message.iD;
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                object.ID = message.ID;
             if (message.goodsID != null && message.hasOwnProperty("goodsID"))
                 object.goodsID = message.goodsID;
             if (message.goodsSN != null && message.hasOwnProperty("goodsSN"))
@@ -608,6 +608,444 @@ $root.cart = (function() {
         };
 
         return Cart;
+    })();
+
+    cart.ModifyParam = (function() {
+
+        /**
+         * Properties of a ModifyParam.
+         * @memberof cart
+         * @interface IModifyParam
+         * @property {number} [ID] ModifyParam ID
+         * @property {number} [goodsNum] ModifyParam goodsNum
+         * @property {boolean} [selected] ModifyParam selected
+         */
+
+        /**
+         * Constructs a new ModifyParam.
+         * @memberof cart
+         * @classdesc Represents a ModifyParam.
+         * @constructor
+         * @param {cart.IModifyParam=} [properties] Properties to set
+         */
+        function ModifyParam(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * ModifyParam ID.
+         * @member {number}ID
+         * @memberof cart.ModifyParam
+         * @instance
+         */
+        ModifyParam.prototype.ID = 0;
+
+        /**
+         * ModifyParam goodsNum.
+         * @member {number}goodsNum
+         * @memberof cart.ModifyParam
+         * @instance
+         */
+        ModifyParam.prototype.goodsNum = 0;
+
+        /**
+         * ModifyParam selected.
+         * @member {boolean}selected
+         * @memberof cart.ModifyParam
+         * @instance
+         */
+        ModifyParam.prototype.selected = false;
+
+        /**
+         * Creates a new ModifyParam instance using the specified properties.
+         * @function create
+         * @memberof cart.ModifyParam
+         * @static
+         * @param {cart.IModifyParam=} [properties] Properties to set
+         * @returns {cart.ModifyParam} ModifyParam instance
+         */
+        ModifyParam.create = function create(properties) {
+            return new ModifyParam(properties);
+        };
+
+        /**
+         * Encodes the specified ModifyParam message. Does not implicitly {@link cart.ModifyParam.verify|verify} messages.
+         * @function encode
+         * @memberof cart.ModifyParam
+         * @static
+         * @param {cart.IModifyParam} message ModifyParam message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ModifyParam.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.ID);
+            if (message.goodsNum != null && message.hasOwnProperty("goodsNum"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.goodsNum);
+            if (message.selected != null && message.hasOwnProperty("selected"))
+                writer.uint32(/* id 3, wireType 0 =*/24).bool(message.selected);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified ModifyParam message, length delimited. Does not implicitly {@link cart.ModifyParam.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof cart.ModifyParam
+         * @static
+         * @param {cart.IModifyParam} message ModifyParam message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ModifyParam.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a ModifyParam message from the specified reader or buffer.
+         * @function decode
+         * @memberof cart.ModifyParam
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {cart.ModifyParam} ModifyParam
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ModifyParam.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.cart.ModifyParam();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.ID = reader.uint32();
+                    break;
+                case 2:
+                    message.goodsNum = reader.uint32();
+                    break;
+                case 3:
+                    message.selected = reader.bool();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a ModifyParam message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof cart.ModifyParam
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {cart.ModifyParam} ModifyParam
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ModifyParam.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a ModifyParam message.
+         * @function verify
+         * @memberof cart.ModifyParam
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        ModifyParam.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                if (!$util.isInteger(message.ID))
+                    return "ID: integer expected";
+            if (message.goodsNum != null && message.hasOwnProperty("goodsNum"))
+                if (!$util.isInteger(message.goodsNum))
+                    return "goodsNum: integer expected";
+            if (message.selected != null && message.hasOwnProperty("selected"))
+                if (typeof message.selected !== "boolean")
+                    return "selected: boolean expected";
+            return null;
+        };
+
+        /**
+         * Creates a ModifyParam message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof cart.ModifyParam
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {cart.ModifyParam} ModifyParam
+         */
+        ModifyParam.fromObject = function fromObject(object) {
+            if (object instanceof $root.cart.ModifyParam)
+                return object;
+            var message = new $root.cart.ModifyParam();
+            if (object.ID != null)
+                message.ID = object.ID >>> 0;
+            if (object.goodsNum != null)
+                message.goodsNum = object.goodsNum >>> 0;
+            if (object.selected != null)
+                message.selected = Boolean(object.selected);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a ModifyParam message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof cart.ModifyParam
+         * @static
+         * @param {cart.ModifyParam} message ModifyParam
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ModifyParam.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.ID = 0;
+                object.goodsNum = 0;
+                object.selected = false;
+            }
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                object.ID = message.ID;
+            if (message.goodsNum != null && message.hasOwnProperty("goodsNum"))
+                object.goodsNum = message.goodsNum;
+            if (message.selected != null && message.hasOwnProperty("selected"))
+                object.selected = message.selected;
+            return object;
+        };
+
+        /**
+         * Converts this ModifyParam to JSON.
+         * @function toJSON
+         * @memberof cart.ModifyParam
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        ModifyParam.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return ModifyParam;
+    })();
+
+    cart.ModifyAllParam = (function() {
+
+        /**
+         * Properties of a ModifyAllParam.
+         * @memberof cart
+         * @interface IModifyAllParam
+         * @property {Array.<cart.IModifyParam>} [carts] ModifyAllParam carts
+         */
+
+        /**
+         * Constructs a new ModifyAllParam.
+         * @memberof cart
+         * @classdesc Represents a ModifyAllParam.
+         * @constructor
+         * @param {cart.IModifyAllParam=} [properties] Properties to set
+         */
+        function ModifyAllParam(properties) {
+            this.carts = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * ModifyAllParam carts.
+         * @member {Array.<cart.IModifyParam>}carts
+         * @memberof cart.ModifyAllParam
+         * @instance
+         */
+        ModifyAllParam.prototype.carts = $util.emptyArray;
+
+        /**
+         * Creates a new ModifyAllParam instance using the specified properties.
+         * @function create
+         * @memberof cart.ModifyAllParam
+         * @static
+         * @param {cart.IModifyAllParam=} [properties] Properties to set
+         * @returns {cart.ModifyAllParam} ModifyAllParam instance
+         */
+        ModifyAllParam.create = function create(properties) {
+            return new ModifyAllParam(properties);
+        };
+
+        /**
+         * Encodes the specified ModifyAllParam message. Does not implicitly {@link cart.ModifyAllParam.verify|verify} messages.
+         * @function encode
+         * @memberof cart.ModifyAllParam
+         * @static
+         * @param {cart.IModifyAllParam} message ModifyAllParam message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ModifyAllParam.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.carts != null && message.carts.length)
+                for (var i = 0; i < message.carts.length; ++i)
+                    $root.cart.ModifyParam.encode(message.carts[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified ModifyAllParam message, length delimited. Does not implicitly {@link cart.ModifyAllParam.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof cart.ModifyAllParam
+         * @static
+         * @param {cart.IModifyAllParam} message ModifyAllParam message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ModifyAllParam.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a ModifyAllParam message from the specified reader or buffer.
+         * @function decode
+         * @memberof cart.ModifyAllParam
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {cart.ModifyAllParam} ModifyAllParam
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ModifyAllParam.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.cart.ModifyAllParam();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    if (!(message.carts && message.carts.length))
+                        message.carts = [];
+                    message.carts.push($root.cart.ModifyParam.decode(reader, reader.uint32()));
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a ModifyAllParam message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof cart.ModifyAllParam
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {cart.ModifyAllParam} ModifyAllParam
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ModifyAllParam.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a ModifyAllParam message.
+         * @function verify
+         * @memberof cart.ModifyAllParam
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        ModifyAllParam.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.carts != null && message.hasOwnProperty("carts")) {
+                if (!Array.isArray(message.carts))
+                    return "carts: array expected";
+                for (var i = 0; i < message.carts.length; ++i) {
+                    var error = $root.cart.ModifyParam.verify(message.carts[i]);
+                    if (error)
+                        return "carts." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a ModifyAllParam message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof cart.ModifyAllParam
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {cart.ModifyAllParam} ModifyAllParam
+         */
+        ModifyAllParam.fromObject = function fromObject(object) {
+            if (object instanceof $root.cart.ModifyAllParam)
+                return object;
+            var message = new $root.cart.ModifyAllParam();
+            if (object.carts) {
+                if (!Array.isArray(object.carts))
+                    throw TypeError(".cart.ModifyAllParam.carts: array expected");
+                message.carts = [];
+                for (var i = 0; i < object.carts.length; ++i) {
+                    if (typeof object.carts[i] !== "object")
+                        throw TypeError(".cart.ModifyAllParam.carts: object expected");
+                    message.carts[i] = $root.cart.ModifyParam.fromObject(object.carts[i]);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a ModifyAllParam message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof cart.ModifyAllParam
+         * @static
+         * @param {cart.ModifyAllParam} message ModifyAllParam
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ModifyAllParam.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults)
+                object.carts = [];
+            if (message.carts && message.carts.length) {
+                object.carts = [];
+                for (var j = 0; j < message.carts.length; ++j)
+                    object.carts[j] = $root.cart.ModifyParam.toObject(message.carts[j], options);
+            }
+            return object;
+        };
+
+        /**
+         * Converts this ModifyAllParam to JSON.
+         * @function toJSON
+         * @memberof cart.ModifyAllParam
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        ModifyAllParam.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return ModifyAllParam;
     })();
 
     return cart;

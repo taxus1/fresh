@@ -115,7 +115,7 @@ App({
   },
   globalData:{
     userInfo:null,
-    domain: "http://127.0.0.1:8080",
+    domain: "http://127.0.0.1:9001",
     version: "1.6.1",
     shareProfile: '百款精品商品，总有一款适合您' // 首页转发的时候话术
   }

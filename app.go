@@ -11,7 +11,7 @@ import (
 
 func main() {
 	app := newApp()
-	app.Run(iris.Addr(":8080"), configure)
+	app.Run(iris.Addr(":9001"), configure)
 }
 
 func newApp() *iris.Application {

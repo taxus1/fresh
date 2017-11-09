@@ -49,7 +49,7 @@ Page({
       url: app.globalData.domain + '/cart/list',
       header: {token: "00a1c0366b96e5c3bfff8bd1d85fa557"},
       success: function(res){
-        var result = util.convResult(res.data, pcart.CartListResult);
+        var result = util.convResult(res.data, pcart.ListResult);
         self.data.goodsList.list = result.carts;
         self.setGoodsList(self.getSaveHide(), self.totalPrice(), self.allSelect(), self.noSelect(), result.carts);
       }
@@ -116,14 +116,12 @@ Page({
     list.splice(index,1);
     this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
   },
+
   selectTap:function(e){
     var index = e.currentTarget.dataset.index;
-    var list = this.data.goodsList.list;
-    if(index!=="" && index != null){
-        list[parseInt(index)].selected = !list[parseInt(index)].selected ;
-        this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
-      }
+    this.editCart(parseInt(e.currentTarget.dataset.index), 0, true);
    },
+
    totalPrice:function(){
       var list = this.data.goodsList.list;
       var total = 0;
@@ -192,7 +190,8 @@ Page({
       if(currentAllSelect){
         for(var i = 0 ; i < list.length ; i++){
             var curItem = list[i];
-            curItem.selected = false;
+            curItem.selected
+             = false;
         }
       }else{
         for(var i = 0 ; i < list.length ; i++){
@@ -205,26 +204,42 @@ Page({
    },
 
    jiaBtnTap:function(e){
-    var index = e.currentTarget.dataset.index;
-    var list = this.data.goodsList.list;
-    if(index!=="" && index != null){
-      if(list[parseInt(index)].goodsNum<10){
-        list[parseInt(index)].goodsNum++;
-        this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
-      }
-    }
+    this.editCart(parseInt(e.currentTarget.dataset.index), 1);
    },
 
    jianBtnTap:function(e){
-    var index = e.currentTarget.dataset.index;
-    var list = this.data.goodsList.list;
-    if(index!=="" && index != null){
-      if(list[parseInt(index)].goodsNum>1){
-        list[parseInt(index)].goodsNum-- ;
-        this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
-      }
-    }
+    this.editCart(parseInt(e.currentTarget.dataset.index), -1);
    },
+
+   editCart: function (index, change, selected) {
+    var self = this;
+    var list = self.data.goodsList.list;
+    var cart = list[index];
+    var num = cart.goodsNum + change ;
+    if(num < 1 || num > 10){
+      return
+    }
+    cart.goodsNum = num ;
+    if (typeof selected !== 'undefined') {
+      cart.selected = !cart.selected;
+    }
+    var params = pcart.ModifyParam.create({
+         goodsNum: cart.goodsNum,
+         selected: cart.selected
+       });
+    var buf = pcart.ModifyParam.encode(params).finish();
+     wx.request({
+       url: app.globalData.domain + '/cart/' + cart.iD + '/modify',
+       method: "PATCH",
+       data: wx.arrayBufferToBase64(buf),
+       header: {token: "00a1c0366b96e5c3bfff8bd1d85fa557"},
+       success: function(res){
+         cart = util.convResult(res.data, pcart.Cart);
+         self.setGoodsList(self.getSaveHide(),self.totalPrice(),self.allSelect(),self.noSelect(),list);
+       }
+     });
+   },
+
    editTap:function(){
      var list = this.data.goodsList.list;
      for(var i = 0 ; i < list.length ; i++){

@@ -40,6 +40,29 @@ func NewCart() *Cart {
 	return &Cart{}
 }
 
+// LoadCart 获取购物车
+func LoadCart(id uint32) (*Cart, error) {
+	c := &Cart{}
+	query := `SELECT c.* FROM tp_cart c WHERE id = ? LIMIT 1`
+	err := DataSource.Session.QueryRow(query, id).Scan(c.Fields()...)
+	if err != nil {
+		err = fmt.Errorf("[LoadCart] %v", err)
+	}
+	return c, err
+}
+
+// LoadSpecCart 获取带规格的购物车
+func LoadSpecCart(goodsID uint32, specKey string) (*Cart, error) {
+	c := &Cart{}
+	query := `SELECT c.* FROM tp_cart c WHERE goods_id = ? AND spec_key = ? LIMIT 1`
+	err := DataSource.Session.QueryRow(query, goodsID, specKey).Scan(c.Fields()...)
+	if err != nil && err != sql.ErrNoRows {
+		return nil, fmt.Errorf("[LoadSpecCart] %v", err)
+	}
+
+	return c, nil
+}
+
 // LoadUserCarts 加载用户购物车
 func LoadUserCarts(userID uint32) (Carts, error) {
 	var cs Carts
@@ -79,7 +102,6 @@ func LoadSelectedCarts(userID uint32) (*Carts, error) {
 		LEFT JOIN tp_goods g ON c.goods_id = g.goods_id
 		WHERE selected = 1 AND user_id = ?
 	`
-
 	f := func(rs *sql.Rows) error {
 		for rs.Next() {
 			c := new(Cart)
@@ -111,6 +133,31 @@ func (c *Carts) Remove(tx *sql.Tx) error {
 	log.Printf("%s", ids)
 	_, err := tx.Exec(delete)
 	return err
+}
+
+// RemoveNoTx 删除购物车
+func (c *Carts) RemoveNoTx() error {
+	var ids string
+	for i, v := range *c {
+		ids = ids + strconv.FormatUint(uint64(v.ID), 10)
+		if i < len(*c)-1 {
+			ids = ids + ","
+		}
+	}
+	delete := "DELETE FROM tp_cart WHERE id IN (" + ids + ")"
+	log.Printf("%s", ids)
+	_, err := DataSource.Session.Exec(delete)
+	return err
+}
+
+// Modify 删除购物车
+func (c *Carts) Modify() error {
+	for _, v := range *c {
+		if err := v.Modify(v.GoodsNum, v.Selected); err != nil {
+			return fmt.Errorf("[Carts.Modify] [%d] %v", v.ID, err)
+		}
+	}
+	return nil
 }
 
 // Add 添加商品到购物车
@@ -145,9 +192,10 @@ func (c *Cart) Modify(num uint16, selected bool) error {
 	update := `UPDATE tp_cart SET goods_num = ?, selected = ? WHERE id = ?`
 	_, err := DataSource.Update(update, num, selected, c.ID)
 	if err != nil {
-		err = fmt.Errorf("[Cart.Modify] %v", err)
+		return fmt.Errorf("[Cart.Modify] %v", err)
 	}
-	return err
+	c.GoodsNum, c.Selected = num, selected
+	return nil
 }
 
 // Remove 删除购物车

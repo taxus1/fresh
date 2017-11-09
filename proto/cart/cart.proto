@@ -2,13 +2,13 @@ syntax = "proto3";
 
 package cart;
 
-// CartListResult 购物车结果参数
-message CartListResult {
+// ListResult 购物车结果参数
+message ListResult {
   repeated Cart carts = 1;
 }
 
 message Cart {
-  uint32 iD = 1;                  // 购物车表 int(8)
+  uint32 ID = 1;                  // 购物车表 int(8)
   uint32 goodsID = 2;             // 商品id mediumint(8)
   string goodsSN = 3;             // 商品货号 varchar(60)
   string goodsName = 4;           // 商品名称 varchar(120)
@@ -18,4 +18,14 @@ message Cart {
   string specKeyName = 8;         // 商品规格组合名称 varchar(64)
   bool selected = 9;              // 购物车选中状态 tinyint(1)
   uint32 addTime = 10;              // 加入购物车的时间 int(11)
+}
+
+message ModifyParam {
+  uint32 ID = 1;
+  uint32 goodsNum = 2;            // 购买数量 smallint(5)
+  bool selected = 3;
+}
+
+message ModifyAllParam {
+  repeated ModifyParam carts = 1;
 }
