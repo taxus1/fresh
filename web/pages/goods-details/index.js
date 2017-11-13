@@ -52,7 +52,7 @@ Page({
       success: function(res) {
         self.setData({
           shopCarInfo:res.data,
-          shopNum:res.data.shopNum,
+          shopNum:res.data.length,
         });
       }
     })

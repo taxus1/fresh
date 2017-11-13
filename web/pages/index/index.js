@@ -6,6 +6,7 @@ var pgoods = require('../../proto/goods.js').goods
 var pad = require('../../proto/ad.js').ad
 var pcategory = require('../../proto/category.js').category
 var util = require('../../utils/util.js')
+var pcart = require('../../proto/cart.js').cart
 
 Page({
   data: {
@@ -72,7 +73,7 @@ Page({
   },
 
   onLoad: function () {
-    var that = this
+    var self = this
     wx.setNavigationBarTitle({
       title: wx.getStorageSync('mallName')
     })
@@ -85,6 +86,15 @@ Page({
       })
     })
     */
+    self.loadBanner();
+    self.loadCategory();
+    self.loadCarts();
+    self.getCoupons ();
+    self.getNotice ();
+  },
+
+  loadBanner: function(){
+    var self = this;
     wx.request({
       url: app.globalData.domain + '/home/banner',
       success: function(res) {
@@ -96,12 +106,16 @@ Page({
             showCancel: false
           })
         } else {
-          that.setData({
+          self.setData({
             banners: result.ads
           });
         }
       }
     })
+  },
+
+  loadCategory: function(){
+    var self = this;
     wx.request({
       url: app.globalData.domain +'/home/category',
       success: function(res) {
@@ -112,22 +126,33 @@ Page({
             categories.push(result.categories[i]);
           }
         }
-        that.setData({
+        self.setData({
           categories:categories,
           activeCategoryId:0
         });
-        that.getGoodsList(0);
+        self.getGoodsList(0);
       }
     })
-    that.getCoupons ();
-    that.getNotice ();
+  },
+
+  loadCarts: function(){
+    wx.request({
+      url: app.globalData.domain + '/cart/list',
+      header: {token: "00a1c0366b96e5c3bfff8bd1d85fa557"},
+      success: function(res){
+        var result = util.convResult(res.data, pcart.ListResult);
+        wx.setStorage({
+          key:"shopCarInfo",
+          data:result.carts
+        })
+      }
+    });
   },
 
   getGoodsList: function (categoryId) {
     if (categoryId == 0) {
       categoryId = "";
     }
-    console.log(categoryId)
     var that = this;
     wx.request({
       url: app.globalData.domain + '/goods/recommend',

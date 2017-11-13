@@ -179,6 +179,7 @@ Page({
         data:shopCarInfo
       })
    },
+
    bindAllSelect:function(){
     var self = this;
     var currentAllSelect = this.data.goodsList.allSelect;
@@ -257,6 +258,7 @@ Page({
      }
      this.setGoodsList(!this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
    },
+
    saveTap:function(){
      var list = this.data.goodsList.list;
      for(var i = 0 ; i < list.length ; i++){
@@ -265,6 +267,7 @@ Page({
      }
      this.setGoodsList(!this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
    },
+
    getSaveHide:function(){
      var saveHidden = this.data.goodsList.saveHidden;
      return saveHidden;
@@ -306,10 +309,10 @@ Page({
       // 重新计算价格，判断库存
       var shopList = [];
       var shopCarInfoMem = wx.getStorageSync('shopCarInfo');
-      if (shopCarInfoMem && shopCarInfoMem.shopList) {
+      if (shopCarInfoMem && shopCarInfoMem) {
         // shopList = shopCarInfoMem.shopList
-        shopList = shopCarInfoMem.shopList.filter(entity => {
-          return entity.active;
+        shopList = shopCarInfoMem.filter(entity => {
+          return entity.selected;
         });
       }
       if (shopList.length == 0) {
