@@ -8,13 +8,13 @@ message NewGoodsResult {
 }
 
 message Goods{
-  uint32 iD = 1;   //商品id
-	uint32 catID = 2;    //分类id
-	uint32 extendCatID = 3;    //扩展分类id
+  uint32 ID = 1;   //商品ID
+	uint32 catID = 2;    //分类ID
+	uint32 extendCatID = 3;    //扩展分类ID
 	string goodsSN = 4;   //商品编号
 	string goodsName = 5;   //商品名称
 	uint32 clickCount = 6;    //点击数
-	uint32 brandID = 7;    //品牌id
+	uint32 brandID = 7;    //品牌ID
 	uint32 storeCount = 8;    //库存数量
 	uint32 commentCount = 9;    //商品评论数
 	uint32 weight = 10;    //商品重量克为单位
@@ -37,8 +37,8 @@ message RecommendResult {
 }
 
 message Recommend {
-  uint32 iD = 1;  //商品id
-	uint32 catID = 2;   //分类id
+  uint32 ID = 1;  //商品ID
+	uint32 catID = 2;   //分类ID
 	string goodsName = 3;  //商品名称
   float shopPrice = 4;  // 本店价格
 }
@@ -60,15 +60,15 @@ message Spec {
 
 // 规格条目
 message SpecItem {
-  uint32 itemID = 1; //id
+  uint32 itemID = 1; //ID
   string item = 2; // 名称
   string src = 3; // 规格图片
 }
 
 // 不同规格对应的价格
 message SpecPrice {
-  uint32 iD = 1;  //规格商品id
-	uint32 goodsID = 2;  //商品id
+  uint32 ID = 1;  //规格商品ID
+	uint32 goodsID = 2;  //商品ID
 	string key = 3;  //规格键名
 	string keyName = 4;  //规格键名中文
 	float price = 5; //价格
@@ -80,14 +80,14 @@ message SpecPrice {
 
 // 评论
 message Comment {
-  uint32 iD = 1; // 评论id
-	uint32 goodsID = 2; // 商品id
+  uint32 ID = 1; // 评论ID
+	uint32 goodsID = 2; // 商品ID
 	string email = 3; // email邮箱
 	string username = 4; // 用户名
 	string content = 5; // 评论内容
 	uint32 addTime = 6; // 添加时间
 	bool isShow = 7;   // 是否显示
-	uint32 parentID = 8; // 父id
+	uint32 parentID = 8; // 父ID
 	uint32 userID = 9; // 评论用户
 	string img = 10; // 晒单图片
 	uint32 deliverRank = 11;  // 物流评价等级

@@ -172,35 +172,44 @@ Page({
           list:list
         }
       });
-      var shopCarInfo = {};
       var tempNumber = 0;
-      shopCarInfo.shopList = list;
-      for(var i = 0;i<list.length;i++){
-        tempNumber = tempNumber + list[i].number
-      }
-      shopCarInfo.shopNum = tempNumber;
+      var shopCarInfo = list;
       wx.setStorage({
         key:"shopCarInfo",
         data:shopCarInfo
       })
    },
    bindAllSelect:function(){
-      var currentAllSelect = this.data.goodsList.allSelect;
-      var list = this.data.goodsList.list;
-      if(currentAllSelect){
-        for(var i = 0 ; i < list.length ; i++){
-            var curItem = list[i];
-            curItem.selected
-             = false;
+    var self = this;
+    var currentAllSelect = this.data.goodsList.allSelect;
+    var list = this.data.goodsList.list;
+    var modify = [];
+    for(var i = 0 ; i < list.length ; i++){
+      var item = list[i];
+      item.selected = !currentAllSelect;
+      modify[i] = pcart.ModifyParam.create({ID: item.ID, goodsNum: item.goodsNum, selected: item.selected});
+    }
+    var params = pcart.ModifyAllParam.create({carts: modify});
+    var buf = pcart.ModifyAllParam.encode(params).finish();
+    wx.request({
+      url: app.globalData.domain + '/cart/modify/all',
+      method: "PATCH",
+      header: {token: "00a1c0366b96e5c3bfff8bd1d85fa557"},
+      data: wx.arrayBufferToBase64(buf),
+      success: function(res){
+        var result = util.convResult(res.data, pcart.ListResult);
+        for (var i = 0; i < list.length; i++) {
+          for (var j = 0; j < result.carts.length; j++) {
+            if (list[i].ID === result.carts[j].ID) {
+              list[i].goodsNum = result.carts[j].goodsNum;
+              list[i].selected = result.carts[j].selected;
+              break;
+            }
+          }
         }
-      }else{
-        for(var i = 0 ; i < list.length ; i++){
-            var curItem = list[i];
-            curItem.selected = true;
-        }
+        self.setGoodsList(self.getSaveHide(), self.totalPrice(), self.allSelect(), self.noSelect(), list);
       }
-
-      this.setGoodsList(this.getSaveHide(),this.totalPrice(),!currentAllSelect,this.noSelect(),list);
+    });
    },
 
    jiaBtnTap:function(e){
@@ -228,16 +237,16 @@ Page({
          selected: cart.selected
        });
     var buf = pcart.ModifyParam.encode(params).finish();
-     wx.request({
-       url: app.globalData.domain + '/cart/' + cart.iD + '/modify',
-       method: "PATCH",
-       data: wx.arrayBufferToBase64(buf),
-       header: {token: "00a1c0366b96e5c3bfff8bd1d85fa557"},
-       success: function(res){
-         cart = util.convResult(res.data, pcart.Cart);
-         self.setGoodsList(self.getSaveHide(),self.totalPrice(),self.allSelect(),self.noSelect(),list);
-       }
-     });
+    wx.request({
+     url: app.globalData.domain + '/cart/' + cart.ID + '/modify',
+     method: "PATCH",
+     data: wx.arrayBufferToBase64(buf),
+     header: {token: "00a1c0366b96e5c3bfff8bd1d85fa557"},
+     success: function(res){
+       cart = util.convResult(res.data, pcart.Cart);
+       self.setGoodsList(self.getSaveHide(),self.totalPrice(),self.allSelect(),self.noSelect(),list);
+     }
+    });
    },
 
    editTap:function(){
@@ -260,22 +269,33 @@ Page({
      var saveHidden = this.data.goodsList.saveHidden;
      return saveHidden;
    },
+
    deleteSelected:function(){
+      var self = this;
       var list = this.data.goodsList.list;
-     /*
-      for(let i = 0 ; i < list.length ; i++){
-            let curItem = list[i];
-            if(curItem.active){
-              list.splice(i,1);
-            }
+      var removed = [];
+      var i = 0;
+      list = list.filter(function(curGoods) {
+        if (curGoods.selected) {
+          removed[i] = pcart.ModifyParam.create({ID: curGoods.ID});
+          i++;
+        }
+        return !curGoods.selected;
+      });
+      var params = pcart.ModifyAllParam.create({carts: removed});
+      var buf = pcart.ModifyAllParam.encode(params).finish();
+      wx.request({
+      url: app.globalData.domain + '/cart/delete/selected',
+      method: "DELETE",
+      data: wx.arrayBufferToBase64(buf),
+      header: {token: "00a1c0366b96e5c3bfff8bd1d85fa557"},
+      success: function(res){
+        var result = util.convResult(res.data, pcart.ListResult);
+        self.setGoodsList(self.getSaveHide(),self.totalPrice(),self.allSelect(),self.noSelect(),result.carts || []);
       }
-      */
-     // above codes that remove elements in a for statement may change the length of list dynamically
-     list = list.filter(function(curGoods) {
-        return !curGoods.active;
-     });
-     this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
+      });
     },
+
     toPayOrder:function(){
       wx.showLoading();
       var that = this;

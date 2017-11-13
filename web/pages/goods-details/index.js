@@ -281,6 +281,7 @@ Page({
 
     wx.request({
       url: app.globalData.domain + '/cart/add?goodsID=' + self.data.goodsDetail.ID + '&num=' + shopCarInfo[shopCarInfo.length - 1].num + '&itemID=' + shopCarInfo[shopCarInfo.length - 1].id, // + self.data.id,
+      header: {token: "00a1c0366b96e5c3bfff8bd1d85fa557"},
       success: function(res) {
         self.setData({
           shopCarInfo:shopCarInfo,
@@ -320,8 +321,8 @@ Page({
 
     self.data.specPrices.forEach(function (sp, i){
       if (sp.key === selectedKey) {
-        itemID = sp.iD;
-        cart.push({id: sp.iD, num: self.data.buyNumber});
+        itemID = sp.ID;
+        cart.push({id: sp.ID, num: self.data.buyNumber});
         return;
       }
     });

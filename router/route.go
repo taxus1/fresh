@@ -33,4 +33,6 @@ func (r *Route) Init(app *iris.Application) {
 	cart.Get("/add", ctr.CartController.Add)
 	cart.Get("/list", ctr.CartController.List)
 	cart.Patch("/{id:int}/modify", ctr.CartController.Modify)
+	cart.Patch("/modify/all", ctr.CartController.ModifyAll)
+	cart.Delete("/delete/selected", ctr.CartController.RemoveSelected)
 }

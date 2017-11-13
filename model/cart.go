@@ -132,22 +132,20 @@ func (c *Carts) Remove(tx *sql.Tx) error {
 	delete := "DELETE FROM tp_cart WHERE id IN (" + ids + ")"
 	log.Printf("%s", ids)
 	_, err := tx.Exec(delete)
+	if err != nil {
+		err = fmt.Errorf("[Carts.Remove] %v", err)
+	}
 	return err
 }
 
 // RemoveNoTx 删除购物车
 func (c *Carts) RemoveNoTx() error {
-	var ids string
-	for i, v := range *c {
-		ids = ids + strconv.FormatUint(uint64(v.ID), 10)
-		if i < len(*c)-1 {
-			ids = ids + ","
+	return DataSource.TxExec(func(tx *sql.Tx) error {
+		if err := c.Remove(tx); err != nil {
+			return fmt.Errorf("[Carts.RemoveNoTx] %v", err)
 		}
-	}
-	delete := "DELETE FROM tp_cart WHERE id IN (" + ids + ")"
-	log.Printf("%s", ids)
-	_, err := DataSource.Session.Exec(delete)
-	return err
+		return nil
+	})
 }
 
 // Modify 删除购物车

@@ -231,7 +231,7 @@ $root.goods = (function() {
          * Properties of a Goods.
          * @memberof goods
          * @interface IGoods
-         * @property {number} [iD] Goods iD
+         * @property {number} [ID] Goods ID
          * @property {number} [catID] Goods catID
          * @property {number} [extendCatID] Goods extendCatID
          * @property {string} [goodsSN] Goods goodsSN
@@ -269,12 +269,12 @@ $root.goods = (function() {
         }
 
         /**
-         * Goods iD.
-         * @member {number}iD
+         * Goods ID.
+         * @member {number}ID
          * @memberof goods.Goods
          * @instance
          */
-        Goods.prototype.iD = 0;
+        Goods.prototype.ID = 0;
 
         /**
          * Goods catID.
@@ -460,8 +460,8 @@ $root.goods = (function() {
         Goods.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.iD != null && message.hasOwnProperty("iD"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.iD);
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.ID);
             if (message.catID != null && message.hasOwnProperty("catID"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.catID);
             if (message.extendCatID != null && message.hasOwnProperty("extendCatID"))
@@ -537,7 +537,7 @@ $root.goods = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.iD = reader.uint32();
+                    message.ID = reader.uint32();
                     break;
                 case 2:
                     message.catID = reader.uint32();
@@ -634,9 +634,9 @@ $root.goods = (function() {
         Goods.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.iD != null && message.hasOwnProperty("iD"))
-                if (!$util.isInteger(message.iD))
-                    return "iD: integer expected";
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                if (!$util.isInteger(message.ID))
+                    return "ID: integer expected";
             if (message.catID != null && message.hasOwnProperty("catID"))
                 if (!$util.isInteger(message.catID))
                     return "catID: integer expected";
@@ -712,8 +712,8 @@ $root.goods = (function() {
             if (object instanceof $root.goods.Goods)
                 return object;
             var message = new $root.goods.Goods();
-            if (object.iD != null)
-                message.iD = object.iD >>> 0;
+            if (object.ID != null)
+                message.ID = object.ID >>> 0;
             if (object.catID != null)
                 message.catID = object.catID >>> 0;
             if (object.extendCatID != null)
@@ -771,7 +771,7 @@ $root.goods = (function() {
                 options = {};
             var object = {};
             if (options.defaults) {
-                object.iD = 0;
+                object.ID = 0;
                 object.catID = 0;
                 object.extendCatID = 0;
                 object.goodsSN = "";
@@ -793,8 +793,8 @@ $root.goods = (function() {
                 object.isOnSale = false;
                 object.salesSum = 0;
             }
-            if (message.iD != null && message.hasOwnProperty("iD"))
-                object.iD = message.iD;
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                object.ID = message.ID;
             if (message.catID != null && message.hasOwnProperty("catID"))
                 object.catID = message.catID;
             if (message.extendCatID != null && message.hasOwnProperty("extendCatID"))
@@ -1065,7 +1065,7 @@ $root.goods = (function() {
          * Properties of a Recommend.
          * @memberof goods
          * @interface IRecommend
-         * @property {number} [iD] Recommend iD
+         * @property {number} [ID] Recommend ID
          * @property {number} [catID] Recommend catID
          * @property {string} [goodsName] Recommend goodsName
          * @property {number} [shopPrice] Recommend shopPrice
@@ -1086,12 +1086,12 @@ $root.goods = (function() {
         }
 
         /**
-         * Recommend iD.
-         * @member {number}iD
+         * Recommend ID.
+         * @member {number}ID
          * @memberof goods.Recommend
          * @instance
          */
-        Recommend.prototype.iD = 0;
+        Recommend.prototype.ID = 0;
 
         /**
          * Recommend catID.
@@ -1141,8 +1141,8 @@ $root.goods = (function() {
         Recommend.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.iD != null && message.hasOwnProperty("iD"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.iD);
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.ID);
             if (message.catID != null && message.hasOwnProperty("catID"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.catID);
             if (message.goodsName != null && message.hasOwnProperty("goodsName"))
@@ -1184,7 +1184,7 @@ $root.goods = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.iD = reader.uint32();
+                    message.ID = reader.uint32();
                     break;
                 case 2:
                     message.catID = reader.uint32();
@@ -1230,9 +1230,9 @@ $root.goods = (function() {
         Recommend.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.iD != null && message.hasOwnProperty("iD"))
-                if (!$util.isInteger(message.iD))
-                    return "iD: integer expected";
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                if (!$util.isInteger(message.ID))
+                    return "ID: integer expected";
             if (message.catID != null && message.hasOwnProperty("catID"))
                 if (!$util.isInteger(message.catID))
                     return "catID: integer expected";
@@ -1257,8 +1257,8 @@ $root.goods = (function() {
             if (object instanceof $root.goods.Recommend)
                 return object;
             var message = new $root.goods.Recommend();
-            if (object.iD != null)
-                message.iD = object.iD >>> 0;
+            if (object.ID != null)
+                message.ID = object.ID >>> 0;
             if (object.catID != null)
                 message.catID = object.catID >>> 0;
             if (object.goodsName != null)
@@ -1282,13 +1282,13 @@ $root.goods = (function() {
                 options = {};
             var object = {};
             if (options.defaults) {
-                object.iD = 0;
+                object.ID = 0;
                 object.catID = 0;
                 object.goodsName = "";
                 object.shopPrice = 0;
             }
-            if (message.iD != null && message.hasOwnProperty("iD"))
-                object.iD = message.iD;
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                object.ID = message.ID;
             if (message.catID != null && message.hasOwnProperty("catID"))
                 object.catID = message.catID;
             if (message.goodsName != null && message.hasOwnProperty("goodsName"))
@@ -2166,7 +2166,7 @@ $root.goods = (function() {
          * Properties of a SpecPrice.
          * @memberof goods
          * @interface ISpecPrice
-         * @property {number} [iD] SpecPrice iD
+         * @property {number} [ID] SpecPrice ID
          * @property {number} [goodsID] SpecPrice goodsID
          * @property {string} [key] SpecPrice key
          * @property {string} [keyName] SpecPrice keyName
@@ -2192,12 +2192,12 @@ $root.goods = (function() {
         }
 
         /**
-         * SpecPrice iD.
-         * @member {number}iD
+         * SpecPrice ID.
+         * @member {number}ID
          * @memberof goods.SpecPrice
          * @instance
          */
-        SpecPrice.prototype.iD = 0;
+        SpecPrice.prototype.ID = 0;
 
         /**
          * SpecPrice goodsID.
@@ -2287,8 +2287,8 @@ $root.goods = (function() {
         SpecPrice.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.iD != null && message.hasOwnProperty("iD"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.iD);
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.ID);
             if (message.goodsID != null && message.hasOwnProperty("goodsID"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.goodsID);
             if (message.key != null && message.hasOwnProperty("key"))
@@ -2340,7 +2340,7 @@ $root.goods = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.iD = reader.uint32();
+                    message.ID = reader.uint32();
                     break;
                 case 2:
                     message.goodsID = reader.uint32();
@@ -2401,9 +2401,9 @@ $root.goods = (function() {
         SpecPrice.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.iD != null && message.hasOwnProperty("iD"))
-                if (!$util.isInteger(message.iD))
-                    return "iD: integer expected";
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                if (!$util.isInteger(message.ID))
+                    return "ID: integer expected";
             if (message.goodsID != null && message.hasOwnProperty("goodsID"))
                 if (!$util.isInteger(message.goodsID))
                     return "goodsID: integer expected";
@@ -2443,8 +2443,8 @@ $root.goods = (function() {
             if (object instanceof $root.goods.SpecPrice)
                 return object;
             var message = new $root.goods.SpecPrice();
-            if (object.iD != null)
-                message.iD = object.iD >>> 0;
+            if (object.ID != null)
+                message.ID = object.ID >>> 0;
             if (object.goodsID != null)
                 message.goodsID = object.goodsID >>> 0;
             if (object.key != null)
@@ -2478,7 +2478,7 @@ $root.goods = (function() {
                 options = {};
             var object = {};
             if (options.defaults) {
-                object.iD = 0;
+                object.ID = 0;
                 object.goodsID = 0;
                 object.key = "";
                 object.keyName = "";
@@ -2488,8 +2488,8 @@ $root.goods = (function() {
                 object.sku = "";
                 object.specImg = "";
             }
-            if (message.iD != null && message.hasOwnProperty("iD"))
-                object.iD = message.iD;
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                object.ID = message.ID;
             if (message.goodsID != null && message.hasOwnProperty("goodsID"))
                 object.goodsID = message.goodsID;
             if (message.key != null && message.hasOwnProperty("key"))
@@ -2529,7 +2529,7 @@ $root.goods = (function() {
          * Properties of a Comment.
          * @memberof goods
          * @interface IComment
-         * @property {number} [iD] Comment iD
+         * @property {number} [ID] Comment ID
          * @property {number} [goodsID] Comment goodsID
          * @property {string} [email] Comment email
          * @property {string} [username] Comment username
@@ -2562,12 +2562,12 @@ $root.goods = (function() {
         }
 
         /**
-         * Comment iD.
-         * @member {number}iD
+         * Comment ID.
+         * @member {number}ID
          * @memberof goods.Comment
          * @instance
          */
-        Comment.prototype.iD = 0;
+        Comment.prototype.ID = 0;
 
         /**
          * Comment goodsID.
@@ -2713,8 +2713,8 @@ $root.goods = (function() {
         Comment.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.iD != null && message.hasOwnProperty("iD"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.iD);
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.ID);
             if (message.goodsID != null && message.hasOwnProperty("goodsID"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.goodsID);
             if (message.email != null && message.hasOwnProperty("email"))
@@ -2780,7 +2780,7 @@ $root.goods = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.iD = reader.uint32();
+                    message.ID = reader.uint32();
                     break;
                 case 2:
                     message.goodsID = reader.uint32();
@@ -2862,9 +2862,9 @@ $root.goods = (function() {
         Comment.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.iD != null && message.hasOwnProperty("iD"))
-                if (!$util.isInteger(message.iD))
-                    return "iD: integer expected";
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                if (!$util.isInteger(message.ID))
+                    return "ID: integer expected";
             if (message.goodsID != null && message.hasOwnProperty("goodsID"))
                 if (!$util.isInteger(message.goodsID))
                     return "goodsID: integer expected";
@@ -2925,8 +2925,8 @@ $root.goods = (function() {
             if (object instanceof $root.goods.Comment)
                 return object;
             var message = new $root.goods.Comment();
-            if (object.iD != null)
-                message.iD = object.iD >>> 0;
+            if (object.ID != null)
+                message.ID = object.ID >>> 0;
             if (object.goodsID != null)
                 message.goodsID = object.goodsID >>> 0;
             if (object.email != null)
@@ -2974,7 +2974,7 @@ $root.goods = (function() {
                 options = {};
             var object = {};
             if (options.defaults) {
-                object.iD = 0;
+                object.ID = 0;
                 object.goodsID = 0;
                 object.email = "";
                 object.username = "";
@@ -2991,8 +2991,8 @@ $root.goods = (function() {
                 object.isAnonymous = false;
                 object.headPic = "";
             }
-            if (message.iD != null && message.hasOwnProperty("iD"))
-                object.iD = message.iD;
+            if (message.ID != null && message.hasOwnProperty("ID"))
+                object.ID = message.ID;
             if (message.goodsID != null && message.hasOwnProperty("goodsID"))
                 object.goodsID = message.goodsID;
             if (message.email != null && message.hasOwnProperty("email"))
