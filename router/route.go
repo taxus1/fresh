@@ -19,6 +19,8 @@ func New() *Route {
 func (r *Route) Init(app *iris.Application) {
 	ctr.InitControllers()
 	// iris.Post("/", controller.WechatCtr.Validate, controller.WechatCtr.Message)
+	user := app.Party("/user")
+	user.Get("/address/default", ctr.UserController.DefatultAddress)
 
 	goods := app.Party("/goods")
 	goods.Get("/new", ctr.GoodsController.NewGoods)

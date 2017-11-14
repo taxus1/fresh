@@ -7,7 +7,8 @@ import (
 	// pad "fresh/proto/ad"
 	// pcategory "fresh/proto/category"
 	// pgoods "fresh/proto/goods"
-	pcart "fresh/proto/cart"
+	// pcart "fresh/proto/cart"
+	puser "fresh/proto/user"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/kataras/iris/httptest"
@@ -125,50 +126,63 @@ var app = newApp()
 // 	log.Printf("[%s] %v", "TestCartModify", data)
 // }
 
-func TestCartModifyAll(t *testing.T) {
+// func TestCartModifyAll(t *testing.T) {
+// 	e := httptest.New(t, app)
+//
+// 	param := &pcart.ModifyAllParam{}
+// 	carts := []*pcart.ModifyParam{}
+// 	carts = append(carts, &pcart.ModifyParam{ID: 81, GoodsNum: 7, Selected: false})
+// 	carts = append(carts, &pcart.ModifyParam{ID: 82, GoodsNum: 3, Selected: false})
+// 	param.Carts = carts
+// 	src, err := proto.Marshal(param)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+//
+// 	dst := make([]byte, base64.StdEncoding.EncodedLen(len(src)))
+// 	base64.StdEncoding.Encode(dst, src)
+// 	body := e.PATCH("/cart/modify/all").WithBytes(dst).WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
+// 	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
+// 	data := &pcart.ListResult{}
+// 	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
+// 		panic(err)
+// 	}
+// 	log.Printf("[%s] %v", "TestCartModifyAll", data)
+// }
+//
+// func TestCartRemoveSelected(t *testing.T) {
+// 	e := httptest.New(t, app)
+//
+// 	param := &pcart.ModifyAllParam{}
+// 	carts := []*pcart.ModifyParam{}
+// 	carts = append(carts, &pcart.ModifyParam{ID: 83, GoodsNum: 7, Selected: false})
+// 	carts = append(carts, &pcart.ModifyParam{ID: 84, GoodsNum: 3, Selected: false})
+// 	param.Carts = carts
+// 	src, err := proto.Marshal(param)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+//
+// 	dst := make([]byte, base64.StdEncoding.EncodedLen(len(src)))
+// 	base64.StdEncoding.Encode(dst, src)
+// 	body := e.DELETE("/cart/delete/selected").WithBytes(dst).WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
+// 	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
+// 	data := &pcart.ListResult{}
+// 	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
+// 		panic(err)
+// 	}
+// 	log.Printf("[%s] %v", "TestCartRemoveSelected", data)
+// }
+
+func TestLoadUserDefatultAddress(t *testing.T) {
 	e := httptest.New(t, app)
 
-	param := &pcart.ModifyAllParam{}
-	carts := []*pcart.ModifyParam{}
-	carts = append(carts, &pcart.ModifyParam{ID: 81, GoodsNum: 7, Selected: false})
-	carts = append(carts, &pcart.ModifyParam{ID: 82, GoodsNum: 3, Selected: false})
-	param.Carts = carts
-	src, err := proto.Marshal(param)
-	if err != nil {
-		panic(err)
-	}
-
-	dst := make([]byte, base64.StdEncoding.EncodedLen(len(src)))
-	base64.StdEncoding.Encode(dst, src)
-	body := e.PATCH("/cart/modify/all").WithBytes(dst).WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
+	body := e.GET("/user/address/default").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
 	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
-	data := &pcart.ListResult{}
+	data := &puser.DefaultAddress{}
 	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
 		panic(err)
 	}
-	log.Printf("[%s] %v", "TestCartModifyAll", data)
-}
+	log.Printf("[TestLoadUserDefatultAddress] %v", data)
 
-func TestCartRemoveSelected(t *testing.T) {
-	e := httptest.New(t, app)
-
-	param := &pcart.ModifyAllParam{}
-	carts := []*pcart.ModifyParam{}
-	carts = append(carts, &pcart.ModifyParam{ID: 83, GoodsNum: 7, Selected: false})
-	carts = append(carts, &pcart.ModifyParam{ID: 84, GoodsNum: 3, Selected: false})
-	param.Carts = carts
-	src, err := proto.Marshal(param)
-	if err != nil {
-		panic(err)
-	}
-
-	dst := make([]byte, base64.StdEncoding.EncodedLen(len(src)))
-	base64.StdEncoding.Encode(dst, src)
-	body := e.DELETE("/cart/delete/selected").WithBytes(dst).WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
-	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
-	data := &pcart.ListResult{}
-	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
-		panic(err)
-	}
-	log.Printf("[%s] %v", "TestCartRemoveSelected", data)
 }

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package user;
+
+// DefaultAddress 默认收货地址
+message DefaultAddress {
+  uint32 ID = 1;         // 表id mediumint(8)
+	string consignee = 2;  // 收货人 varchar(60)
+	uint32 country = 3;    // 国家 int(11)
+	uint32 province = 4;   // 省份 int(11)
+	uint32 city = 5;       // 城市 int(11)
+	uint32 district = 6;   // 地区 int(11)
+	uint32 twon = 7;       // 乡镇 int(11)
+	string address = 8;    // 地址 varchar(120)
+	string zipcode = 9;    // 邮政编码 varchar(60)
+	string mobile = 10;     // 手机 varchar(60)
+}

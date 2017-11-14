@@ -55,6 +55,17 @@ func LoadShippingAddress(id uint32) (*UserAddress, error) {
 	return ua, nil
 }
 
+// LoadDefaultAddress 获取用户默认收货地址
+func LoadDefaultAddress(userID uint32) (*UserAddress, error) {
+	query := "SELECT * FROM tp_user_address WHERE user_id = ? AND is_default = 1"
+	ua := &UserAddress{}
+	err := DataSource.Session.QueryRow(query, userID).Scan(ua.Values()...)
+	if err != nil {
+		return nil, fmt.Errorf("[LoadDefaultAddress] %v", err)
+	}
+	return ua, nil
+}
+
 func (u *UserAddress) Values() []interface{} {
 	return []interface{}{
 		&u.ID,
