@@ -8,7 +8,7 @@ import (
 	// pcategory "fresh/proto/category"
 	// pgoods "fresh/proto/goods"
 	// pcart "fresh/proto/cart"
-	puser "fresh/proto/user"
+	paddress "fresh/proto/address"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/kataras/iris/httptest"
@@ -179,10 +179,21 @@ func TestLoadUserDefatultAddress(t *testing.T) {
 
 	body := e.GET("/user/address/default").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
 	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
-	data := &puser.DefaultAddress{}
+	data := &paddress.Address{}
 	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
 		panic(err)
 	}
 	log.Printf("[TestLoadUserDefatultAddress] %v", data)
+}
 
+func TestLoadUserAllAddress(t *testing.T) {
+	e := httptest.New(t, app)
+
+	body := e.GET("/user/address/all").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
+	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
+	data := &paddress.AllAddress{}
+	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
+		panic(err)
+	}
+	log.Printf("[TestLoadUserAllAddress] %v", data)
 }

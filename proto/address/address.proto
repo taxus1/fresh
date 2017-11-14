@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package user;
+package address;
 
 // Address 默认收货地址
 message Address {
@@ -14,7 +14,7 @@ message Address {
 	string address = 8;    // 地址 varchar(120)
 	string zipcode = 9;    // 邮政编码 varchar(60)
 	string mobile = 10;     // 手机 varchar(60)
-  bool isDefault = 11; 
+  bool isDefault = 11;
 }
 
 message AllAddress {

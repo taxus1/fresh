@@ -2,20 +2,17 @@ package controllers
 
 import (
 	"fresh/model"
-	puser "fresh/proto/user"
+	paddress "fresh/proto/address"
 
 	"github.com/kataras/iris"
 )
 
-type userController struct {
+type addressController struct {
 	*controller
 }
 
-func (c *userController) Get() {
-}
-
 // AllAddress 用户所有地址
-func (c *userController) AllAddress(ctx iris.Context) {
+func (c *addressController) AllAddress(ctx iris.Context) {
 	u, err := model.LoadUserBy(ctx.GetHeader("token"))
 	if err != nil {
 		ctx.Text(err.Error())
@@ -31,7 +28,7 @@ func (c *userController) AllAddress(ctx iris.Context) {
 }
 
 // DefatultAddress 默认收货地址
-func (c *userController) DefatultAddress(ctx iris.Context) {
+func (c *addressController) DefatultAddress(ctx iris.Context) {
 	u, err := model.LoadUserBy(ctx.GetHeader("token"))
 	if err != nil {
 		ctx.Text(err.Error())
@@ -47,9 +44,14 @@ func (c *userController) DefatultAddress(ctx iris.Context) {
 	c.WriteProto(ctx, c.convAddress(a))
 }
 
-func (c *userController) convAddresses(as []*model.UserAddress) *puser.AllAddress {
-	plist := &puser.AllAddress{}
-	list := make([]*puser.Address, len(as))
+// Detail 地址详情
+func (c *addressController) Detail(ctx iris.Context) {
+
+}
+
+func (c *addressController) convAddresses(as []*model.UserAddress) *paddress.AllAddress {
+	plist := &paddress.AllAddress{}
+	list := make([]*paddress.Address, len(as))
 	for i, v := range as {
 		list[i] = c.convAddress(v)
 	}
@@ -57,8 +59,8 @@ func (c *userController) convAddresses(as []*model.UserAddress) *puser.AllAddres
 	return plist
 }
 
-func (c *userController) convAddress(a *model.UserAddress) *puser.Address {
-	return &puser.Address{
+func (c *addressController) convAddress(a *model.UserAddress) *paddress.Address {
+	return &paddress.Address{
 		ID:        a.ID,
 		Consignee: a.Consignee,
 		Country:   a.Country,

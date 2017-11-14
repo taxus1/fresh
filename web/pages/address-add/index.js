@@ -17,7 +17,7 @@ Page({
     wx.navigateBack({})
   },
   bindSave: function(e) {
-    var that = this;
+    var self = this;
     var linkMan = e.detail.value.linkMan;
     var address = e.detail.value.address;
     var mobile = e.detail.value.mobile;
@@ -79,7 +79,7 @@ Page({
       return
     }
     var apiAddoRuPDATE = "add";
-    var apiAddid = that.data.id;
+    var apiAddid = self.data.id;
     if (apiAddid) {
       apiAddoRuPDATE = "update";
     } else {
@@ -101,7 +101,7 @@ Page({
       },
       success: function(res) {
         if (res.data.code != 0) {
-          // 登录错误 
+          // 登录错误
           wx.hideLoading();
           wx.showModal({
             title: '失败',
@@ -143,7 +143,7 @@ Page({
         districts:pinkArray
       });
     }
-    
+
   },
   bindPickerProvinceChange:function(event){
     var selIterm = commonCityData.cityData[event.detail.value];
@@ -176,42 +176,26 @@ Page({
       })
     }
   },
+
   onLoad: function (e) {
-    var that = this;
+    var self = this;
     this.initCityData(1);
-    var id = e.id;
-    if (id) {
+    var addr = e.addr;
+    if (addr) {
       // 初始化原数据
-      wx.showLoading();
-      wx.request({
-        url: 'https://api.it120.cc/' + app.globalData.subDomain + '/user/shipping-address/detail',
-        data: {
-          token: app.globalData.token,
-          id: id
-        },
-        success: function (res) {
-          wx.hideLoading();
-          if (res.data.code == 0) {
-            that.setData({
-              id:id,
-              addressData: res.data.data,
-              selProvince: res.data.data.provinceStr,
-              selCity: res.data.data.cityStr,
-              selDistrict: res.data.data.areaStr
-              });
-            that.setDBSaveAddressId(res.data.data);
-            return;
-          } else {
-            wx.showModal({
-              title: '提示',
-              content: '无法获取快递地址数据',
-              showCancel: false
-            })
-          }
-        }
-      })
+      addr = JSON.parse(addr);
+      console.log(addr);
+      self.setData({
+        id: addr.ID,
+        addressData: addr,
+        selProvince: addr.province,
+        selCity: addr.city,
+        selDistrict: addr.district
+        });
+      self.setDBSaveAddressId(addr);
     }
   },
+
   setDBSaveAddressId: function(data) {
     var retSelIdx = 0;
     for (var i = 0; i < commonCityData.cityData.length; i++) {
@@ -231,10 +215,10 @@ Page({
     }
    },
   selectCity: function () {
-    
+
   },
   deleteAddress: function (e) {
-    var that = this;
+    var self = this;
     var id = e.currentTarget.dataset.id;
     wx.showModal({
       title: '提示',

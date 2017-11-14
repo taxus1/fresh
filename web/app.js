@@ -27,8 +27,8 @@ App({
         },
         success: function (res) {
           if (res.data.code != 0) {
-            that.globalData.token = null;
-            that.login();
+            that.globalData.token = "00a1c0366b96e5c3bfff8bd1d85fa557";
+            // that.login();
           }
         }
       })
@@ -117,7 +117,8 @@ App({
     userInfo:null,
     domain: "http://127.0.0.1:9001",
     version: "1.6.1",
-    shareProfile: '百款精品商品，总有一款适合您' // 首页转发的时候话术
+    shareProfile: '百款精品商品，总有一款适合您', // 首页转发的时候话术
+    token: "00a1c0366b96e5c3bfff8bd1d85fa557",
   }
   // 根据自己需要修改下单时候的模板消息内容设置，可增加关闭订单、收货时候模板消息提醒
 })

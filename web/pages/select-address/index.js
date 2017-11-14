@@ -1,6 +1,9 @@
 //index.js
 //获取应用实例
 var app = getApp()
+var util = require('../../utils/util.js')
+var paddress = require('../../proto/address.js').address
+
 Page({
   data: {
     addressList:[]
@@ -26,35 +29,35 @@ Page({
       url:"/pages/address-add/index"
     })
   },
-  
+
   editAddess: function (e) {
     wx.navigateTo({
-      url: "/pages/address-add/index?id=" + e.currentTarget.dataset.id
+      url: "/pages/address-add/index?addr=" + JSON.stringify(e.currentTarget.dataset.addr)
     })
   },
-  
-  onLoad: function () {
-    console.log('onLoad')
 
-   
+  onLoad: function () {
+    console.log("Load");
   },
+
   onShow : function () {
     this.initShippingAddress();
   },
+
   initShippingAddress: function () {
-    var that = this;
+    var self = this;
     wx.request({
-      url: 'https://api.it120.cc/'+ app.globalData.subDomain +'/user/shipping-address/list',
-      data: {
-        token:app.globalData.token
-      },
+      url: app.globalData.domain + '/address/all',
+      method: "GET",
+      header: {token: app.globalData.token},
       success: (res) =>{
-        if (res.data.code == 0) {
-          that.setData({
-            addressList:res.data.data
+        if (res.statusCode == 200) {
+          var result = util.convResult(res.data, paddress.AllAddress);
+          self.setData({
+            addressList: result.addresses
           });
         } else if (res.data.code == 700){
-          that.setData({
+          self.setData({
             addressList: null
           });
         }

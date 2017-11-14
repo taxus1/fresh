@@ -2,7 +2,7 @@
 //获取应用实例
 var app = getApp()
 var util = require('../../utils/util.js')
-var puser = require('../../proto/user.js').user
+var paddress = require('../../proto/address.js').address
 
 Page({
   data: {
@@ -48,12 +48,12 @@ Page({
   initShippingAddress: function () {
     var self = this;
     wx.request({
-      url: app.globalData.domain + '/user/address/default',
+      url: app.globalData.domain + '/address/default',
       method: "GET",
       header: {token: "00a1c0366b96e5c3bfff8bd1d85fa557"},
       success: (res) =>{
         if (res.statusCode == 200) {
-          var result = util.convResult(res.data, puser.DefaultAddress);
+          var result = util.convResult(res.data, paddress.Address);
           self.setData({
             curAddressData: result
           });
@@ -221,11 +221,13 @@ Page({
       url:"/pages/address-add/index"
     })
   },
+
   selectAddress: function () {
     wx.navigateTo({
       url:"/pages/select-address/index"
     })
   },
+
   getMyCoupons: function () {
     var self = this;
     wx.request({
