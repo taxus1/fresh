@@ -33,9 +33,9 @@ type OrderGoods struct {
 type OrderGoodses []*OrderGoods
 
 // NewOrderGoodses 订单商品
-func NewOrderGoodses(cs *Carts) *OrderGoodses {
-	goodses := make(OrderGoodses, len(*cs))
-	for i, v := range *cs {
+func NewOrderGoodses(cs Carts) *OrderGoodses {
+	goodses := make(OrderGoodses, len(cs))
+	for i, v := range cs {
 		goods := &OrderGoods{
 			GoodsID:          v.GoodsID,
 			GoodsName:        v.GoodsName,

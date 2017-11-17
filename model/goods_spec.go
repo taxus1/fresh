@@ -131,8 +131,8 @@ func (g *Goods) LoadSpec(ids []uint32) ([]*GoodsSpec, error) {
 				gs = &GoodsSpec{SpecName: DataSource.ConvString(name).String}
 				gs.SpecList = append(gs.SpecList, s)
 				gss = append(gss, gs)
+				i++
 			}
-			i++
 		}
 		return nil
 	}

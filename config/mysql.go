@@ -290,3 +290,35 @@ func (m *Mysql) ConvBool(bo sql.NullBool) sql.NullBool {
 	}
 	return bo
 }
+
+// SafeString 转换sql.NullString
+func (m *Mysql) SafeString(str sql.NullString) string {
+	if !str.Valid {
+		return ""
+	}
+	return str.String
+}
+
+// SafeInt64 转换sql.NullInt64
+func (m *Mysql) SafeInt64(i64 sql.NullInt64) int64 {
+	if !i64.Valid {
+		return 0
+	}
+	return i64.Int64
+}
+
+// SafeFloat64 转换sql.NullFloat64
+func (m *Mysql) SafeFloat64(f64 sql.NullFloat64) float64 {
+	if !f64.Valid {
+		return 0.0
+	}
+	return f64.Float64
+}
+
+// SafeBool 转换sql.NullBool
+func (m *Mysql) SafeBool(bo sql.NullBool) bool {
+	if !bo.Valid {
+		return false
+	}
+	return bo.Bool
+}

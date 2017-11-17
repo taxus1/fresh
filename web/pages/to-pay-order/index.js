@@ -3,6 +3,7 @@
 var app = getApp()
 var util = require('../../utils/util.js')
 var paddress = require('../../proto/address.js').address
+var porder = require('../../proto/order.js').order
 
 Page({
   data: {
@@ -158,17 +159,17 @@ Page({
       postData.calculate = "true";
     }
 
-
+    var params = porder.CreateParam.create({addressID: self.data.curAddressData.ID, remark: remark});
+    console.log(params);
+    var buf = porder.CreateParam.encode(params).finish();
     wx.request({
-      url: 'https://api.it120.cc/'+ app.globalData.subDomain +'/order/create',
-      method:'POST',
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
-      data: postData, // 设置请求的 参数
+      url: app.globalData.domain + '/order/create',
+      method: "POST",
+      header: {token: "00a1c0366b96e5c3bfff8bd1d85fa557"},
+      data: wx.arrayBufferToBase64(buf),
       success: (res) =>{
         wx.hideLoading();
-        if (res.data.code != 0) {
+        if (res.statusCode != 200) {
           wx.showModal({
             title: '错误',
             content: res.data.msg,
@@ -177,10 +178,7 @@ Page({
           return;
         }
 
-        if (e && "buyNow" != self.data.orderType) {
-          // 清空购物车数据
-          wx.removeStorageSync('shopCarInfo');
-        }
+        wx.removeStorageSync('shopCarInfo');
         if (!e) {
           self.setData({
             isNeedLogistics: res.data.data.isNeedLogistics,
@@ -192,22 +190,22 @@ Page({
           return;
         }
         // 配置模板消息推送
-        var postJsonString = {};
-        postJsonString.keyword1 = { value: res.data.data.dateAdd, color: '#173177' }
-        postJsonString.keyword2 = { value: res.data.data.amountReal + '元', color: '#173177' }
-        postJsonString.keyword3 = { value: res.data.data.orderNumber, color: '#173177' }
-        postJsonString.keyword4 = { value: '订单已关闭', color: '#173177' }
-        postJsonString.keyword5 = { value: '您可以重新下单，请在30分钟内完成支付', color:'#173177'}
-        app.sendTempleMsg(res.data.data.id, -1,
-          'uJQMNVoVnpjRm18Yc6HSchn_aIFfpBn1CZRntI685zY', e.detail.formId,
-          'pages/index/index', JSON.stringify(postJsonString));
-        postJsonString = {};
-        postJsonString.keyword1 = { value: '您的订单已发货，请注意查收', color: '#173177' }
-        postJsonString.keyword2 = { value: res.data.data.orderNumber, color: '#173177' }
-        postJsonString.keyword3 = { value: res.data.data.dateAdd, color: '#173177' }
-        app.sendTempleMsg(res.data.data.id, 2,
-          'GeZutJFGEWzavh69savy_KgtfGj4lHqlP7Zi1w8AOwo', e.detail.formId,
-          'pages/order-details/index?id=' + res.data.data.id, JSON.stringify(postJsonString));
+        // var postJsonString = {};
+        // postJsonString.keyword1 = { value: res.data.data.dateAdd, color: '#173177' }
+        // postJsonString.keyword2 = { value: res.data.data.amountReal + '元', color: '#173177' }
+        // postJsonString.keyword3 = { value: res.data.data.orderNumber, color: '#173177' }
+        // postJsonString.keyword4 = { value: '订单已关闭', color: '#173177' }
+        // postJsonString.keyword5 = { value: '您可以重新下单，请在30分钟内完成支付', color:'#173177'}
+        // app.sendTempleMsg(res.data.data.id, -1,
+        //   'uJQMNVoVnpjRm18Yc6HSchn_aIFfpBn1CZRntI685zY', e.detail.formId,
+        //   'pages/index/index', JSON.stringify(postJsonString));
+        // postJsonString = {};
+        // postJsonString.keyword1 = { value: '您的订单已发货，请注意查收', color: '#173177' }
+        // postJsonString.keyword2 = { value: res.data.data.orderNumber, color: '#173177' }
+        // postJsonString.keyword3 = { value: res.data.data.dateAdd, color: '#173177' }
+        // app.sendTempleMsg(res.data.data.id, 2,
+        //   'GeZutJFGEWzavh69savy_KgtfGj4lHqlP7Zi1w8AOwo', e.detail.formId,
+        //   'pages/order-details/index?id=' + res.data.data.id, JSON.stringify(postJsonString));
         // 下单成功，跳转到订单管理界面
         wx.redirectTo({
           url: "/pages/order-list/index"

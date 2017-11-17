@@ -9,9 +9,9 @@ type PriceCalculator struct {
 }
 
 // NewPriceCalculator 新建价格计算器
-func NewPriceCalculator(cs *Carts) *PriceCalculator {
+func NewPriceCalculator(cs Carts) *PriceCalculator {
 	pc := &PriceCalculator{}
-	for _, c := range *cs {
+	for _, c := range cs {
 		pc.goodsPrice = pc.goodsPrice + c.GoodsPrice*float32(c.GoodsNum)
 	}
 	pc.amount = pc.goodsPrice

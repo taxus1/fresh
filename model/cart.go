@@ -96,7 +96,7 @@ func CountUserCarts(userID uint32) (int32, error) {
 }
 
 // LoadSelectedCarts 获取购物车中选中的商品
-func LoadSelectedCarts(userID uint32) (*Carts, error) {
+func LoadSelectedCarts(userID uint32) (Carts, error) {
 	var cs Carts
 	query := ` SELECT c.*, g.cost_price FROM tp_cart c
 		LEFT JOIN tp_goods g ON c.goods_id = g.goods_id
@@ -114,10 +114,10 @@ func LoadSelectedCarts(userID uint32) (*Carts, error) {
 		return nil
 	}
 	err := DataSource.QueryMore(query, f, userID)
-	if err != nil && err != sql.ErrNoRows {
+	if err != nil {
 		err = fmt.Errorf("[LoadSelectedCarts] %v", err)
 	}
-	return &cs, err
+	return cs, err
 }
 
 // Remove 删除购物车

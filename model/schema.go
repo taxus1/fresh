@@ -47,6 +47,7 @@ var OrderCols = []string{
 	"total_amount",
 	"add_time",
 	"deleted",
+	"user_note",
 }
 
 // OrderActionCols 订单操作记录

@@ -82,8 +82,6 @@
     border-top: 1rpx solid #eee;
     border-bottom: 1rpx solid #eee;
     padding: 30rpx 0;
-    display: flex;
-    align-items: center;
 }
 .goods-info .img-box{
     width: 120rpx;
@@ -152,4 +150,61 @@
 .a-order .price-box .topay-btn{
     border:1px solid #e64340;
     color: #e64340;
+}
+
+.goods-info{
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content:space-between;
+    padding: 30rpx 0 30rpx 70rpx;
+    width: 720rpx;
+    box-sizing: border-box;
+}
+.goods-info .img-box{
+    width: 160rpx;
+    height:160rpx;
+    overflow: hidden;
+    margin-right: 20rpx;
+    background-color: #d8d8d8;
+    float: left;
+}
+.goods-info .text-box{
+    width: 410rpx;
+    position: relative;
+    float: left;
+}
+.goods-info .text-box .goods-title{
+    font-size: 28rpx;
+    color:#000;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 0 0 5rpx 0;
+    width: 400rpx;
+}
+.goods-info .text-box .goods-label{
+    font-size: 26rpx;
+    color:#999;
+    height: 38rpx;
+    line-height: 38rpx;
+    margin: 8rpx 0 25rpx 0;
+}
+.goods-info .text-box .goods-price{
+    font-size: 26rpx;
+    color:#e64340;
+}
+.goods-info .buy-num{
+    line-height: 48rpx;
+    right: 30rpx;
+    bottom: 0;
+    /*justify-content: space-between;*/
+    font-size: 26rpx;
+    text-align: center;
+    margin-right: 30rpx;
+    display: block;
+    float: left;
+}
+
+.goods-info .img-box .img{
+    width: 160rpx;
+    height:160rpx;
 }

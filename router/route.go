@@ -21,9 +21,9 @@ func (r *Route) Init(app *iris.Application) {
 	// iris.Post("/", controller.WechatCtr.Validate, controller.WechatCtr.Message)
 
 	address := app.Party("/address")
-	address.Get("/default", ctr.UserController.DefatultAddress)
-	address.Get("/all", ctr.UserController.AllAddress)
-	address.Get("/{id:int}", ctr.UserController.AllAddress)
+	address.Get("/default", ctr.AddressController.DefatultAddress)
+	address.Get("/all", ctr.AddressController.AllAddress)
+	address.Get("/{id:int}", ctr.AddressController.Detail)
 
 	goods := app.Party("/goods")
 	goods.Get("/new", ctr.GoodsController.NewGoods)
@@ -40,4 +40,8 @@ func (r *Route) Init(app *iris.Application) {
 	cart.Patch("/{id:int}/modify", ctr.CartController.Modify)
 	cart.Patch("/modify/all", ctr.CartController.ModifyAll)
 	cart.Delete("/delete/selected", ctr.CartController.RemoveSelected)
+
+	order := app.Party("/order")
+	order.Post("/create", ctr.OrderController.Create)
+	order.Get("/list", ctr.OrderController.List)
 }

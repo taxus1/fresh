@@ -63,6 +63,12 @@ var (
 
 	// CartController 购物车
 	CartController *cartController
+
+	// AddressController 收货地址
+	AddressController *addressController
+
+	// OrderController 订单
+	OrderController *orderController
 )
 
 // InitControllers 初始化
@@ -71,4 +77,5 @@ func InitControllers() {
 	UserController = &userController{}
 	GoodsController = &goodsController{}
 	CartController = &cartController{}
+	OrderController = &orderController{}
 }

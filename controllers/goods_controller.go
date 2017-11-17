@@ -35,6 +35,7 @@ func (c *goodsController) Recommend(ctx iris.Context) {
 		ctx.Text(err.Error())
 		return
 	}
+
 	pgs := make([]*pgoods.Recommend, len(gs))
 	for i, g := range gs {
 		pgs[i] = &pgoods.Recommend{

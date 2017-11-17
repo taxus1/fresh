@@ -70,7 +70,7 @@ func NewOrder() *Order {
 }
 
 // Create 创建订单
-func (o *Order) Create(cs *Carts, ua *UserAddress, s *Shipping, userID uint32) error {
+func (o *Order) Create(cs Carts, ua *UserAddress, note string, s *Shipping, userID uint32) error {
 	o.UserID = userID
 	o.Consignee = ua.Consignee
 	o.Country = ua.Country
@@ -84,6 +84,7 @@ func (o *Order) Create(cs *Carts, ua *UserAddress, s *Shipping, userID uint32) e
 	o.Email = ua.Email
 	o.ShippingCode = s.ShippingCode
 	o.ShippingName = s.ShippingName
+	o.UserNote = note
 
 	pc := NewPriceCalculator(cs)
 	o.GoodsPrice = pc.GetGoodsPrice()
@@ -92,7 +93,7 @@ func (o *Order) Create(cs *Carts, ua *UserAddress, s *Shipping, userID uint32) e
 	return o.saveRelative(cs)
 }
 
-func (o *Order) saveRelative(cs *Carts) error {
+func (o *Order) saveRelative(cs Carts) error {
 	return DataSource.TxExec(func(tx *sql.Tx) error {
 		if err := o.insert(tx); err != nil {
 			return err
@@ -121,6 +122,72 @@ func (o *Order) insert(tx *sql.Tx) error {
 	return nil
 }
 
+// OrderWithGoods 订单和对应的订单商品
+type OrderWithGoods struct {
+	Order        *Order
+	OrderGoodses []*OrderGoods
+}
+
+// LoadOrderList 获取用户所有订单
+func LoadOrderList(userID uint32) ([]*OrderWithGoods, error) {
+	var orderID, orderStatus, shippingStatus, payStatus, addTime, recID, goodsID, goodsNum sql.NullInt64
+	var orderGoodsPrice, goodsPrice, shippingPrice, orderAmount, totalAmount sql.NullFloat64
+	var orderSN, userNote, adminNote, goodsName, specKeyName sql.NullString
+	var err error
+	query := `
+	SELECT o.order_id, o.order_status, o.order_sn, o.shipping_status, o.pay_status, o.goods_price, o.shipping_price, o.order_amount,
+	o.total_amount, o.add_time, o.user_note, o.admin_note,rec_id,goods_id,goods_name,goods_num, og.goods_price,spec_key_name
+ 	FROM tp_order o LEFT JOIN tp_order_goods og ON o.order_id = og.order_id
+	WHERE  o.deleted = 0 AND o.user_id = ?
+	`
+	owgs, i, m := []*OrderWithGoods{}, 0, map[uint32]int{}
+	f := func(rs *sql.Rows) error {
+		for rs.Next() {
+			if err = rs.Scan(&orderID, &orderStatus, &orderSN, &shippingStatus, &payStatus, &orderGoodsPrice, &shippingPrice, &orderAmount, &totalAmount, &addTime, &userNote, &adminNote, &recID, &goodsID, &goodsName, &goodsNum, &goodsPrice, &specKeyName); err != nil {
+				return err
+			}
+			var owg *OrderWithGoods
+			og := &OrderGoods{
+				ID:          uint32(DataSource.SafeInt64(recID)),
+				OrderID:     uint32(DataSource.SafeInt64(orderID)),
+				GoodsID:     uint32(DataSource.SafeInt64(goodsID)),
+				GoodsName:   DataSource.SafeString(goodsName),
+				GoodsNum:    uint16(DataSource.SafeInt64(goodsNum)),
+				GoodsPrice:  float32(DataSource.SafeFloat64(goodsPrice)),
+				SpecKeyName: DataSource.SafeString(specKeyName),
+			}
+			if v, ok := m[og.OrderID]; ok {
+				owg = owgs[v]
+				owg.OrderGoodses = append(owg.OrderGoodses, og)
+			} else {
+				m[og.OrderID] = i
+				owg = &OrderWithGoods{
+					Order: &Order{
+						ID:            uint32(DataSource.SafeInt64(orderID)),
+						OrderState:    uint(DataSource.SafeInt64(orderStatus)),
+						OrderSN:       DataSource.SafeString(orderSN),
+						ShippingState: uint(DataSource.SafeInt64(shippingStatus)),
+						PayState:      uint(DataSource.SafeInt64(payStatus)),
+						GoodsPrice:    float32(DataSource.SafeFloat64(goodsPrice)),
+						ShippingPrice: float32(DataSource.SafeFloat64(shippingPrice)),
+						OrderAmount:   float32(DataSource.SafeFloat64(orderAmount)),
+						TotalAmount:   float32(DataSource.SafeFloat64(totalAmount)),
+						AddTime:       DataSource.SafeInt64(addTime),
+						UserNote:      DataSource.SafeString(userNote),
+						AdminNote:     DataSource.SafeString(adminNote),
+					},
+				}
+				owg.OrderGoodses = append(owg.OrderGoodses, og)
+				owgs = append(owgs, owg)
+				i++
+			}
+		}
+		return nil
+	}
+	err = DataSource.QueryMorePrepare(query, f, userID)
+	return owgs, err
+}
+
 func (o *Order) Values() []interface{} {
 	return []interface{}{
 		&o.OrderSN,
@@ -147,5 +214,6 @@ func (o *Order) Values() []interface{} {
 		&o.TotalAmount,
 		&o.AddTime,
 		&o.Deleted,
+		&o.UserNote,
 	}
 }

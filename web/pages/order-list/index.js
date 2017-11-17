@@ -1,8 +1,11 @@
 var wxpay = require('../../utils/pay.js')
+var util = require('../../utils/util.js')
+var porder = require('../../proto/order.js').order
+
 var app = getApp()
 Page({
   data:{
-    statusType: ["待付款", "待发货", "待收货", "待评价", "已完成"],
+    statusType: ["全部", "待付款", "待发货", "待收货", "待评价"],
     currentType:0,
     tabClass: ["", "", "", "", ""]
   },
@@ -53,11 +56,11 @@ Page({
   },
   onLoad:function(options){
     // 生命周期函数--监听页面加载
-   
+
   },
   onReady:function(){
     // 生命周期函数--监听页面初次渲染完成
- 
+
   },
   getOrderStatistics : function () {
     var that = this;
@@ -111,15 +114,18 @@ Page({
     postData.status = that.data.currentType;
     this.getOrderStatistics();
     wx.request({
-      url: 'https://api.it120.cc/' + app.globalData.subDomain + '/order/list',
-      data: postData,
+      url: app.globalData.domain + '/order/list',
+      method: "GET",
+      header: {token: "00a1c0366b96e5c3bfff8bd1d85fa557"},
       success: (res) => {
         wx.hideLoading();
-        if (res.data.code == 0) {
+        if (res.statusCode == 200) {
+          var result = util.convResult(res.data, porder.List);
+          console.log(result);
           that.setData({
-            orderList: res.data.data.orderList,
-            logisticsMap : res.data.data.logisticsMap,
-            goodsMap : res.data.data.goodsMap
+            orderList: result.orders,
+            // logisticsMap : res.data.data.logisticsMap,
+            // goodsMap : res.data.data.goodsMap
           });
         } else {
           this.setData({
@@ -130,22 +136,22 @@ Page({
         }
       }
     })
-    
+
   },
   onHide:function(){
     // 生命周期函数--监听页面隐藏
- 
+
   },
   onUnload:function(){
     // 生命周期函数--监听页面卸载
- 
+
   },
   onPullDownRefresh: function() {
     // 页面相关事件处理函数--监听用户下拉动作
-   
+
   },
   onReachBottom: function() {
     // 页面上拉触底事件的处理函数
-  
+
   }
 })
