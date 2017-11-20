@@ -152,13 +152,13 @@ func LoadOrderList(userID uint32) ([]*OrderWithGoods, error) {
 			}
 			var owg *OrderWithGoods
 			og := &OrderGoods{
-				ID:          uint32(DataSource.SafeInt64(recID)),
-				OrderID:     uint32(DataSource.SafeInt64(orderID)),
-				GoodsID:     uint32(DataSource.SafeInt64(goodsID)),
-				GoodsName:   DataSource.SafeString(goodsName),
-				GoodsNum:    uint16(DataSource.SafeInt64(goodsNum)),
-				GoodsPrice:  float32(DataSource.SafeFloat64(goodsPrice)),
-				SpecKeyName: DataSource.SafeString(specKeyName),
+				ID:          uint32(recID.Int64),
+				OrderID:     uint32(orderID.Int64),
+				GoodsID:     uint32(goodsID.Int64),
+				GoodsName:   goodsName.String,
+				GoodsNum:    uint16(goodsNum.Int64),
+				GoodsPrice:  float32(goodsPrice.Float64),
+				SpecKeyName: specKeyName.String,
 			}
 			if v, ok := m[og.OrderID]; ok {
 				owg = owgs[v]
@@ -167,18 +167,18 @@ func LoadOrderList(userID uint32) ([]*OrderWithGoods, error) {
 				m[og.OrderID] = i
 				owg = &OrderWithGoods{
 					Order: &Order{
-						ID:            uint32(DataSource.SafeInt64(orderID)),
-						OrderState:    uint(DataSource.SafeInt64(orderStatus)),
-						OrderSN:       DataSource.SafeString(orderSN),
-						ShippingState: uint(DataSource.SafeInt64(shippingStatus)),
-						PayState:      uint(DataSource.SafeInt64(payStatus)),
-						GoodsPrice:    float32(DataSource.SafeFloat64(goodsPrice)),
-						ShippingPrice: float32(DataSource.SafeFloat64(shippingPrice)),
-						OrderAmount:   float32(DataSource.SafeFloat64(orderAmount)),
-						TotalAmount:   float32(DataSource.SafeFloat64(totalAmount)),
-						AddTime:       DataSource.SafeInt64(addTime),
-						UserNote:      DataSource.SafeString(userNote),
-						AdminNote:     DataSource.SafeString(adminNote),
+						ID:            uint32(orderID.Int64),
+						OrderState:    uint(orderStatus.Int64),
+						OrderSN:       orderSN.String,
+						ShippingState: uint(shippingStatus.Int64),
+						PayState:      uint(payStatus.Int64),
+						GoodsPrice:    float32(goodsPrice.Float64),
+						ShippingPrice: float32(shippingPrice.Float64),
+						OrderAmount:   float32(orderAmount.Float64),
+						TotalAmount:   float32(totalAmount.Float64),
+						AddTime:       addTime.Int64,
+						UserNote:      userNote.String,
+						AdminNote:     adminNote.String,
 					},
 				}
 				owg.OrderGoodses = append(owg.OrderGoodses, og)
@@ -233,37 +233,36 @@ func LoadDetail(id uint32) (*Detail, error) {
 			if owg == nil {
 				owg = &Detail{
 					Order: &Order{
-						ID:            uint32(DataSource.SafeInt64(orderID)),
-						OrderState:    uint(DataSource.SafeInt64(orderStatus)),
-						OrderSN:       DataSource.SafeString(orderSN),
-						ShippingState: uint(DataSource.SafeInt64(shippingStatus)),
-						PayState:      uint(DataSource.SafeInt64(payStatus)),
-						GoodsPrice:    float32(DataSource.SafeFloat64(goodsPrice)),
-						ShippingPrice: float32(DataSource.SafeFloat64(shippingPrice)),
-						OrderAmount:   float32(DataSource.SafeFloat64(orderAmount)),
-						TotalAmount:   float32(DataSource.SafeFloat64(totalAmount)),
-						AddTime:       DataSource.SafeInt64(addTime),
-						UserNote:      DataSource.SafeString(userNote),
-						AdminNote:     DataSource.SafeString(adminNote),
-						ProvinceStr:   DataSource.SafeString(province),
+						ID:            uint32(orderID.Int64),
+						OrderState:    uint(orderStatus.Int64),
+						OrderSN:       orderSN.String,
+						ShippingState: uint(shippingStatus.Int64),
+						PayState:      uint(payStatus.Int64),
+						GoodsPrice:    float32(goodsPrice.Float64),
+						ShippingPrice: float32(shippingPrice.Float64),
+						OrderAmount:   float32(orderAmount.Float64),
+						TotalAmount:   float32(totalAmount.Float64),
+						AddTime:       addTime.Int64,
+						UserNote:      userNote.String,
+						AdminNote:     adminNote.String,
+						ProvinceStr:   province.String,
 					},
 				}
-				owg.Address.CityStr = DataSource.SafeString(city)
-				owg.Address.CityStr = DataSource.SafeString(city)
-				owg.Address.DistrictStr = DataSource.SafeString(district)
-				owg.Address.TwonStr = DataSource.SafeString(twon)
-				owg.Address.Consignee = DataSource.SafeString(consignee)
-				owg.Address.Mobile = DataSource.SafeString(mobile)
-				owg.Address.Address = DataSource.SafeString(address)
+				owg.Address.CityStr = city.String
+				owg.Address.DistrictStr = district.String
+				owg.Address.TwonStr = twon.String
+				owg.Address.Consignee = consignee.String
+				owg.Address.Mobile = mobile.String
+				owg.Address.Address = address.String
 			}
 			og := &OrderGoods{
-				ID:          uint32(DataSource.SafeInt64(recID)),
-				OrderID:     uint32(DataSource.SafeInt64(orderID)),
-				GoodsID:     uint32(DataSource.SafeInt64(goodsID)),
-				GoodsName:   DataSource.SafeString(goodsName),
-				GoodsNum:    uint16(DataSource.SafeInt64(goodsNum)),
-				GoodsPrice:  float32(DataSource.SafeFloat64(goodsPrice)),
-				SpecKeyName: DataSource.SafeString(specKeyName),
+				ID:          uint32(recID.Int64),
+				OrderID:     uint32(orderID.Int64),
+				GoodsID:     uint32(goodsID.Int64),
+				GoodsName:   goodsName.String,
+				GoodsNum:    uint16(goodsNum.Int64),
+				GoodsPrice:  float32(goodsPrice.Float64),
+				SpecKeyName: specKeyName.String,
 			}
 			owg.OrderGoodses = append(owg.OrderGoodses, og)
 		}
