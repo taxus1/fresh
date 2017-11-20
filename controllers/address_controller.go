@@ -61,16 +61,20 @@ func (c *addressController) convAddresses(as []*model.UserAddress) *paddress.All
 
 func (c *addressController) convAddress(a *model.UserAddress) *paddress.Address {
 	return &paddress.Address{
-		ID:        a.ID,
-		Consignee: a.Consignee,
-		Country:   a.Country,
-		Province:  a.Province,
-		City:      a.City,
-		District:  a.District,
-		Twon:      a.Twon,
-		Address:   a.Address,
-		Zipcode:   a.Zipcode,
-		Mobile:    a.Mobile,
-		IsDefault: a.IsDefault,
+		ID:          a.ID,
+		Consignee:   a.Consignee,
+		Country:     a.Country,
+		Province:    a.Province,
+		City:        a.City,
+		District:    a.District,
+		Twon:        a.Twon,
+		Address:     a.Address,
+		Zipcode:     a.Zipcode,
+		Mobile:      a.Mobile,
+		IsDefault:   a.IsDefault,
+		ProvinceStr: a.ProvinceStr.String,
+		CityStr:     a.CityStr.String,
+		DistrictStr: a.DistrictStr.String,
+		TwonStr:     a.TwonStr.String,
 	}
 }

@@ -1,6 +1,6 @@
 var app = getApp();
 var util = require('../../utils/util.js')
-var pgoods = require('../../proto/goods.js').goods
+var porder = require('../../proto/order.js').order
 Page({
     data:{
       orderId:0,
@@ -34,12 +34,12 @@ Page({
     },
 
     onShow : function () {
-      var that = this;
+      var self = this;
       wx.request({
-        url: app.globalData.domain + '/goods/detail/' + that.data.goodsId,
+        url: app.globalData.domain + '/order/detail/' + self.data.orderId,
         success: (res) => {
           wx.hideLoading();
-          if (res.data.code != 0) {
+          if (res.statusCode != 200) {
             wx.showModal({
               title: '错误',
               content: res.data.msg,
@@ -47,21 +47,29 @@ Page({
             })
             return;
           }
-          that.setData({
-            orderDetail: res.data.data
+          var result = util.convResult(res.data, porder.Detail);
+          console.log(result);
+          self.setData({
+            orderDetail: result
           });
         }
       })
-      var yunPrice = parseFloat(this.data.yunPrice);
-      var allprice = 0;
-      var goodsList = this.data.goodsList;
-      for (var i = 0; i < goodsList.length; i++) {
-        allprice += parseFloat(goodsList[0].price) * goodsList[0].number;
-      }
-      this.setData({
-        allGoodsPrice: allprice,
-        yunPrice: yunPrice
-      });
+      // var yunPrice = parseFloat(this.data.yunPrice);
+      // var allprice = 0;
+      // var goodsList = this.data.goodsList;
+      // for (var i = 0; i < goodsList.length; i++) {
+      //   allprice += parseFloat(goodsList[0].price) * goodsList[0].number;
+      // }
+      // this.setData({
+      //   allGoodsPrice: allprice,
+      //   yunPrice: yunPrice
+      // });
+    },
+
+    goodsDetail: function (e) {
+      wx.navigateTo({
+        url:"/pages/goods-details/index?id="+e.currentTarget.dataset.id
+      })
     },
 
     wuliuDetailsTap:function(e){
@@ -71,7 +79,7 @@ Page({
       })
     },
     confirmBtnTap:function(e){
-      var that = this;
+      var self = this;
       var orderId = e.currentTarget.dataset.id;
       wx.showModal({
           title: '确认您已收到商品？',
@@ -87,7 +95,7 @@ Page({
                 },
                 success: (res) => {
                   if (res.data.code == 0) {
-                    that.onShow();
+                    self.onShow();
                   }
                 }
               })
@@ -96,7 +104,7 @@ Page({
       })
     },
     submitReputation: function (e) {
-      var that = this;
+      var self = this;
       var postJsonString = {};
       postJsonString.token = app.globalData.token;
       postJsonString.orderId = this.data.orderId;
@@ -125,7 +133,7 @@ Page({
         success: (res) => {
           wx.hideLoading();
           if (res.data.code == 0) {
-            that.onShow();
+            self.onShow();
           }
         }
       })

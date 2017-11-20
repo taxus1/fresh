@@ -57,7 +57,7 @@ Page({
       }
     })
     wx.request({
-      url: app.globalData.domain + '/goods/detail/1', // + self.data.id,
+      url: app.globalData.domain + '/goods/detail/' + self.data.id,
       success: function(res) {
         var result = util.convResult(res.data, pgoods.DetailResult);
         var defaultSpecIds = [];

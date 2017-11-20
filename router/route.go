@@ -44,4 +44,5 @@ func (r *Route) Init(app *iris.Application) {
 	order := app.Party("/order")
 	order.Post("/create", ctr.OrderController.Create)
 	order.Get("/list", ctr.OrderController.List)
+	order.Get("/detail/{id:int}", ctr.OrderController.Detail)
 }

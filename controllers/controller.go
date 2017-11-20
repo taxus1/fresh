@@ -78,4 +78,5 @@ func InitControllers() {
 	GoodsController = &goodsController{}
 	CartController = &cartController{}
 	OrderController = &orderController{}
+	AddressController = &addressController{}
 }

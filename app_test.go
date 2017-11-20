@@ -1,19 +1,20 @@
 package main
 
+// pad "fresh/proto/ad"
+// pcategory "fresh/proto/category"
+// pgoods "fresh/proto/goods"
+// pcart "fresh/proto/cart"
 import (
 	"encoding/base64"
+	paddress "fresh/proto/address"
 	"log"
 	"testing"
-	// pad "fresh/proto/ad"
-	// pcategory "fresh/proto/category"
-	// pgoods "fresh/proto/goods"
-	// pcart "fresh/proto/cart"
-	// paddress "fresh/proto/address"
-	porder "fresh/proto/order"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/kataras/iris/httptest"
 )
+
+// porder "fresh/proto/order"
 
 var app = newApp()
 
@@ -187,17 +188,17 @@ var app = newApp()
 // 	log.Printf("[TestLoadUserDefatultAddress] %v", data)
 // }
 //
-// func TestLoadUserAllAddress(t *testing.T) {
-// 	e := httptest.New(t, app)
-//
-// 	body := e.GET("/user/address/all").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
-// 	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
-// 	data := &paddress.AllAddress{}
-// 	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
-// 		panic(err)
-// 	}
-// 	log.Printf("[TestLoadUserAllAddress] %v", data)
-// }
+func TestLoadUserAllAddress(t *testing.T) {
+	e := httptest.New(t, app)
+
+	body := e.GET("/address/all").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
+	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
+	data := &paddress.AllAddress{}
+	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
+		panic(err)
+	}
+	log.Printf("[TestLoadUserAllAddress] %v", data)
+}
 
 // func TestCreateOrder(t *testing.T) {
 // 	e := httptest.New(t, app)
@@ -219,16 +220,31 @@ var app = newApp()
 // 	log.Printf("[TestCreateOrder] %v", data)
 // }
 
-func TestLoadOrderList(t *testing.T) {
-	e := httptest.New(t, app)
+// func TestLoadOrderList(t *testing.T) {
+// 	e := httptest.New(t, app)
+//
+// 	body := e.GET("/order/list").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
+// 	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
+// 	data := &porder.List{}
+// 	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
+// 		panic(err)
+// 	}
+// 	for _, v := range data.GetOrders() {
+// 		log.Printf("[TestLoadOrderList] %v", v)
+// 	}
+// }
 
-	body := e.GET("/order/list").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
-	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
-	data := &porder.List{}
-	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
-		panic(err)
-	}
-	for _, v := range data.GetOrders() {
-		log.Printf("[TestLoadOrderList] %v", v)
-	}
-}
+// func TestLoadOrderDetail(t *testing.T) {
+// 	e := httptest.New(t, app)
+//
+// 	body := e.GET("/order/detail/85").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
+// 	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
+// 	data := &porder.Detail{}
+// 	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
+// 		panic(err)
+// 	}
+// 	log.Printf("[TestLoadOrderDetail] %v", data)
+// 	for _, v := range data.GetOrderWithGoods().GetGoodses() {
+// 		log.Printf("%v", v)
+// 	}
+// }

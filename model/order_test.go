@@ -28,15 +28,24 @@ import (
 // 	log.Printf("下订单成功, id=%d, pay_state = %d \n", o.ID, o.PayState)
 // }
 
-func TestLoadOrderList(t *testing.T) {
-	var userID uint32 = 1
-	owgs, err := LoadOrderList(userID)
-	checkErr(err)
-	for _, v := range owgs {
-		log.Printf("[TestLoadOrderList] %v", v.Order)
-		for _, v1 := range v.OrderGoodses {
-			log.Printf("%v", v1)
-		}
-	}
+// func TestLoadOrderList(t *testing.T) {
+// 	var userID uint32 = 1
+// 	owgs, err := LoadOrderList(userID)
+// 	checkErr(err)
+// 	for _, v := range owgs {
+// 		log.Printf("[TestLoadOrderList] %v", v.Order)
+// 		for _, v1 := range v.OrderGoodses {
+// 			log.Printf("%v", v1)
+// 		}
+// 	}
+// }
 
+func TestOrderDetail(t *testing.T) {
+	detail, err := LoadDetail(85)
+	checkErr(err)
+
+	log.Printf("[TestOrderDetail] %v", detail)
+	for _, v1 := range detail.OrderGoodses {
+		log.Printf("%v", v1)
+	}
 }

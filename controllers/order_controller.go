@@ -48,7 +48,6 @@ func (c *orderController) Create(ctx iris.Context) {
 	log.Println(o)
 	if err := o.Create(cs, ua, params.Remark, s, u.ID); err != nil {
 		ctx.Text(err.Error())
-		log.Println(err)
 		return
 	}
 
@@ -94,9 +93,9 @@ func (c *orderController) List(ctx iris.Context) {
 			},
 		}
 
-		pogs := make([]*porder.List_OrderWithGoods_OrderGoods, len(v.OrderGoodses))
+		pogs := make([]*porder.List_OrderWithGoods_Goods, len(v.OrderGoodses))
 		for j, v1 := range v.OrderGoodses {
-			pog := &porder.List_OrderWithGoods_OrderGoods{
+			pog := &porder.List_OrderWithGoods_Goods{
 				ID:          v1.ID,
 				OrderID:     v1.OrderID,
 				GoodsID:     v1.GoodsID,
@@ -109,10 +108,69 @@ func (c *orderController) List(ctx iris.Context) {
 			pogs[j] = pog
 		}
 
-		powg.OrderGoodses = pogs
+		powg.Goodses = pogs
 		powgs[i] = powg
 	}
 	presult.Orders = powgs
+
+	c.WriteProto(ctx, presult)
+}
+
+// Detail 详情
+func (c *orderController) Detail(ctx iris.Context) {
+	id, _ := ctx.Params().GetInt("id")
+	log.Println(id)
+	owg, err := model.LoadDetail(uint32(id))
+	if err != nil {
+		ctx.Text(err.Error())
+		return
+	}
+
+	log.Println(owg)
+
+	presult := &porder.Detail{
+		OrderWithGoods: &porder.List_OrderWithGoods{
+			Order: &porder.List_OrderWithGoods_Order{
+				ID:            owg.Order.ID,
+				OrderState:    uint32(owg.Order.OrderState),
+				OrderSN:       owg.Order.OrderSN,
+				ShippingState: uint32(owg.Order.ShippingState),
+				PayState:      uint32(owg.Order.PayState),
+				GoodsPrice:    owg.Order.GoodsPrice,
+				ShippingPrice: owg.Order.ShippingPrice,
+				OrderAmount:   owg.Order.OrderAmount,
+				TotalAmount:   owg.Order.TotalAmount,
+				AddTime:       owg.Order.AddTime,
+				UserNote:      owg.Order.UserNote,
+				AdminNote:     owg.Order.AdminNote,
+			},
+		},
+		Address: &porder.Address{
+			ProvinceStr: owg.Address.ProvinceStr,
+			CityStr:     owg.Address.CityStr,
+			DistrictStr: owg.Address.DistrictStr,
+			TwonStr:     owg.Address.TwonStr,
+			Consignee:   owg.Address.Consignee,
+			Mobile:      owg.Address.Mobile,
+			Address:     owg.Address.Address,
+		},
+	}
+
+	pogs := make([]*porder.List_OrderWithGoods_Goods, len(owg.OrderGoodses))
+	for j, v1 := range owg.OrderGoodses {
+		pog := &porder.List_OrderWithGoods_Goods{
+			ID:          v1.ID,
+			OrderID:     v1.OrderID,
+			GoodsID:     v1.GoodsID,
+			GoodsName:   v1.GoodsName,
+			GoodsNum:    uint32(v1.GoodsNum),
+			GoodsPrice:  v1.GoodsPrice,
+			CostPrice:   v1.CostPrice,
+			SpecKeyName: v1.SpecKeyName,
+		}
+		pogs[j] = pog
+	}
+	presult.OrderWithGoods.Goodses = pogs
 
 	c.WriteProto(ctx, presult)
 }

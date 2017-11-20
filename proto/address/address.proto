@@ -15,6 +15,10 @@ message Address {
 	string zipcode = 9;    // 邮政编码 varchar(60)
 	string mobile = 10;     // 手机 varchar(60)
   bool isDefault = 11;
+  string provinceStr = 12;
+  string cityStr = 13;
+  string districtStr = 14;
+  string twonStr = 15;
 }
 
 message AllAddress {

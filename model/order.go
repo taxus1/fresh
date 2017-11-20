@@ -21,9 +21,13 @@ type Order struct {
 	Consignee       string  // 收货人 varchar(60)
 	Country         uint32  // 国家 int(11)
 	Province        uint32  // 省份 int(11)
+	ProvinceStr     string  // 省份
 	City            uint32  // 城市 int(11)
+	CityStr         string  // 城市
 	District        uint32  // 县区 int(11)
+	DistrictStr     string  // 县区
 	Twon            uint32  // 乡镇 int(11)
+	TwonStr         string  // 乡镇
 	Address         string  // 地址 varchar(255)
 	Zipcode         string  // 邮政编码 varchar(60)
 	Mobile          string  // 手机 varchar(60)
@@ -186,6 +190,87 @@ func LoadOrderList(userID uint32) ([]*OrderWithGoods, error) {
 	}
 	err = DataSource.QueryMorePrepare(query, f, userID)
 	return owgs, err
+}
+
+// Detail 详情结构体
+type Detail struct {
+	Order        *Order
+	OrderGoodses []*OrderGoods
+	Address      struct {
+		ProvinceStr string
+		CityStr     string
+		DistrictStr string
+		TwonStr     string
+		Consignee   string
+		Mobile      string
+		Address     string
+	}
+}
+
+// LoadDetail 订单详情
+func LoadDetail(id uint32) (*Detail, error) {
+	var orderID, orderStatus, shippingStatus, payStatus, addTime, recID, goodsID, goodsNum sql.NullInt64
+	var orderGoodsPrice, goodsPrice, shippingPrice, orderAmount, totalAmount sql.NullFloat64
+	var orderSN, userNote, adminNote, consignee, mobile, address, province, city, district, twon, goodsName, specKeyName sql.NullString
+	var err error
+	query := `
+	SELECT o.order_id, o.order_status, o.order_sn, o.shipping_status, o.pay_status, o.goods_price, o.shipping_price, o.order_amount,
+	o.total_amount, o.add_time, o.user_note, o.admin_note, o.consignee, o.mobile, o.address, r1.name AS province, r2.name AS city, r3.name AS district, r4.name AS twon,
+	 rec_id,goods_id,goods_name,goods_num, og.goods_price,spec_key_name
+ 	FROM tp_order o LEFT JOIN tp_order_goods og ON o.order_id = og.order_id
+	LEFT JOIN tp_region r1 ON o.province = r1.id
+	LEFT JOIN tp_region r2 ON o.city = r2.id
+	LEFT JOIN tp_region r3 ON o.district = r3.id
+	LEFT JOIN tp_region r4 ON o.twon = r4.id
+	WHERE  o.order_id = ?
+	`
+	var owg *Detail
+	f := func(rs *sql.Rows) error {
+		for rs.Next() {
+			if err = rs.Scan(&orderID, &orderStatus, &orderSN, &shippingStatus, &payStatus, &orderGoodsPrice, &shippingPrice, &orderAmount, &totalAmount, &addTime, &userNote, &adminNote, &consignee, &mobile, &address, &province, &city, &district, &twon, &recID, &goodsID, &goodsName, &goodsNum, &goodsPrice, &specKeyName); err != nil {
+				return err
+			}
+			if owg == nil {
+				owg = &Detail{
+					Order: &Order{
+						ID:            uint32(DataSource.SafeInt64(orderID)),
+						OrderState:    uint(DataSource.SafeInt64(orderStatus)),
+						OrderSN:       DataSource.SafeString(orderSN),
+						ShippingState: uint(DataSource.SafeInt64(shippingStatus)),
+						PayState:      uint(DataSource.SafeInt64(payStatus)),
+						GoodsPrice:    float32(DataSource.SafeFloat64(goodsPrice)),
+						ShippingPrice: float32(DataSource.SafeFloat64(shippingPrice)),
+						OrderAmount:   float32(DataSource.SafeFloat64(orderAmount)),
+						TotalAmount:   float32(DataSource.SafeFloat64(totalAmount)),
+						AddTime:       DataSource.SafeInt64(addTime),
+						UserNote:      DataSource.SafeString(userNote),
+						AdminNote:     DataSource.SafeString(adminNote),
+						ProvinceStr:   DataSource.SafeString(province),
+					},
+				}
+				owg.Address.CityStr = DataSource.SafeString(city)
+				owg.Address.CityStr = DataSource.SafeString(city)
+				owg.Address.DistrictStr = DataSource.SafeString(district)
+				owg.Address.TwonStr = DataSource.SafeString(twon)
+				owg.Address.Consignee = DataSource.SafeString(consignee)
+				owg.Address.Mobile = DataSource.SafeString(mobile)
+				owg.Address.Address = DataSource.SafeString(address)
+			}
+			og := &OrderGoods{
+				ID:          uint32(DataSource.SafeInt64(recID)),
+				OrderID:     uint32(DataSource.SafeInt64(orderID)),
+				GoodsID:     uint32(DataSource.SafeInt64(goodsID)),
+				GoodsName:   DataSource.SafeString(goodsName),
+				GoodsNum:    uint16(DataSource.SafeInt64(goodsNum)),
+				GoodsPrice:  float32(DataSource.SafeFloat64(goodsPrice)),
+				SpecKeyName: DataSource.SafeString(specKeyName),
+			}
+			owg.OrderGoodses = append(owg.OrderGoodses, og)
+		}
+		return nil
+	}
+	err = DataSource.QueryMorePrepare(query, f, id)
+	return owg, err
 }
 
 func (o *Order) Values() []interface{} {

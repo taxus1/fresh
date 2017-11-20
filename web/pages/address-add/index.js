@@ -188,9 +188,9 @@ Page({
       self.setData({
         id: addr.ID,
         addressData: addr,
-        selProvince: addr.province,
-        selCity: addr.city,
-        selDistrict: addr.district
+        selProvince: addr.provinceStr,
+        selCity: addr.cityStr,
+        selDistrict: addr.districtStr
         });
       self.setDBSaveAddressId(addr);
     }

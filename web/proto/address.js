@@ -35,6 +35,10 @@ $root.address = (function() {
          * @property {string} [zipcode] Address zipcode
          * @property {string} [mobile] Address mobile
          * @property {boolean} [isDefault] Address isDefault
+         * @property {string} [provinceStr] Address provinceStr
+         * @property {string} [cityStr] Address cityStr
+         * @property {string} [districtStr] Address districtStr
+         * @property {string} [twonStr] Address twonStr
          */
 
         /**
@@ -140,6 +144,38 @@ $root.address = (function() {
         Address.prototype.isDefault = false;
 
         /**
+         * Address provinceStr.
+         * @member {string}provinceStr
+         * @memberof address.Address
+         * @instance
+         */
+        Address.prototype.provinceStr = "";
+
+        /**
+         * Address cityStr.
+         * @member {string}cityStr
+         * @memberof address.Address
+         * @instance
+         */
+        Address.prototype.cityStr = "";
+
+        /**
+         * Address districtStr.
+         * @member {string}districtStr
+         * @memberof address.Address
+         * @instance
+         */
+        Address.prototype.districtStr = "";
+
+        /**
+         * Address twonStr.
+         * @member {string}twonStr
+         * @memberof address.Address
+         * @instance
+         */
+        Address.prototype.twonStr = "";
+
+        /**
          * Creates a new Address instance using the specified properties.
          * @function create
          * @memberof address.Address
@@ -185,6 +221,14 @@ $root.address = (function() {
                 writer.uint32(/* id 10, wireType 2 =*/82).string(message.mobile);
             if (message.isDefault != null && message.hasOwnProperty("isDefault"))
                 writer.uint32(/* id 11, wireType 0 =*/88).bool(message.isDefault);
+            if (message.provinceStr != null && message.hasOwnProperty("provinceStr"))
+                writer.uint32(/* id 12, wireType 2 =*/98).string(message.provinceStr);
+            if (message.cityStr != null && message.hasOwnProperty("cityStr"))
+                writer.uint32(/* id 13, wireType 2 =*/106).string(message.cityStr);
+            if (message.districtStr != null && message.hasOwnProperty("districtStr"))
+                writer.uint32(/* id 14, wireType 2 =*/114).string(message.districtStr);
+            if (message.twonStr != null && message.hasOwnProperty("twonStr"))
+                writer.uint32(/* id 15, wireType 2 =*/122).string(message.twonStr);
             return writer;
         };
 
@@ -251,6 +295,18 @@ $root.address = (function() {
                     break;
                 case 11:
                     message.isDefault = reader.bool();
+                    break;
+                case 12:
+                    message.provinceStr = reader.string();
+                    break;
+                case 13:
+                    message.cityStr = reader.string();
+                    break;
+                case 14:
+                    message.districtStr = reader.string();
+                    break;
+                case 15:
+                    message.twonStr = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -320,6 +376,18 @@ $root.address = (function() {
             if (message.isDefault != null && message.hasOwnProperty("isDefault"))
                 if (typeof message.isDefault !== "boolean")
                     return "isDefault: boolean expected";
+            if (message.provinceStr != null && message.hasOwnProperty("provinceStr"))
+                if (!$util.isString(message.provinceStr))
+                    return "provinceStr: string expected";
+            if (message.cityStr != null && message.hasOwnProperty("cityStr"))
+                if (!$util.isString(message.cityStr))
+                    return "cityStr: string expected";
+            if (message.districtStr != null && message.hasOwnProperty("districtStr"))
+                if (!$util.isString(message.districtStr))
+                    return "districtStr: string expected";
+            if (message.twonStr != null && message.hasOwnProperty("twonStr"))
+                if (!$util.isString(message.twonStr))
+                    return "twonStr: string expected";
             return null;
         };
 
@@ -357,6 +425,14 @@ $root.address = (function() {
                 message.mobile = String(object.mobile);
             if (object.isDefault != null)
                 message.isDefault = Boolean(object.isDefault);
+            if (object.provinceStr != null)
+                message.provinceStr = String(object.provinceStr);
+            if (object.cityStr != null)
+                message.cityStr = String(object.cityStr);
+            if (object.districtStr != null)
+                message.districtStr = String(object.districtStr);
+            if (object.twonStr != null)
+                message.twonStr = String(object.twonStr);
             return message;
         };
 
@@ -385,6 +461,10 @@ $root.address = (function() {
                 object.zipcode = "";
                 object.mobile = "";
                 object.isDefault = false;
+                object.provinceStr = "";
+                object.cityStr = "";
+                object.districtStr = "";
+                object.twonStr = "";
             }
             if (message.ID != null && message.hasOwnProperty("ID"))
                 object.ID = message.ID;
@@ -408,6 +488,14 @@ $root.address = (function() {
                 object.mobile = message.mobile;
             if (message.isDefault != null && message.hasOwnProperty("isDefault"))
                 object.isDefault = message.isDefault;
+            if (message.provinceStr != null && message.hasOwnProperty("provinceStr"))
+                object.provinceStr = message.provinceStr;
+            if (message.cityStr != null && message.hasOwnProperty("cityStr"))
+                object.cityStr = message.cityStr;
+            if (message.districtStr != null && message.hasOwnProperty("districtStr"))
+                object.districtStr = message.districtStr;
+            if (message.twonStr != null && message.hasOwnProperty("twonStr"))
+                object.twonStr = message.twonStr;
             return object;
         };
 

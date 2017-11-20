@@ -15,15 +15,15 @@
                 <view class="date-box">下单时间: {{item.order.addTime}}</view>
                 <view class="status {{(item.order.orderState==-1 || item.order.orderState==4) ? '':'red'}}">{{!item.order.orderState ? '0' : item.order.orderState}}</view>
             </view>
-            <view class="goods-info" bindtap="orderDetail" data-id="{{item.id}}">
+            <view class="goods-info" bindtap="orderDetail" data-id="{{item.order.ID}}">
                 <view class="goods-des">
                    <view>订单号: {{item.order.orderSN}} </view>
                    <view wx:if="{{item.order.userNote && item.order.userNote != ''}}">备注: {{item.order.userNote}}</view>
                 </view>
             </view>
 
-            <view class="a-gooods" wx:for="{{item.orderGoodses}}"  wx:key="{{index}}" wx:for-item="goods">
-              <view class="goods-info" bindtap="orderDetail">
+            <view class="a-gooods" wx:for="{{item.goodses}}"  wx:key="{{index}}" wx:for-item="goods">
+              <view class="goods-info" bindtap="goodsDetail" data-id="{{goods.ID}}">
                   <view class="img-box">
                       <image src="{{goods.goodsID}}" class="img"/>
                   </view>

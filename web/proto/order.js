@@ -669,7 +669,7 @@ $root.order = (function() {
              * @memberof order.List
              * @interface IOrderWithGoods
              * @property {order.List.OrderWithGoods.IOrder} [order] OrderWithGoods order
-             * @property {Array.<order.List.OrderWithGoods.IOrderGoods>} [orderGoodses] OrderWithGoods orderGoodses
+             * @property {Array.<order.List.OrderWithGoods.IGoods>} [goodses] OrderWithGoods goodses
              */
 
             /**
@@ -680,7 +680,7 @@ $root.order = (function() {
              * @param {order.List.IOrderWithGoods=} [properties] Properties to set
              */
             function OrderWithGoods(properties) {
-                this.orderGoodses = [];
+                this.goodses = [];
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null)
@@ -696,12 +696,12 @@ $root.order = (function() {
             OrderWithGoods.prototype.order = null;
 
             /**
-             * OrderWithGoods orderGoodses.
-             * @member {Array.<order.List.OrderWithGoods.IOrderGoods>}orderGoodses
+             * OrderWithGoods goodses.
+             * @member {Array.<order.List.OrderWithGoods.IGoods>}goodses
              * @memberof order.List.OrderWithGoods
              * @instance
              */
-            OrderWithGoods.prototype.orderGoodses = $util.emptyArray;
+            OrderWithGoods.prototype.goodses = $util.emptyArray;
 
             /**
              * Creates a new OrderWithGoods instance using the specified properties.
@@ -729,9 +729,9 @@ $root.order = (function() {
                     writer = $Writer.create();
                 if (message.order != null && message.hasOwnProperty("order"))
                     $root.order.List.OrderWithGoods.Order.encode(message.order, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                if (message.orderGoodses != null && message.orderGoodses.length)
-                    for (var i = 0; i < message.orderGoodses.length; ++i)
-                        $root.order.List.OrderWithGoods.OrderGoods.encode(message.orderGoodses[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                if (message.goodses != null && message.goodses.length)
+                    for (var i = 0; i < message.goodses.length; ++i)
+                        $root.order.List.OrderWithGoods.Goods.encode(message.goodses[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                 return writer;
             };
 
@@ -770,9 +770,9 @@ $root.order = (function() {
                         message.order = $root.order.List.OrderWithGoods.Order.decode(reader, reader.uint32());
                         break;
                     case 2:
-                        if (!(message.orderGoodses && message.orderGoodses.length))
-                            message.orderGoodses = [];
-                        message.orderGoodses.push($root.order.List.OrderWithGoods.OrderGoods.decode(reader, reader.uint32()));
+                        if (!(message.goodses && message.goodses.length))
+                            message.goodses = [];
+                        message.goodses.push($root.order.List.OrderWithGoods.Goods.decode(reader, reader.uint32()));
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -814,13 +814,13 @@ $root.order = (function() {
                     if (error)
                         return "order." + error;
                 }
-                if (message.orderGoodses != null && message.hasOwnProperty("orderGoodses")) {
-                    if (!Array.isArray(message.orderGoodses))
-                        return "orderGoodses: array expected";
-                    for (var i = 0; i < message.orderGoodses.length; ++i) {
-                        error = $root.order.List.OrderWithGoods.OrderGoods.verify(message.orderGoodses[i]);
+                if (message.goodses != null && message.hasOwnProperty("goodses")) {
+                    if (!Array.isArray(message.goodses))
+                        return "goodses: array expected";
+                    for (var i = 0; i < message.goodses.length; ++i) {
+                        error = $root.order.List.OrderWithGoods.Goods.verify(message.goodses[i]);
                         if (error)
-                            return "orderGoodses." + error;
+                            return "goodses." + error;
                     }
                 }
                 return null;
@@ -843,14 +843,14 @@ $root.order = (function() {
                         throw TypeError(".order.List.OrderWithGoods.order: object expected");
                     message.order = $root.order.List.OrderWithGoods.Order.fromObject(object.order);
                 }
-                if (object.orderGoodses) {
-                    if (!Array.isArray(object.orderGoodses))
-                        throw TypeError(".order.List.OrderWithGoods.orderGoodses: array expected");
-                    message.orderGoodses = [];
-                    for (var i = 0; i < object.orderGoodses.length; ++i) {
-                        if (typeof object.orderGoodses[i] !== "object")
-                            throw TypeError(".order.List.OrderWithGoods.orderGoodses: object expected");
-                        message.orderGoodses[i] = $root.order.List.OrderWithGoods.OrderGoods.fromObject(object.orderGoodses[i]);
+                if (object.goodses) {
+                    if (!Array.isArray(object.goodses))
+                        throw TypeError(".order.List.OrderWithGoods.goodses: array expected");
+                    message.goodses = [];
+                    for (var i = 0; i < object.goodses.length; ++i) {
+                        if (typeof object.goodses[i] !== "object")
+                            throw TypeError(".order.List.OrderWithGoods.goodses: object expected");
+                        message.goodses[i] = $root.order.List.OrderWithGoods.Goods.fromObject(object.goodses[i]);
                     }
                 }
                 return message;
@@ -870,15 +870,15 @@ $root.order = (function() {
                     options = {};
                 var object = {};
                 if (options.arrays || options.defaults)
-                    object.orderGoodses = [];
+                    object.goodses = [];
                 if (options.defaults)
                     object.order = null;
                 if (message.order != null && message.hasOwnProperty("order"))
                     object.order = $root.order.List.OrderWithGoods.Order.toObject(message.order, options);
-                if (message.orderGoodses && message.orderGoodses.length) {
-                    object.orderGoodses = [];
-                    for (var j = 0; j < message.orderGoodses.length; ++j)
-                        object.orderGoodses[j] = $root.order.List.OrderWithGoods.OrderGoods.toObject(message.orderGoodses[j], options);
+                if (message.goodses && message.goodses.length) {
+                    object.goodses = [];
+                    for (var j = 0; j < message.goodses.length; ++j)
+                        object.goodses[j] = $root.order.List.OrderWithGoods.Goods.toObject(message.goodses[j], options);
                 }
                 return object;
             };
@@ -1337,30 +1337,30 @@ $root.order = (function() {
                 return Order;
             })();
 
-            OrderWithGoods.OrderGoods = (function() {
+            OrderWithGoods.Goods = (function() {
 
                 /**
-                 * Properties of an OrderGoods.
+                 * Properties of a Goods.
                  * @memberof order.List.OrderWithGoods
-                 * @interface IOrderGoods
-                 * @property {number} [ID] OrderGoods ID
-                 * @property {number} [orderID] OrderGoods orderID
-                 * @property {number} [goodsID] OrderGoods goodsID
-                 * @property {string} [goodsName] OrderGoods goodsName
-                 * @property {number} [goodsNum] OrderGoods goodsNum
-                 * @property {number} [goodsPrice] OrderGoods goodsPrice
-                 * @property {number} [costPrice] OrderGoods costPrice
-                 * @property {string} [specKeyName] OrderGoods specKeyName
+                 * @interface IGoods
+                 * @property {number} [ID] Goods ID
+                 * @property {number} [orderID] Goods orderID
+                 * @property {number} [goodsID] Goods goodsID
+                 * @property {string} [goodsName] Goods goodsName
+                 * @property {number} [goodsNum] Goods goodsNum
+                 * @property {number} [goodsPrice] Goods goodsPrice
+                 * @property {number} [costPrice] Goods costPrice
+                 * @property {string} [specKeyName] Goods specKeyName
                  */
 
                 /**
-                 * Constructs a new OrderGoods.
+                 * Constructs a new Goods.
                  * @memberof order.List.OrderWithGoods
-                 * @classdesc Represents an OrderGoods.
+                 * @classdesc Represents a Goods.
                  * @constructor
-                 * @param {order.List.OrderWithGoods.IOrderGoods=} [properties] Properties to set
+                 * @param {order.List.OrderWithGoods.IGoods=} [properties] Properties to set
                  */
-                function OrderGoods(properties) {
+                function Goods(properties) {
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                             if (properties[keys[i]] != null)
@@ -1368,91 +1368,91 @@ $root.order = (function() {
                 }
 
                 /**
-                 * OrderGoods ID.
+                 * Goods ID.
                  * @member {number}ID
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
-                OrderGoods.prototype.ID = 0;
+                Goods.prototype.ID = 0;
 
                 /**
-                 * OrderGoods orderID.
+                 * Goods orderID.
                  * @member {number}orderID
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
-                OrderGoods.prototype.orderID = 0;
+                Goods.prototype.orderID = 0;
 
                 /**
-                 * OrderGoods goodsID.
+                 * Goods goodsID.
                  * @member {number}goodsID
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
-                OrderGoods.prototype.goodsID = 0;
+                Goods.prototype.goodsID = 0;
 
                 /**
-                 * OrderGoods goodsName.
+                 * Goods goodsName.
                  * @member {string}goodsName
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
-                OrderGoods.prototype.goodsName = "";
+                Goods.prototype.goodsName = "";
 
                 /**
-                 * OrderGoods goodsNum.
+                 * Goods goodsNum.
                  * @member {number}goodsNum
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
-                OrderGoods.prototype.goodsNum = 0;
+                Goods.prototype.goodsNum = 0;
 
                 /**
-                 * OrderGoods goodsPrice.
+                 * Goods goodsPrice.
                  * @member {number}goodsPrice
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
-                OrderGoods.prototype.goodsPrice = 0;
+                Goods.prototype.goodsPrice = 0;
 
                 /**
-                 * OrderGoods costPrice.
+                 * Goods costPrice.
                  * @member {number}costPrice
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
-                OrderGoods.prototype.costPrice = 0;
+                Goods.prototype.costPrice = 0;
 
                 /**
-                 * OrderGoods specKeyName.
+                 * Goods specKeyName.
                  * @member {string}specKeyName
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
-                OrderGoods.prototype.specKeyName = "";
+                Goods.prototype.specKeyName = "";
 
                 /**
-                 * Creates a new OrderGoods instance using the specified properties.
+                 * Creates a new Goods instance using the specified properties.
                  * @function create
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @static
-                 * @param {order.List.OrderWithGoods.IOrderGoods=} [properties] Properties to set
-                 * @returns {order.List.OrderWithGoods.OrderGoods} OrderGoods instance
+                 * @param {order.List.OrderWithGoods.IGoods=} [properties] Properties to set
+                 * @returns {order.List.OrderWithGoods.Goods} Goods instance
                  */
-                OrderGoods.create = function create(properties) {
-                    return new OrderGoods(properties);
+                Goods.create = function create(properties) {
+                    return new Goods(properties);
                 };
 
                 /**
-                 * Encodes the specified OrderGoods message. Does not implicitly {@link order.List.OrderWithGoods.OrderGoods.verify|verify} messages.
+                 * Encodes the specified Goods message. Does not implicitly {@link order.List.OrderWithGoods.Goods.verify|verify} messages.
                  * @function encode
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @static
-                 * @param {order.List.OrderWithGoods.IOrderGoods} message OrderGoods message or plain object to encode
+                 * @param {order.List.OrderWithGoods.IGoods} message Goods message or plain object to encode
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                OrderGoods.encode = function encode(message, writer) {
+                Goods.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
                     if (message.ID != null && message.hasOwnProperty("ID"))
@@ -1475,33 +1475,33 @@ $root.order = (function() {
                 };
 
                 /**
-                 * Encodes the specified OrderGoods message, length delimited. Does not implicitly {@link order.List.OrderWithGoods.OrderGoods.verify|verify} messages.
+                 * Encodes the specified Goods message, length delimited. Does not implicitly {@link order.List.OrderWithGoods.Goods.verify|verify} messages.
                  * @function encodeDelimited
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @static
-                 * @param {order.List.OrderWithGoods.IOrderGoods} message OrderGoods message or plain object to encode
+                 * @param {order.List.OrderWithGoods.IGoods} message Goods message or plain object to encode
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                OrderGoods.encodeDelimited = function encodeDelimited(message, writer) {
+                Goods.encodeDelimited = function encodeDelimited(message, writer) {
                     return this.encode(message, writer).ldelim();
                 };
 
                 /**
-                 * Decodes an OrderGoods message from the specified reader or buffer.
+                 * Decodes a Goods message from the specified reader or buffer.
                  * @function decode
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @static
                  * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
                  * @param {number} [length] Message length if known beforehand
-                 * @returns {order.List.OrderWithGoods.OrderGoods} OrderGoods
+                 * @returns {order.List.OrderWithGoods.Goods} Goods
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                OrderGoods.decode = function decode(reader, length) {
+                Goods.decode = function decode(reader, length) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.order.List.OrderWithGoods.OrderGoods();
+                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.order.List.OrderWithGoods.Goods();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
@@ -1538,30 +1538,30 @@ $root.order = (function() {
                 };
 
                 /**
-                 * Decodes an OrderGoods message from the specified reader or buffer, length delimited.
+                 * Decodes a Goods message from the specified reader or buffer, length delimited.
                  * @function decodeDelimited
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @static
                  * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {order.List.OrderWithGoods.OrderGoods} OrderGoods
+                 * @returns {order.List.OrderWithGoods.Goods} Goods
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                OrderGoods.decodeDelimited = function decodeDelimited(reader) {
+                Goods.decodeDelimited = function decodeDelimited(reader) {
                     if (!(reader instanceof $Reader))
                         reader = new $Reader(reader);
                     return this.decode(reader, reader.uint32());
                 };
 
                 /**
-                 * Verifies an OrderGoods message.
+                 * Verifies a Goods message.
                  * @function verify
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @static
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                OrderGoods.verify = function verify(message) {
+                Goods.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
                     if (message.ID != null && message.hasOwnProperty("ID"))
@@ -1592,17 +1592,17 @@ $root.order = (function() {
                 };
 
                 /**
-                 * Creates an OrderGoods message from a plain object. Also converts values to their respective internal types.
+                 * Creates a Goods message from a plain object. Also converts values to their respective internal types.
                  * @function fromObject
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @static
                  * @param {Object.<string,*>} object Plain object
-                 * @returns {order.List.OrderWithGoods.OrderGoods} OrderGoods
+                 * @returns {order.List.OrderWithGoods.Goods} Goods
                  */
-                OrderGoods.fromObject = function fromObject(object) {
-                    if (object instanceof $root.order.List.OrderWithGoods.OrderGoods)
+                Goods.fromObject = function fromObject(object) {
+                    if (object instanceof $root.order.List.OrderWithGoods.Goods)
                         return object;
-                    var message = new $root.order.List.OrderWithGoods.OrderGoods();
+                    var message = new $root.order.List.OrderWithGoods.Goods();
                     if (object.ID != null)
                         message.ID = object.ID >>> 0;
                     if (object.orderID != null)
@@ -1623,15 +1623,15 @@ $root.order = (function() {
                 };
 
                 /**
-                 * Creates a plain object from an OrderGoods message. Also converts values to other types if specified.
+                 * Creates a plain object from a Goods message. Also converts values to other types if specified.
                  * @function toObject
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @static
-                 * @param {order.List.OrderWithGoods.OrderGoods} message OrderGoods
+                 * @param {order.List.OrderWithGoods.Goods} message Goods
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                OrderGoods.toObject = function toObject(message, options) {
+                Goods.toObject = function toObject(message, options) {
                     if (!options)
                         options = {};
                     var object = {};
@@ -1665,23 +1665,561 @@ $root.order = (function() {
                 };
 
                 /**
-                 * Converts this OrderGoods to JSON.
+                 * Converts this Goods to JSON.
                  * @function toJSON
-                 * @memberof order.List.OrderWithGoods.OrderGoods
+                 * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  * @returns {Object.<string,*>} JSON object
                  */
-                OrderGoods.prototype.toJSON = function toJSON() {
+                Goods.prototype.toJSON = function toJSON() {
                     return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
                 };
 
-                return OrderGoods;
+                return Goods;
             })();
 
             return OrderWithGoods;
         })();
 
         return List;
+    })();
+
+    order.Address = (function() {
+
+        /**
+         * Properties of an Address.
+         * @memberof order
+         * @interface IAddress
+         * @property {string} [provinceStr] Address provinceStr
+         * @property {string} [cityStr] Address cityStr
+         * @property {string} [districtStr] Address districtStr
+         * @property {string} [twonStr] Address twonStr
+         * @property {string} [consignee] Address consignee
+         * @property {string} [mobile] Address mobile
+         * @property {string} [address] Address address
+         */
+
+        /**
+         * Constructs a new Address.
+         * @memberof order
+         * @classdesc Represents an Address.
+         * @constructor
+         * @param {order.IAddress=} [properties] Properties to set
+         */
+        function Address(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Address provinceStr.
+         * @member {string}provinceStr
+         * @memberof order.Address
+         * @instance
+         */
+        Address.prototype.provinceStr = "";
+
+        /**
+         * Address cityStr.
+         * @member {string}cityStr
+         * @memberof order.Address
+         * @instance
+         */
+        Address.prototype.cityStr = "";
+
+        /**
+         * Address districtStr.
+         * @member {string}districtStr
+         * @memberof order.Address
+         * @instance
+         */
+        Address.prototype.districtStr = "";
+
+        /**
+         * Address twonStr.
+         * @member {string}twonStr
+         * @memberof order.Address
+         * @instance
+         */
+        Address.prototype.twonStr = "";
+
+        /**
+         * Address consignee.
+         * @member {string}consignee
+         * @memberof order.Address
+         * @instance
+         */
+        Address.prototype.consignee = "";
+
+        /**
+         * Address mobile.
+         * @member {string}mobile
+         * @memberof order.Address
+         * @instance
+         */
+        Address.prototype.mobile = "";
+
+        /**
+         * Address address.
+         * @member {string}address
+         * @memberof order.Address
+         * @instance
+         */
+        Address.prototype.address = "";
+
+        /**
+         * Creates a new Address instance using the specified properties.
+         * @function create
+         * @memberof order.Address
+         * @static
+         * @param {order.IAddress=} [properties] Properties to set
+         * @returns {order.Address} Address instance
+         */
+        Address.create = function create(properties) {
+            return new Address(properties);
+        };
+
+        /**
+         * Encodes the specified Address message. Does not implicitly {@link order.Address.verify|verify} messages.
+         * @function encode
+         * @memberof order.Address
+         * @static
+         * @param {order.IAddress} message Address message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Address.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.provinceStr != null && message.hasOwnProperty("provinceStr"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.provinceStr);
+            if (message.cityStr != null && message.hasOwnProperty("cityStr"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.cityStr);
+            if (message.districtStr != null && message.hasOwnProperty("districtStr"))
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.districtStr);
+            if (message.twonStr != null && message.hasOwnProperty("twonStr"))
+                writer.uint32(/* id 4, wireType 2 =*/34).string(message.twonStr);
+            if (message.consignee != null && message.hasOwnProperty("consignee"))
+                writer.uint32(/* id 5, wireType 2 =*/42).string(message.consignee);
+            if (message.mobile != null && message.hasOwnProperty("mobile"))
+                writer.uint32(/* id 6, wireType 2 =*/50).string(message.mobile);
+            if (message.address != null && message.hasOwnProperty("address"))
+                writer.uint32(/* id 7, wireType 2 =*/58).string(message.address);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified Address message, length delimited. Does not implicitly {@link order.Address.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof order.Address
+         * @static
+         * @param {order.IAddress} message Address message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Address.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an Address message from the specified reader or buffer.
+         * @function decode
+         * @memberof order.Address
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {order.Address} Address
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Address.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.order.Address();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.provinceStr = reader.string();
+                    break;
+                case 2:
+                    message.cityStr = reader.string();
+                    break;
+                case 3:
+                    message.districtStr = reader.string();
+                    break;
+                case 4:
+                    message.twonStr = reader.string();
+                    break;
+                case 5:
+                    message.consignee = reader.string();
+                    break;
+                case 6:
+                    message.mobile = reader.string();
+                    break;
+                case 7:
+                    message.address = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an Address message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof order.Address
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {order.Address} Address
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Address.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an Address message.
+         * @function verify
+         * @memberof order.Address
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        Address.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.provinceStr != null && message.hasOwnProperty("provinceStr"))
+                if (!$util.isString(message.provinceStr))
+                    return "provinceStr: string expected";
+            if (message.cityStr != null && message.hasOwnProperty("cityStr"))
+                if (!$util.isString(message.cityStr))
+                    return "cityStr: string expected";
+            if (message.districtStr != null && message.hasOwnProperty("districtStr"))
+                if (!$util.isString(message.districtStr))
+                    return "districtStr: string expected";
+            if (message.twonStr != null && message.hasOwnProperty("twonStr"))
+                if (!$util.isString(message.twonStr))
+                    return "twonStr: string expected";
+            if (message.consignee != null && message.hasOwnProperty("consignee"))
+                if (!$util.isString(message.consignee))
+                    return "consignee: string expected";
+            if (message.mobile != null && message.hasOwnProperty("mobile"))
+                if (!$util.isString(message.mobile))
+                    return "mobile: string expected";
+            if (message.address != null && message.hasOwnProperty("address"))
+                if (!$util.isString(message.address))
+                    return "address: string expected";
+            return null;
+        };
+
+        /**
+         * Creates an Address message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof order.Address
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {order.Address} Address
+         */
+        Address.fromObject = function fromObject(object) {
+            if (object instanceof $root.order.Address)
+                return object;
+            var message = new $root.order.Address();
+            if (object.provinceStr != null)
+                message.provinceStr = String(object.provinceStr);
+            if (object.cityStr != null)
+                message.cityStr = String(object.cityStr);
+            if (object.districtStr != null)
+                message.districtStr = String(object.districtStr);
+            if (object.twonStr != null)
+                message.twonStr = String(object.twonStr);
+            if (object.consignee != null)
+                message.consignee = String(object.consignee);
+            if (object.mobile != null)
+                message.mobile = String(object.mobile);
+            if (object.address != null)
+                message.address = String(object.address);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from an Address message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof order.Address
+         * @static
+         * @param {order.Address} message Address
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Address.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.provinceStr = "";
+                object.cityStr = "";
+                object.districtStr = "";
+                object.twonStr = "";
+                object.consignee = "";
+                object.mobile = "";
+                object.address = "";
+            }
+            if (message.provinceStr != null && message.hasOwnProperty("provinceStr"))
+                object.provinceStr = message.provinceStr;
+            if (message.cityStr != null && message.hasOwnProperty("cityStr"))
+                object.cityStr = message.cityStr;
+            if (message.districtStr != null && message.hasOwnProperty("districtStr"))
+                object.districtStr = message.districtStr;
+            if (message.twonStr != null && message.hasOwnProperty("twonStr"))
+                object.twonStr = message.twonStr;
+            if (message.consignee != null && message.hasOwnProperty("consignee"))
+                object.consignee = message.consignee;
+            if (message.mobile != null && message.hasOwnProperty("mobile"))
+                object.mobile = message.mobile;
+            if (message.address != null && message.hasOwnProperty("address"))
+                object.address = message.address;
+            return object;
+        };
+
+        /**
+         * Converts this Address to JSON.
+         * @function toJSON
+         * @memberof order.Address
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        Address.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return Address;
+    })();
+
+    order.Detail = (function() {
+
+        /**
+         * Properties of a Detail.
+         * @memberof order
+         * @interface IDetail
+         * @property {order.List.IOrderWithGoods} [orderWithGoods] Detail orderWithGoods
+         * @property {order.IAddress} [address] Detail address
+         */
+
+        /**
+         * Constructs a new Detail.
+         * @memberof order
+         * @classdesc Represents a Detail.
+         * @constructor
+         * @param {order.IDetail=} [properties] Properties to set
+         */
+        function Detail(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Detail orderWithGoods.
+         * @member {(order.List.IOrderWithGoods|null|undefined)}orderWithGoods
+         * @memberof order.Detail
+         * @instance
+         */
+        Detail.prototype.orderWithGoods = null;
+
+        /**
+         * Detail address.
+         * @member {(order.IAddress|null|undefined)}address
+         * @memberof order.Detail
+         * @instance
+         */
+        Detail.prototype.address = null;
+
+        /**
+         * Creates a new Detail instance using the specified properties.
+         * @function create
+         * @memberof order.Detail
+         * @static
+         * @param {order.IDetail=} [properties] Properties to set
+         * @returns {order.Detail} Detail instance
+         */
+        Detail.create = function create(properties) {
+            return new Detail(properties);
+        };
+
+        /**
+         * Encodes the specified Detail message. Does not implicitly {@link order.Detail.verify|verify} messages.
+         * @function encode
+         * @memberof order.Detail
+         * @static
+         * @param {order.IDetail} message Detail message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Detail.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.orderWithGoods != null && message.hasOwnProperty("orderWithGoods"))
+                $root.order.List.OrderWithGoods.encode(message.orderWithGoods, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            if (message.address != null && message.hasOwnProperty("address"))
+                $root.order.Address.encode(message.address, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified Detail message, length delimited. Does not implicitly {@link order.Detail.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof order.Detail
+         * @static
+         * @param {order.IDetail} message Detail message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Detail.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a Detail message from the specified reader or buffer.
+         * @function decode
+         * @memberof order.Detail
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {order.Detail} Detail
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Detail.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.order.Detail();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.orderWithGoods = $root.order.List.OrderWithGoods.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    message.address = $root.order.Address.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a Detail message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof order.Detail
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {order.Detail} Detail
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Detail.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a Detail message.
+         * @function verify
+         * @memberof order.Detail
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        Detail.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.orderWithGoods != null && message.hasOwnProperty("orderWithGoods")) {
+                var error = $root.order.List.OrderWithGoods.verify(message.orderWithGoods);
+                if (error)
+                    return "orderWithGoods." + error;
+            }
+            if (message.address != null && message.hasOwnProperty("address")) {
+                error = $root.order.Address.verify(message.address);
+                if (error)
+                    return "address." + error;
+            }
+            return null;
+        };
+
+        /**
+         * Creates a Detail message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof order.Detail
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {order.Detail} Detail
+         */
+        Detail.fromObject = function fromObject(object) {
+            if (object instanceof $root.order.Detail)
+                return object;
+            var message = new $root.order.Detail();
+            if (object.orderWithGoods != null) {
+                if (typeof object.orderWithGoods !== "object")
+                    throw TypeError(".order.Detail.orderWithGoods: object expected");
+                message.orderWithGoods = $root.order.List.OrderWithGoods.fromObject(object.orderWithGoods);
+            }
+            if (object.address != null) {
+                if (typeof object.address !== "object")
+                    throw TypeError(".order.Detail.address: object expected");
+                message.address = $root.order.Address.fromObject(object.address);
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a Detail message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof order.Detail
+         * @static
+         * @param {order.Detail} message Detail
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Detail.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.orderWithGoods = null;
+                object.address = null;
+            }
+            if (message.orderWithGoods != null && message.hasOwnProperty("orderWithGoods"))
+                object.orderWithGoods = $root.order.List.OrderWithGoods.toObject(message.orderWithGoods, options);
+            if (message.address != null && message.hasOwnProperty("address"))
+                object.address = $root.order.Address.toObject(message.address, options);
+            return object;
+        };
+
+        /**
+         * Converts this Detail to JSON.
+         * @function toJSON
+         * @memberof order.Detail
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        Detail.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return Detail;
     })();
 
     return order;

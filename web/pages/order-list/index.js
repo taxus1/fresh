@@ -17,12 +17,21 @@ Page({
      });
      this.onShow();
   },
-  orderDetail : function (e) {
+
+  orderDetail: function (e) {
     var orderId = e.currentTarget.dataset.id;
+    console.log(orderId);
     wx.navigateTo({
       url: "/pages/order-details/index?id=" + orderId
     })
   },
+
+  goodsDetail: function (e) {
+    wx.navigateTo({
+      url:"/pages/goods-details/index?id="+e.currentTarget.dataset.id
+    })
+  },
+
   cancelOrderTap:function(e){
     var that = this;
     var orderId = e.currentTarget.dataset.id;

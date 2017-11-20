@@ -32,7 +32,7 @@ message List {
     }
     Order order = 1;
 
-    message OrderGoods {
+    message Goods {
       uint32 ID = 1;
       uint32 orderID = 2;
       uint32 goodsID = 3;
@@ -43,8 +43,23 @@ message List {
       string specKeyName = 8;
     }
 
-    repeated OrderGoods orderGoodses = 2;
+    repeated Goods goodses = 2;
   }
 
   repeated OrderWithGoods orders = 1;
+}
+
+message Address {
+  string provinceStr = 1;
+  string cityStr = 2;
+  string districtStr = 3;
+  string twonStr = 4;
+  string consignee = 5;
+  string mobile = 6;
+  string address = 7;
+}
+
+message Detail {
+  List.OrderWithGoods orderWithGoods = 1;
+  Address address = 2; // 订单地址
 }
