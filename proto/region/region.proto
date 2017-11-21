@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package region;
+
+message Region {
+  uint32 ID = 1;
+  string name = 2;
+  uint32 level = 3;
+  uint32 parentID = 4;
+}
+
+message Children {
+  repeated Region regions = 1;
+}

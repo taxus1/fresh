@@ -69,6 +69,9 @@ var (
 
 	// OrderController 订单
 	OrderController *orderController
+
+	// RegionController 行政区域
+	RegionController *regionController
 )
 
 // InitControllers 初始化
@@ -79,4 +82,5 @@ func InitControllers() {
 	CartController = &cartController{}
 	OrderController = &orderController{}
 	AddressController = &addressController{}
+	RegionController = &regionController{}
 }

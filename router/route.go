@@ -45,4 +45,7 @@ func (r *Route) Init(app *iris.Application) {
 	order.Post("/create", ctr.OrderController.Create)
 	order.Get("/list", ctr.OrderController.List)
 	order.Get("/detail/{id:int}", ctr.OrderController.Detail)
+
+	region := app.Party("/region")
+	region.Get("/{pid:int}/children", ctr.RegionController.Children)
 }

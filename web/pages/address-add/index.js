@@ -1,6 +1,10 @@
 var commonCityData = require('../../utils/city.js')
 //获取应用实例
 var app = getApp()
+
+var util = require('../../utils/util.js')
+var pregion = require('../../proto/region.js').region
+
 Page({
   data: {
     provinces:[],
@@ -9,9 +13,11 @@ Page({
     selProvince:'请选择',
     selCity:'请选择',
     selDistrict:'请选择',
+    selTown:'请选择',
     selProvinceIndex:0,
     selCityIndex:0,
-    selDistrictIndex:0
+    selDistrictIndex:0,
+    selTownIndex:0
   },
   bindCancel:function () {
     wx.navigateBack({})
@@ -39,15 +45,7 @@ Page({
       })
       return
     }
-    if (this.data.selProvince == "请选择"){
-      wx.showModal({
-        title: '提示',
-        content: '请选择地区',
-        showCancel:false
-      })
-      return
-    }
-    if (this.data.selCity == "请选择"){
+    if (this.data.selProvince == "请选择" || this.data.selCity == "请选择"){
       wx.showModal({
         title: '提示',
         content: '请选择地区',
@@ -115,36 +113,44 @@ Page({
       }
     })
   },
+
   initCityData:function(level, obj){
-    if(level == 1){
-      var pinkArray = [];
-      for(var i = 0;i<commonCityData.cityData.length;i++){
-        pinkArray.push(commonCityData.cityData[i].name);
+    var self = this;
+    var pid = obj ? obj.ID : 0;
+    wx.request({
+      url: app.globalData.domain + '/region/' + pid + '/children',
+      header: {token: app.globalData.token},
+      success: function(res) {
+        var result = util.convResult(res.data, pregion.Children);
+        console.log(result);
+        switch(level) {
+          case 1:
+            self.setData({
+              provinces: result.regions
+            });
+            break;
+          case 2:
+            self.setData({
+              citys: result.regions
+            });
+            break;
+          case 3:
+            self.setData({
+              districts: result.regions
+            });
+            break;
+          case 4:
+            self.setData({
+              towns: result.regions
+            });
+            break;
+        }
+
       }
-      this.setData({
-        provinces:pinkArray
-      });
-    } else if (level == 2){
-      var pinkArray = [];
-      var dataArray = obj.cityList
-      for(var i = 0;i<dataArray.length;i++){
-        pinkArray.push(dataArray[i].name);
-      }
-      this.setData({
-        citys:pinkArray
-      });
-    } else if (level == 3){
-      var pinkArray = [];
-      var dataArray = obj.districtList
-      for(var i = 0;i<dataArray.length;i++){
-        pinkArray.push(dataArray[i].name);
-      }
-      this.setData({
-        districts:pinkArray
-      });
-    }
+    });
 
   },
+
   bindPickerProvinceChange:function(event){
     var selIterm = commonCityData.cityData[event.detail.value];
     this.setData({
@@ -157,6 +163,7 @@ Page({
     })
     this.initCityData(2, selIterm)
   },
+
   bindPickerCityChange:function (event) {
     var selIterm = commonCityData.cityData[this.data.selProvinceIndex].cityList[event.detail.value];
     this.setData({
@@ -167,7 +174,8 @@ Page({
     })
     this.initCityData(3, selIterm)
   },
-  bindPickerChange:function (event) {
+
+  bindPickerDistrictChange:function (event) {
     var selIterm = commonCityData.cityData[this.data.selProvinceIndex].cityList[this.data.selCityIndex].districtList[event.detail.value];
     if (selIterm && selIterm.name && event.detail.value) {
       this.setData({

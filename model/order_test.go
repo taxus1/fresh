@@ -1,10 +1,5 @@
 package model
 
-import (
-	"log"
-	"testing"
-)
-
 // func TestCreateOrder(t *testing.T) {
 // 	var userID uint32 = 1
 // 	cs, err := LoadSelectedCarts(userID)
@@ -40,12 +35,12 @@ import (
 // 	}
 // }
 
-func TestOrderDetail(t *testing.T) {
-	detail, err := LoadDetail(85)
-	checkErr(err)
-
-	log.Printf("[TestOrderDetail] %v", detail)
-	for _, v1 := range detail.OrderGoodses {
-		log.Printf("%v", v1)
-	}
-}
+// func TestOrderDetail(t *testing.T) {
+// 	detail, err := LoadDetail(85)
+// 	checkErr(err)
+//
+// 	log.Printf("[TestOrderDetail] %v", detail)
+// 	for _, v1 := range detail.OrderGoodses {
+// 		log.Printf("%v", v1)
+// 	}
+// }

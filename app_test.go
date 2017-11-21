@@ -1,12 +1,14 @@
 package main
 
-// pad "fresh/proto/ad"
-// pcategory "fresh/proto/category"
-// pgoods "fresh/proto/goods"
-// pcart "fresh/proto/cart"
 import (
 	"encoding/base64"
-	paddress "fresh/proto/address"
+	// paddress "fresh/proto/address"
+	// pad "fresh/proto/ad"
+	// pcategory "fresh/proto/category"
+	// pgoods "fresh/proto/goods"
+	// pcart "fresh/proto/cart"
+	pregion "fresh/proto/region"
+
 	"log"
 	"testing"
 
@@ -188,17 +190,17 @@ var app = newApp()
 // 	log.Printf("[TestLoadUserDefatultAddress] %v", data)
 // }
 //
-func TestLoadUserAllAddress(t *testing.T) {
-	e := httptest.New(t, app)
-
-	body := e.GET("/address/all").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
-	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
-	data := &paddress.AllAddress{}
-	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
-		panic(err)
-	}
-	log.Printf("[TestLoadUserAllAddress] %v", data)
-}
+// func TestLoadUserAllAddress(t *testing.T) {
+// 	e := httptest.New(t, app)
+//
+// 	body := e.GET("/address/all").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
+// 	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
+// 	data := &paddress.AllAddress{}
+// 	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
+// 		panic(err)
+// 	}
+// 	log.Printf("[TestLoadUserAllAddress] %v", data)
+// }
 
 // func TestCreateOrder(t *testing.T) {
 // 	e := httptest.New(t, app)
@@ -248,3 +250,18 @@ func TestLoadUserAllAddress(t *testing.T) {
 // 		log.Printf("%v", v)
 // 	}
 // }
+
+func TestLoadChildrenRegions(t *testing.T) {
+	e := httptest.New(t, app)
+
+	body := e.GET("/region/0/children").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
+	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
+	data := &pregion.Children{}
+	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
+		panic(err)
+	}
+	log.Printf("[TestLoadChildrenRegions]")
+	for _, v := range data.GetRegions() {
+		log.Printf("%v", v)
+	}
+}
