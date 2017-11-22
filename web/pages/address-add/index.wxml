@@ -20,17 +20,17 @@
                 {{selProvince}}
               </view>
             </picker>
-            <picker bindchange="bindPickerCityChange" range="{{citys}}">
+            <picker bindchange="bindPickerCityChange" range="{{citys}}" range-key="name">
               <view class="picker {{selCity=='请选择'?'hui':''}}">
                 {{selCity}}
               </view>
             </picker>
-            <picker bindchange="bindPickerDistrictChange" range="{{districts}}">
+            <picker bindchange="bindPickerDistrictChange" range="{{districts}}" range-key="name">
               <view class="picker {{selDistrict=='请选择'?'hui':''}}">
                 {{selDistrict}}
               </view>
             </picker>
-            <picker bindchange="bindPickerTownChange" range="{{towns}}">
+            <picker bindchange="bindPickerTownChange" range="{{towns}}" range-key="name">
               <view class="picker {{selTown=='请选择'?'hui':''}}">
                 {{selTown}}
               </view>

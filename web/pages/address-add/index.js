@@ -10,6 +10,7 @@ Page({
     provinces:[],
     citys:[],
     districts:[],
+    towns: [],
     selProvince:'请选择',
     selCity:'请选择',
     selDistrict:'请选择',
@@ -145,14 +146,12 @@ Page({
             });
             break;
         }
-
       }
     });
-
   },
 
   bindPickerProvinceChange:function(event){
-    var selIterm = commonCityData.cityData[event.detail.value];
+    var selIterm = this.data.provinces[event.detail.value];
     this.setData({
       selProvince:selIterm.name,
       selProvinceIndex:event.detail.value,
@@ -165,7 +164,7 @@ Page({
   },
 
   bindPickerCityChange:function (event) {
-    var selIterm = commonCityData.cityData[this.data.selProvinceIndex].cityList[event.detail.value];
+    var selIterm = this.data.citys[event.detail.value];
     this.setData({
       selCity:selIterm.name,
       selCityIndex:event.detail.value,
@@ -176,11 +175,24 @@ Page({
   },
 
   bindPickerDistrictChange:function (event) {
-    var selIterm = commonCityData.cityData[this.data.selProvinceIndex].cityList[this.data.selCityIndex].districtList[event.detail.value];
+    var selIterm = this.data.districts[event.detail.value];
     if (selIterm && selIterm.name && event.detail.value) {
       this.setData({
         selDistrict: selIterm.name,
-        selDistrictIndex: event.detail.value
+        selDistrictIndex: event.detail.value,
+        selTownIndex: 0,
+        selTown: '请选择',
+      })
+    }
+    this.initCityData(4, selIterm)
+  },
+
+  bindPickerTownChange:function (event) {
+    var selIterm = this.data.towns[event.detail.value];
+    if (selIterm && selIterm.name && event.detail.value) {
+      this.setData({
+        selTown: selIterm.name,
+        selTownIndex: event.detail.value
       })
     }
   },
