@@ -24,3 +24,7 @@ message Address {
 message AllAddress {
   repeated Address addresses = 1;
 }
+
+message CreateParam {
+  Address address = 1;
+}

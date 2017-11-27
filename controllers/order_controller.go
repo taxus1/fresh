@@ -119,14 +119,12 @@ func (c *orderController) List(ctx iris.Context) {
 // Detail 详情
 func (c *orderController) Detail(ctx iris.Context) {
 	id, _ := ctx.Params().GetInt("id")
-	log.Println(id)
+
 	owg, err := model.LoadDetail(uint32(id))
 	if err != nil {
 		ctx.Text(err.Error())
 		return
 	}
-
-	log.Println(owg)
 
 	presult := &porder.Detail{
 		OrderWithGoods: &porder.List_OrderWithGoods{

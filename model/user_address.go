@@ -78,6 +78,31 @@ func LoadDefaultAddress(userID uint32) (*UserAddress, error) {
 	return ua, nil
 }
 
+// Create 创建
+func (u *UserAddress) Create(userID uint32) error {
+	u.UserID = userID
+	insert := DataSource.BuildInsert("tp_user_address", UserAddressCols, 1)
+	id, err := DataSource.SaveOne(insert, u.Values()...)
+	if err != nil {
+		err = fmt.Errorf("[UserAddress.Create] %v", err)
+	}
+	u.ID = uint32(id)
+	return err
+}
+
+// Update 更新
+func (u *UserAddress) Update() error {
+	update := `
+	UPDATE tp_user_address SET consignee= ?, email= ?, country= ?, province= ?, city= ?, district= ?, twon= ?, address= ?, zipcode= ?, mobile= ?, is_default= ?
+	WHERE address_id = ?
+	`
+	_, err := DataSource.Update(update, u.Consignee, u.Email, u.Country, u.Province, u.City, u.District, u.Twon, u.Address, u.Zipcode, u.Mobile, u.IsDefault, u.ID)
+	if err != nil {
+		err = fmt.Errorf("[UserAddress.Update] %v", err)
+	}
+	return err
+}
+
 func (u *UserAddress) Fields() []interface{} {
 	return []interface{}{
 		&u.ID,

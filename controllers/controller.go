@@ -38,8 +38,7 @@ func (c *controller) ReadProto(ctx iris.Context, pb proto.Message) error {
 	if err != nil {
 		return err
 	}
-	err = proto.Unmarshal(data, pb)
-	return err
+	return proto.Unmarshal(data, pb)
 }
 
 func (c *controller) WriteProto(ctx iris.Context, pb proto.Message) {

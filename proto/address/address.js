@@ -720,6 +720,197 @@ $root.address = (function() {
         return AllAddress;
     })();
 
+    address.CreateParam = (function() {
+
+        /**
+         * Properties of a CreateParam.
+         * @memberof address
+         * @interface ICreateParam
+         * @property {address.IAddress} [address] CreateParam address
+         */
+
+        /**
+         * Constructs a new CreateParam.
+         * @memberof address
+         * @classdesc Represents a CreateParam.
+         * @constructor
+         * @param {address.ICreateParam=} [properties] Properties to set
+         */
+        function CreateParam(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * CreateParam address.
+         * @member {(address.IAddress|null|undefined)}address
+         * @memberof address.CreateParam
+         * @instance
+         */
+        CreateParam.prototype.address = null;
+
+        /**
+         * Creates a new CreateParam instance using the specified properties.
+         * @function create
+         * @memberof address.CreateParam
+         * @static
+         * @param {address.ICreateParam=} [properties] Properties to set
+         * @returns {address.CreateParam} CreateParam instance
+         */
+        CreateParam.create = function create(properties) {
+            return new CreateParam(properties);
+        };
+
+        /**
+         * Encodes the specified CreateParam message. Does not implicitly {@link address.CreateParam.verify|verify} messages.
+         * @function encode
+         * @memberof address.CreateParam
+         * @static
+         * @param {address.ICreateParam} message CreateParam message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CreateParam.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.address != null && message.hasOwnProperty("address"))
+                $root.address.Address.encode(message.address, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified CreateParam message, length delimited. Does not implicitly {@link address.CreateParam.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof address.CreateParam
+         * @static
+         * @param {address.ICreateParam} message CreateParam message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CreateParam.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a CreateParam message from the specified reader or buffer.
+         * @function decode
+         * @memberof address.CreateParam
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {address.CreateParam} CreateParam
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CreateParam.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.address.CreateParam();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.address = $root.address.Address.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a CreateParam message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof address.CreateParam
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {address.CreateParam} CreateParam
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CreateParam.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a CreateParam message.
+         * @function verify
+         * @memberof address.CreateParam
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CreateParam.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.address != null && message.hasOwnProperty("address")) {
+                var error = $root.address.Address.verify(message.address);
+                if (error)
+                    return "address." + error;
+            }
+            return null;
+        };
+
+        /**
+         * Creates a CreateParam message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof address.CreateParam
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {address.CreateParam} CreateParam
+         */
+        CreateParam.fromObject = function fromObject(object) {
+            if (object instanceof $root.address.CreateParam)
+                return object;
+            var message = new $root.address.CreateParam();
+            if (object.address != null) {
+                if (typeof object.address !== "object")
+                    throw TypeError(".address.CreateParam.address: object expected");
+                message.address = $root.address.Address.fromObject(object.address);
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a CreateParam message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof address.CreateParam
+         * @static
+         * @param {address.CreateParam} message CreateParam
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CreateParam.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.address = null;
+            if (message.address != null && message.hasOwnProperty("address"))
+                object.address = $root.address.Address.toObject(message.address, options);
+            return object;
+        };
+
+        /**
+         * Converts this CreateParam to JSON.
+         * @function toJSON
+         * @memberof address.CreateParam
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CreateParam.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return CreateParam;
+    })();
+
     return address;
 })();
 

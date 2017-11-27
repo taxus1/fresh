@@ -104,3 +104,21 @@ var AdCols = []string{
 	"target",
 	"bgcolor",
 }
+
+// UserAddressCols 用户收货地址
+var UserAddressCols = []string{
+	"address_id",
+	"user_id",
+	"consignee",
+	"email",
+	"country",
+	"province",
+	"city",
+	"district",
+	"twon",
+	"address",
+	"zipcode",
+	"mobile",
+	"is_default",
+	"is_pickup",
+}

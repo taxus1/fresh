@@ -4,7 +4,7 @@ var app = getApp()
 
 var util = require('../../utils/util.js')
 var pregion = require('../../proto/region.js').region
-
+var paddress = require('../../proto/address.js').address
 Page({
   data: {
     provinces:[],
@@ -17,8 +17,11 @@ Page({
     selTown:'请选择',
     selProvinceIndex:0,
     selCityIndex:0,
+    hiddenCitySel: true,
     selDistrictIndex:0,
-    selTownIndex:0
+    hiddenDistrictSel: true,
+    selTownIndex:0,
+    hiddenTownSel: true
   },
   bindCancel:function () {
     wx.navigateBack({})
@@ -54,13 +57,10 @@ Page({
       })
       return
     }
-    var cityId = commonCityData.cityData[this.data.selProvinceIndex].cityList[this.data.selCityIndex].id;
-    var districtId;
-    if (this.data.selDistrict == "请选择" || !this.data.selDistrict){
-      districtId = '';
-    } else {
-      districtId = commonCityData.cityData[this.data.selProvinceIndex].cityList[this.data.selCityIndex].districtList[this.data.selDistrictIndex].id;
-    }
+    var provinceId = this.data.provinces[this.data.selProvinceIndex].ID;
+    var cityId = this.data.citys[this.data.selCityIndex].ID;
+    var districtId = this.data.selDistrict == "请选择" || !this.data.selDistrict ? 0 : districts[this.data.selDistrictIndex].ID;
+    var townId = this.data.selTown == "请选择" || !this.data.selTown ? 0 : this.data.towns[this.data.selTownIndex].ID;
     if (address == ""){
       wx.showModal({
         title: '提示',
@@ -77,29 +77,31 @@ Page({
       })
       return
     }
-    var apiAddoRuPDATE = "add";
+    var method = "POST";
+    var url = app.globalData.domain + "/address/create";
     var apiAddid = self.data.id;
     if (apiAddid) {
-      apiAddoRuPDATE = "update";
-    } else {
-      apiAddid = 0;
+      url = app.globalData.domain + "/address/" + apiAddid + "/update";
+      method = "PUT";
     }
+    var params = paddress.CreateParam.create({address: {
+      consignee: linkMan,
+    	province: provinceId,
+    	city: cityId,
+    	district: districtId,
+    	twon: townId,
+    	address: address,
+    	zipcode: code,
+    	mobile: mobile,
+    }});
+    var buf = pcart.CreateParam.encode(params).finish();
     wx.request({
-      url: 'https://api.it120.cc/' + app.globalData.subDomain + '/user/shipping-address/' + apiAddoRuPDATE,
-      data: {
-        token: app.globalData.token,
-        id: apiAddid,
-        provinceId: commonCityData.cityData[this.data.selProvinceIndex].id,
-        cityId: cityId,
-        districtId: districtId,
-        linkMan:linkMan,
-        address:address,
-        mobile:mobile,
-        code:code,
-        isDefault:'true'
-      },
+      url: url,
+      method: method,
+      header: {token: app.globalData.token},
+      data: wx.arrayBufferToBase64(buf),
       success: function(res) {
-        if (res.data.code != 0) {
+        if (res.statusCode != 200) {
           // 登录错误
           wx.hideLoading();
           wx.showModal({
@@ -115,9 +117,8 @@ Page({
     })
   },
 
-  initCityData:function(level, obj){
+  initCityData:function(level, pid, cb){
     var self = this;
-    var pid = obj ? obj.ID : 0;
     wx.request({
       url: app.globalData.domain + '/region/' + pid + '/children',
       header: {token: app.globalData.token},
@@ -127,24 +128,33 @@ Page({
         switch(level) {
           case 1:
             self.setData({
-              provinces: result.regions
+              provinces: result.regions,
             });
             break;
           case 2:
             self.setData({
-              citys: result.regions
+              citys: result.regions,
+              hiddenCitySel: result.regions.length == 0,
+              hiddenDistrictSel: true,
+              hiddenTownSel: true,
             });
             break;
           case 3:
             self.setData({
-              districts: result.regions
+              districts: result.regions,
+              hiddenDistrictSel: result.regions.length == 0,
+              hiddenTownSel: true,
             });
             break;
           case 4:
             self.setData({
-              towns: result.regions
+              towns: result.regions,
+              hiddenTownSel: result.regions.length == 0,
             });
             break;
+        }
+        if (cb) {
+          cb();
         }
       }
     });
@@ -160,7 +170,7 @@ Page({
       selDistrict:'请选择',
       selDistrictIndex: 0
     })
-    this.initCityData(2, selIterm)
+    this.initCityData(2, selIterm.ID);
   },
 
   bindPickerCityChange:function (event) {
@@ -171,7 +181,7 @@ Page({
       selDistrict: '请选择',
       selDistrictIndex: 0
     })
-    this.initCityData(3, selIterm)
+    this.initCityData(3, selIterm.ID);
   },
 
   bindPickerDistrictChange:function (event) {
@@ -184,7 +194,7 @@ Page({
         selTown: '请选择',
       })
     }
-    this.initCityData(4, selIterm)
+    this.initCityData(4, selIterm.ID);
   },
 
   bindPickerTownChange:function (event) {
@@ -199,18 +209,40 @@ Page({
 
   onLoad: function (e) {
     var self = this;
-    this.initCityData(1);
+    this.initCityData(1, 0);
     var addr = e.addr;
     if (addr) {
       // 初始化原数据
+      var hiddenCitySel = true, hiddenDistrictSel = true, hiddenTownSel = true;
       addr = JSON.parse(addr);
-      console.log(addr);
+      if (addr.city) {
+        self.initCityData(2, addr.province, function(){
+          self.setData({
+              hiddenCitySel: false
+          });
+          if (addr.district) {
+            self.initCityData(3, addr.city, function(){
+              self.setData({
+                hiddenDistrictSel: false
+              });
+              if (addr.twon) {
+                self.initCityData(4, addr.district, function(){
+                  self.setData({
+                    hiddenTownSel: false
+                  });
+                });
+              }
+            });
+          }
+        });
+      }
       self.setData({
         id: addr.ID,
         addressData: addr,
         selProvince: addr.provinceStr,
         selCity: addr.cityStr,
-        selDistrict: addr.districtStr
+        selDistrict: addr.districtStr,
+        selTown: addr.twonStr,
         });
       self.setDBSaveAddressId(addr);
     }
