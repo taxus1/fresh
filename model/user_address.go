@@ -103,6 +103,17 @@ func (u *UserAddress) Update() error {
 	return err
 }
 
+// Delete 删除
+func (u *UserAddress) Delete() error {
+	update := `DELETE FROM tp_user_address WHERE address_id = ?
+	`
+	_, err := DataSource.Update(update, u.ID)
+	if err != nil {
+		err = fmt.Errorf("[UserAddress.Delete] %v", err)
+	}
+	return err
+}
+
 func (u *UserAddress) Fields() []interface{} {
 	return []interface{}{
 		&u.ID,

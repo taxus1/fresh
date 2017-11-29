@@ -1,8 +1,7 @@
 package main
 
 import (
-	"encoding/base64"
-	paddress "fresh/proto/address"
+
 	// pad "fresh/proto/ad"
 	// pcategory "fresh/proto/category"
 	// pgoods "fresh/proto/goods"
@@ -12,7 +11,6 @@ import (
 	"log"
 	"testing"
 
-	"github.com/golang/protobuf/proto"
 	"github.com/kataras/iris/httptest"
 )
 
@@ -202,70 +200,77 @@ var app = newApp()
 // 	log.Printf("[TestLoadUserAllAddress] %v", data)
 // }
 
-func TestCreateUserAddress(t *testing.T) {
+// func TestCreateUserAddress(t *testing.T) {
+// 	e := httptest.New(t, app)
+//
+// 	param := &paddress.CreateParam{
+// 		Address: &paddress.Address{
+// 			Consignee: "测试添加",
+// 			Province:  28240,
+// 			City:      28558,
+// 			District:  28571,
+// 			Twon:      28612,
+// 			Address:   "五和大道五和商业广场2017",
+// 			Zipcode:   "518116",
+// 			Mobile:    "13512345678",
+// 		},
+// 	}
+//
+// 	src, err := proto.Marshal(param)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+//
+// 	dst := make([]byte, base64.StdEncoding.EncodedLen(len(src)))
+// 	base64.StdEncoding.Encode(dst, src)
+// 	body := e.POST("/address/create").WithBytes(dst).WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
+//
+// 	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
+// 	data := &paddress.Address{}
+// 	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
+// 		panic(err)
+// 	}
+// 	log.Printf("[TestCreateUserAddress] %v", data)
+// }
+
+// func TestUpdateUserAddress(t *testing.T) {
+// 	e := httptest.New(t, app)
+//
+// 	param := &paddress.CreateParam{
+// 		Address: &paddress.Address{
+// 			Consignee: "测试修改",
+// 			Province:  28240,
+// 			City:      28558,
+// 			District:  28571,
+// 			Twon:      28612,
+// 			Address:   "五和大道五和商业广场2017",
+// 			Zipcode:   "518116",
+// 			Mobile:    "13512345678",
+// 		},
+// 	}
+//
+// 	src, err := proto.Marshal(param)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+//
+// 	dst := make([]byte, base64.StdEncoding.EncodedLen(len(src)))
+// 	base64.StdEncoding.Encode(dst, src)
+// 	body := e.PUT("/address/831/update").WithBytes(dst).WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
+//
+// 	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
+// 	data := &paddress.Address{}
+// 	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
+// 		panic(err)
+// 	}
+// 	log.Printf("[TestUpdateUserAddress] %v", data)
+// }
+
+func TestDeleteUserAddress(t *testing.T) {
 	e := httptest.New(t, app)
 
-	param := &paddress.CreateParam{
-		Address: &paddress.Address{
-			Consignee: "测试添加",
-			Province:  28240,
-			City:      28558,
-			District:  28571,
-			Twon:      28612,
-			Address:   "五和大道五和商业广场2017",
-			Zipcode:   "518116",
-			Mobile:    "13512345678",
-		},
-	}
-
-	src, err := proto.Marshal(param)
-	if err != nil {
-		panic(err)
-	}
-
-	dst := make([]byte, base64.StdEncoding.EncodedLen(len(src)))
-	base64.StdEncoding.Encode(dst, src)
-	body := e.POST("/address/create").WithBytes(dst).WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
-
-	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
-	data := &paddress.Address{}
-	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
-		panic(err)
-	}
-	log.Printf("[TestCreateUserAddress] %v", data)
-}
-
-func TestUpdateUserAddress(t *testing.T) {
-	e := httptest.New(t, app)
-
-	param := &paddress.CreateParam{
-		Address: &paddress.Address{
-			Consignee: "测试修改",
-			Province:  28240,
-			City:      28558,
-			District:  28571,
-			Twon:      28612,
-			Address:   "五和大道五和商业广场2017",
-			Zipcode:   "518116",
-			Mobile:    "13512345678",
-		},
-	}
-
-	src, err := proto.Marshal(param)
-	if err != nil {
-		panic(err)
-	}
-
-	dst := make([]byte, base64.StdEncoding.EncodedLen(len(src)))
-	base64.StdEncoding.Encode(dst, src)
-	body := e.PUT("/address/831/update").WithBytes(dst).WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
-
-	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
-	data := &paddress.Address{}
-	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
-		panic(err)
-	}
-	log.Printf("[TestUpdateUserAddress] %v", data)
+	body := e.DELETE("/address/8/delete").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
+	log.Printf("[TestDeleteUserAddress] %v", body)
 }
 
 // func TestCreateOrder(t *testing.T) {

@@ -25,6 +25,7 @@ func (r *Route) Init(app *iris.Application) {
 	address.Get("/all", ctr.AddressController.AllAddress)
 	address.Post("/create", ctr.AddressController.Create)
 	address.Put("/{id:int}/update", ctr.AddressController.Update)
+	address.Delete("/{id:int}/delete", ctr.AddressController.Delete)
 
 	goods := app.Party("/goods")
 	goods.Get("/new", ctr.GoodsController.NewGoods)

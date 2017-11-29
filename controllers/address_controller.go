@@ -116,6 +116,23 @@ func (c *addressController) createOrUpdate(ctx iris.Context) (*model.UserAddress
 	}, nil
 }
 
+// Delete 删除
+func (c *addressController) Delete(ctx iris.Context) {
+	if _, err := model.LoadUserBy(ctx.GetHeader("token")); err != nil {
+		ctx.Text(err.Error())
+		return
+	}
+
+	id, _ := ctx.Params().GetInt("id")
+	ua := &model.UserAddress{ID: uint32(id)}
+
+	if err := ua.Delete(); err != nil {
+		ctx.Text(err.Error())
+		return
+	}
+	ctx.WriteString("0")
+}
+
 func (c *addressController) convAddresses(as []*model.UserAddress) *paddress.AllAddress {
 	plist := &paddress.AllAddress{}
 	list := make([]*paddress.Address, len(as))

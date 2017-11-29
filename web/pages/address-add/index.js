@@ -59,7 +59,7 @@ Page({
     }
     var provinceId = this.data.provinces[this.data.selProvinceIndex].ID;
     var cityId = this.data.citys[this.data.selCityIndex].ID;
-    var districtId = this.data.selDistrict == "请选择" || !this.data.selDistrict ? 0 : districts[this.data.selDistrictIndex].ID;
+    var districtId = this.data.selDistrict == "请选择" || !this.data.selDistrict ? 0 : this.data.districts[this.data.selDistrictIndex].ID;
     var townId = this.data.selTown == "请选择" || !this.data.selTown ? 0 : this.data.towns[this.data.selTownIndex].ID;
     if (address == ""){
       wx.showModal({
@@ -94,7 +94,7 @@ Page({
     	zipcode: code,
     	mobile: mobile,
     }});
-    var buf = pcart.CreateParam.encode(params).finish();
+    var buf = paddress.CreateParam.encode(params).finish();
     wx.request({
       url: url,
       method: method,
@@ -278,11 +278,9 @@ Page({
       success: function (res) {
         if (res.confirm) {
           wx.request({
-            url: 'https://api.it120.cc/' + app.globalData.subDomain + '/user/shipping-address/delete',
-            data: {
-              token: app.globalData.token,
-              id: id
-            },
+            url: app.globalData.domain + '/address/' + id + '/delete',
+            method: "DELETE",
+            header: {token: app.globalData.token},
             success: (res) => {
               wx.navigateBack({})
             }
