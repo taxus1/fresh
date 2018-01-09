@@ -5,7 +5,7 @@ development:
   username: root
   password: root
   database: fresh
-  maxConns: 10
+  maxConns: 1
   idleConns: 1
   encoding: utf8
 
