@@ -22,7 +22,7 @@ Page({
     var orderId = e.currentTarget.dataset.id;
     console.log(orderId);
     wx.navigateTo({
-      url: "/pages/order-details/index?id=" + orderId
+      url: "/pages/order-details/index?id=" + orderID
     })
   },
 

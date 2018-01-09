@@ -5,7 +5,11 @@ development:
   username: root
   password: root
   database: fresh
+<<<<<<< HEAD
   maxConns: 1000
+=======
+  maxConns: 1
+>>>>>>> 263be310110abd1ea512ca4d6593e4da196a3767
   idleConns: 1
   encoding: utf8
 
