@@ -97,6 +97,10 @@ type GoodsSpec struct {
 
 // LoadSpec 获取商品的规格
 func (g *Goods) LoadSpec(ids []uint32) ([]*GoodsSpec, error) {
+	if len(ids) == 0 {
+		return []*GoodsSpec{}, nil
+	}
+
 	var id, specID sql.NullInt64
 	var item, name, src sql.NullString
 	var err error

@@ -37,7 +37,7 @@
     </view>
     <view class="coupons" hidden="{{hasNoCoupons}}">
         <scroll-view class="coupons-scroll" scroll-x="true">
-            <view class="coupons-item" wx:for-items="{{coupons}}" wx:for-index="idx" wx:key="id"  bindtap="gitCoupon" data-id="{{item.id}}">
+            <view class="coupons-item" wx:for-items="{{coupons}}" wx:for-index="idx" wx:key="id"  bindtap="gitCoupon" data-id="{{item.ID}}">
                <view style="font-size: 35rpx"> ￥ {{item.moneyMax}}元 </view>
                <view> {{item.name}} </view>
                <view> 满 {{item.moneyHreshold}} 元使用 </view>
@@ -47,7 +47,7 @@
         </scroll-view>
     </view>
     <view class="goods-container">
-        <view class="goods-box" wx:for-items="{{goods}}" wx:key="{{index}}" bindtap="toDetailsTap" data-id="{{item.iD}}">
+        <view class="goods-box" wx:for-items="{{goods}}" wx:key="{{index}}" bindtap="toDetailsTap" data-id="{{item.ID}}">
            <view class="img-box">
               <image src="{{item.pic}}_m" class="image" mode="aspectFill" lazy-load="true"/>
            </view>

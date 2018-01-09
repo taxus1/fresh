@@ -3,6 +3,7 @@ package model
 import (
 	"database/sql"
 	"fmt"
+	"log"
 )
 
 // Comment 评论
@@ -31,7 +32,7 @@ type Comment struct {
 // LoadComments 加载商品评论
 func (g *Goods) LoadComments() ([]*Comment, error) {
 	cs := []*Comment{}
-	query := `SELECT c.*, u.head_pic FROM tp_comment c LEFT JOIN tp_users u ON c.user_id = u.user_id WHERE goods_id = ?`
+	query := `SELECT c.*, IFNULL(u.head_pic, '') FROM tp_comment c LEFT JOIN tp_users u ON c.user_id = u.user_id WHERE goods_id = ?`
 	f := func(rs *sql.Rows) error {
 		for rs.Next() {
 			c := new(Comment)
@@ -42,6 +43,7 @@ func (g *Goods) LoadComments() ([]*Comment, error) {
 		}
 		return nil
 	}
+	log.Printf("%d %s", g.ID, query)
 	err := DataSource.QueryMore(query, f, g.ID)
 	if err != nil {
 		err = fmt.Errorf("[LoadComments] %v", err)
