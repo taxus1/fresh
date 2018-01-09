@@ -1,18 +1,17 @@
 package main
 
 import (
-
-	// pad "fresh/proto/ad"
-	// pcategory "fresh/proto/category"
-	// pgoods "fresh/proto/goods"
-	// pcart "fresh/proto/cart"
-	// pregion "fresh/proto/region"
-
 	"log"
 	"testing"
 
 	"github.com/kataras/iris/httptest"
 )
+
+// pad "fresh/proto/ad"
+// pcategory "fresh/proto/category"
+// pgoods "fresh/proto/goods"
+// pcart "fresh/proto/cart"
+// pregion "fresh/proto/region"
 
 // porder "fresh/proto/order"
 
@@ -266,11 +265,18 @@ var app = newApp()
 // 	log.Printf("[TestUpdateUserAddress] %v", data)
 // }
 
-func TestDeleteUserAddress(t *testing.T) {
+// func TestDeleteUserAddress(t *testing.T) {
+// 	e := httptest.New(t, app)
+//
+// 	body := e.DELETE("/address/8/delete").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
+// 	log.Printf("[TestDeleteUserAddress] %v", body)
+// }
+
+func TestUserAddressSetDefault(t *testing.T) {
 	e := httptest.New(t, app)
 
-	body := e.DELETE("/address/8/delete").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
-	log.Printf("[TestDeleteUserAddress] %v", body)
+	body := e.PATCH("/address/814/setDefault").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
+	log.Printf("[TestSetUserAddressDefault] %v", body)
 }
 
 // func TestCreateOrder(t *testing.T) {

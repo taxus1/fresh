@@ -97,6 +97,26 @@ func (c *addressController) Update(ctx iris.Context) {
 	c.WriteProto(ctx, result)
 }
 
+// SetDefault 设置默认收货地址
+func (c *addressController) SetDefault(ctx iris.Context) {
+	u, err := model.LoadUserBy(ctx.GetHeader("token"))
+	if err != nil {
+		ctx.Text(err.Error())
+		return
+	}
+
+	id, _ := ctx.Params().GetInt("id")
+	ua, err := model.LoadAddress(uint32(id), u.ID)
+	if err != nil {
+		ctx.Text(err.Error())
+	}
+
+	if err := ua.SetDefault(); err != nil {
+		ctx.Text(err.Error())
+	}
+	ctx.WriteString("0")
+}
+
 func (c *addressController) createOrUpdate(ctx iris.Context) (*model.UserAddress, error) {
 	params := &paddress.CreateParam{}
 	if err := c.ReadProto(ctx, params); err != nil {

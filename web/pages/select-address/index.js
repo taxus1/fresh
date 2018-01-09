@@ -12,12 +12,9 @@ Page({
   selectTap: function (e) {
     var id = e.currentTarget.dataset.id;
     wx.request({
-      url: 'https://api.it120.cc/'+ app.globalData.subDomain +'/user/shipping-address/update',
-      data: {
-        token:app.globalData.token,
-        id:id,
-        isDefault:'true'
-      },
+      url: app.globalData.domain + '/address/' + id +'/setDefault',
+      method: "PATCH",
+      header: {token: app.globalData.token},
       success: (res) =>{
         wx.navigateBack({})
       }

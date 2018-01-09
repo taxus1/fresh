@@ -19,6 +19,7 @@ package model
 // 	log.Printf("%v \n %s", u, token)
 // 	userID = u.ID
 // }
+
 //
 // func TestLoadUserAddress(t *testing.T) {
 // 	uas, err := LoadUserAddress(userID)
@@ -27,4 +28,10 @@ package model
 // 	for _, ua := range uas {
 // 		log.Printf("%v", ua)
 // 	}
+// }
+
+// func TestSetDefaultAddress(t *testing.T) {
+// 	a, err := LoadAddress(831, userID)
+// 	checkErr(err)
+// 	checkErr(a.SetDefault())
 // }

@@ -78,6 +78,17 @@ func LoadDefaultAddress(userID uint32) (*UserAddress, error) {
 	return ua, nil
 }
 
+// LoadAddress 最普通获取地址方式
+func LoadAddress(id, userID uint32) (*UserAddress, error) {
+	query := "SELECT * FROM tp_user_address WHERE address_id = ? AND user_id = ?"
+	ua := &UserAddress{}
+	err := DataSource.Session.QueryRow(query, id, userID).Scan(ua.Values()...)
+	if err != nil {
+		return nil, fmt.Errorf("[LoadAddress] %v", err)
+	}
+	return ua, nil
+}
+
 // Create 创建
 func (u *UserAddress) Create(userID uint32) error {
 	u.UserID = userID
@@ -112,6 +123,22 @@ func (u *UserAddress) Delete() error {
 		err = fmt.Errorf("[UserAddress.Delete] %v", err)
 	}
 	return err
+}
+
+// SetDefault 设置默认地址
+func (u *UserAddress) SetDefault() error {
+	return DataSource.TxExec(func(tx *sql.Tx) error {
+		update := `UPDATE tp_user_address SET is_default = 0 WHERE user_id = ? AND is_default = 1`
+		_, err := tx.Exec(update, u.UserID)
+		if err == nil {
+			update = `UPDATE tp_user_address SET is_default = 1 WHERE address_id = ?`
+			_, err = tx.Exec(update, u.ID)
+		}
+		if err != nil {
+			err = fmt.Errorf("[UserAddress.SetDefault] %v", err)
+		}
+		return err
+	})
 }
 
 func (u *UserAddress) Fields() []interface{} {

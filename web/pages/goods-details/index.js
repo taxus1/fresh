@@ -254,14 +254,12 @@ Page({
 
   addToCart: function(cb){
     var self = this;
-    if (this.data.specs && !this.data.canSubmit) {
-      if (!this.data.canSubmit){
-        wx.showModal({
-          title: '提示',
-          content: '请选择商品规格！',
-          showCancel: false
-        })
-      }
+    if (this.data.specs.length > 0 && !this.data.canSubmit) {
+      wx.showModal({
+        title: '提示',
+        content: '请选择商品规格！',
+        showCancel: false
+      })
       this.bindGuiGeTap();
       return;
     }
@@ -326,6 +324,10 @@ Page({
         return;
       }
     });
+
+    if (cart.length == 0) {
+      cart.push({id: self.data.id, num: self.data.buyNumber});
+    }
 
     return cart;
   },
