@@ -48,6 +48,27 @@ func (c *goodsController) Recommend(ctx iris.Context) {
 	c.WriteProto(ctx, &pgoods.RecommendResult{Recommend: pgs})
 }
 
+func (c *goodsController) Category(ctx iris.Context) {
+	catID, _ := ctx.Params().GetInt("cat")
+
+	gs, err := model.LoadCategoryGoods(uint32(catID))
+	if err != nil {
+		ctx.Text(err.Error())
+		return
+	}
+
+	pgs := make([]*pgoods.Recommend, len(gs))
+	for i, g := range gs {
+		pgs[i] = &pgoods.Recommend{
+			ID:        g.ID,
+			CatID:     g.CatID,
+			GoodsName: g.GoodsName,
+			ShopPrice: g.ShopPrice,
+		}
+	}
+	c.WriteProto(ctx, &pgoods.RecommendResult{Recommend: pgs})
+}
+
 // Detail 商品详情
 func (c *goodsController) Detail(ctx iris.Context) {
 	id, _ := ctx.Params().GetInt("id")

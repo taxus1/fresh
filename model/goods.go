@@ -51,7 +51,13 @@ type Goods struct {
 // LoadNewGoods 加载所有新产品
 func LoadNewGoods() ([]*Goods, error) {
 	var gs []*Goods
-	q := `SELECT * FROM tp_goods WHERE is_new = 1 ORDER BY sort`
+	q := `SELECT  goods_id, cat_id, extend_cat_id, goods_sn, goods_name, click_count,
+	brand_id, store_count, comment_count, weight, market_price, shop_price, cost_price,
+	price_ladder, keywords, goods_remark, goods_content, original_img, is_on_sale,
+	is_free_shipping, on_time, sort, is_recommend, is_new, is_hot, last_update,
+	goods_type, spec_type, give_integral, exchange_integral, suppliers_id, sales_sum,
+	prom_type, prom_id, commission, spu, sku, shipping_area_ids FROM tp_goods
+	WHERE is_new = 1 ORDER BY sort`
 	f := func(rs *sql.Rows) error {
 		for rs.Next() {
 			g := new(Goods)
@@ -72,7 +78,13 @@ func LoadNewGoods() ([]*Goods, error) {
 // LoadRecommendGoods 加载所有新产品
 func LoadRecommendGoods() ([]*Goods, error) {
 	var gs []*Goods
-	q := `SELECT * FROM tp_goods WHERE is_recommend = 1 ORDER BY sort LIMIT 10`
+	q := `SELECT goods_id, cat_id, extend_cat_id, goods_sn, goods_name, click_count,
+	brand_id, store_count, comment_count, weight, market_price, shop_price, cost_price,
+	price_ladder, keywords, goods_remark, goods_content, original_img, is_on_sale,
+	is_free_shipping, on_time, sort, is_recommend, is_new, is_hot, last_update,
+	goods_type, spec_type, give_integral, exchange_integral, suppliers_id, sales_sum,
+	prom_type, prom_id, commission, spu, sku, shipping_area_ids
+	FROM tp_goods WHERE is_recommend = 1 ORDER BY sort LIMIT 10`
 	f := func(rs *sql.Rows) error {
 		for rs.Next() {
 			g := new(Goods)
@@ -90,9 +102,42 @@ func LoadRecommendGoods() ([]*Goods, error) {
 	return gs, err
 }
 
+// LoadCategoryGoods 加载特定分类下的产品
+func LoadCategoryGoods(catID uint32) ([]*Goods, error) {
+	var gs []*Goods
+	q := `SELECT goods_id, cat_id, extend_cat_id, goods_sn, goods_name, click_count,
+	brand_id, store_count, comment_count, weight, market_price, shop_price, cost_price,
+	price_ladder, keywords, goods_remark, goods_content, original_img, is_on_sale,
+	is_free_shipping, on_time, sort, is_recommend, is_new, is_hot, last_update,
+	goods_type, spec_type, give_integral, exchange_integral, suppliers_id, sales_sum,
+	prom_type, prom_id, commission, spu, sku, shipping_area_ids
+	FROM tp_goods WHERE cat_id = ? ORDER BY sort LIMIT 10`
+	f := func(rs *sql.Rows) error {
+		for rs.Next() {
+			g := new(Goods)
+			if err := rs.Scan(g.Values()...); err != nil {
+				return err
+			}
+			gs = append(gs, g)
+		}
+		return nil
+	}
+	err := DataSource.QueryMore(q, f, catID)
+	if err != nil {
+		err = fmt.Errorf("[LoadCategoryGoods] %v", err)
+	}
+	return gs, err
+}
+
 // LoadGoodsBy ID获取商品
 func LoadGoodsBy(id uint32) (*Goods, error) {
-	query := `SELECT * FROM tp_goods WHERE goods_id = ?`
+	query := `SELECT goods_id, cat_id, extend_cat_id, goods_sn, goods_name, click_count,
+	brand_id, store_count, comment_count, weight, market_price, shop_price, cost_price,
+	price_ladder, keywords, goods_remark, goods_content, original_img, is_on_sale,
+	is_free_shipping, on_time, sort, is_recommend, is_new, is_hot, last_update,
+	goods_type, spec_type, give_integral, exchange_integral, suppliers_id, sales_sum,
+	prom_type, prom_id, commission, spu, sku, shipping_area_ids
+	FROM tp_goods WHERE goods_id = ?`
 	g := &Goods{}
 	err := DataSource.Session.QueryRow(query, id).Scan(g.Values()...)
 	if err != nil {
@@ -131,7 +176,6 @@ func (g *Goods) Values() []interface{} {
 		&g.GoodsRemark,
 		&g.GoodsContent,
 		&g.OriginalImg,
-		&g.IsReal,
 		&g.IsOnSale,
 		&g.IsFreeShipping,
 		&g.OnTime,

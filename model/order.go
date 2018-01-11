@@ -126,6 +126,30 @@ func (o *Order) insert(tx *sql.Tx) error {
 	return nil
 }
 
+// StateName 状态名称
+func (o *Order) StateName() string {
+	switch o.OrderState {
+	case 0, 1:
+		if o.PayState == 0 {
+			return "待付款"
+		}
+		if o.ShippingState == 0 {
+			return "待发货"
+		}
+		return "待收货"
+	case 2:
+		return "待评价"
+	case 3:
+		return "取消"
+	case 4:
+		return "已完成"
+	case 5:
+		return "已作废"
+	default:
+		return "未知状态"
+	}
+}
+
 // OrderWithGoods 订单和对应的订单商品
 type OrderWithGoods struct {
 	Order        *Order
@@ -133,7 +157,7 @@ type OrderWithGoods struct {
 }
 
 // LoadOrderList 获取用户所有订单
-func LoadOrderList(userID uint32) ([]*OrderWithGoods, error) {
+func LoadOrderList(userID uint32, nopay, noship, finish bool) ([]*OrderWithGoods, error) {
 	var orderID, orderStatus, shippingStatus, payStatus, addTime, recID, goodsID, goodsNum sql.NullInt64
 	var orderGoodsPrice, goodsPrice, shippingPrice, orderAmount, totalAmount sql.NullFloat64
 	var orderSN, userNote, adminNote, goodsName, specKeyName sql.NullString
@@ -144,6 +168,16 @@ func LoadOrderList(userID uint32) ([]*OrderWithGoods, error) {
  	FROM tp_order o LEFT JOIN tp_order_goods og ON o.order_id = og.order_id
 	WHERE  o.deleted = 0 AND o.user_id = ?
 	`
+	if nopay {
+		query = query + ` AND pay_status = 0 AND order_status = 0`
+	}
+	if noship {
+		query = query + ` AND shipping_status = 0 AND pay_status = 1 AND order_status IN (0, 1)`
+	}
+	if finish {
+		query = query + ` AND  order_status = 2`
+	}
+	query = query + ` ORDER BY add_time DESC LIMIT 20`
 	owgs, i, m := []*OrderWithGoods{}, 0, map[uint32]int{}
 	f := func(rs *sql.Rows) error {
 		for rs.Next() {

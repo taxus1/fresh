@@ -1,5 +1,10 @@
 package model
 
+import (
+	"fmt"
+	"testing"
+)
+
 // import (
 // 	"log"
 // 	"testing"
@@ -35,3 +40,9 @@ package model
 // 	checkErr(err)
 // 	checkErr(a.SetDefault())
 // }
+
+func TestFloat(t *testing.T) {
+	f := 2.00
+	fmt.Printf("%f", f)
+
+}

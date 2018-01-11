@@ -26,9 +26,10 @@ message List {
       float shippingPrice = 7;
       float orderAmount = 8;
       float totalAmount = 9;
-      int64 addTime = 10;
+      string addTime = 10;
       string userNote = 11;
       string adminNote = 12;
+      string stateName = 13;
     }
     Order order = 1;
 

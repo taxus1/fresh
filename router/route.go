@@ -30,8 +30,9 @@ func (r *Route) Init(app *iris.Application) {
 
 	goods := app.Party("/goods")
 	goods.Get("/new", ctr.GoodsController.NewGoods)
-	goods.Post("/recommend", ctr.GoodsController.Recommend)
+	goods.Get("/recommend", ctr.GoodsController.Recommend)
 	goods.Get("/detail/{id:int}", ctr.GoodsController.Detail)
+	goods.Get("/category/{cat:int}", ctr.GoodsController.Category)
 
 	home := app.Party("/home")
 	home.Get("/banner", ctr.HomeController.Banner)
@@ -46,7 +47,7 @@ func (r *Route) Init(app *iris.Application) {
 
 	order := app.Party("/order")
 	order.Post("/create", ctr.OrderController.Create)
-	order.Get("/list", ctr.OrderController.List)
+	order.Get("/list/{state:int}", ctr.OrderController.List)
 	order.Get("/detail/{id:int}", ctr.OrderController.Detail)
 
 	region := app.Party("/region")

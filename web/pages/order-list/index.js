@@ -5,7 +5,7 @@ var porder = require('../../proto/order.js').order
 var app = getApp()
 Page({
   data:{
-    statusType: ["全部", "待付款", "待发货", "待收货", "待评价"],
+    statusType: ["全部", "待付款", "待发货", "已完成"],
     currentType:0,
     tabClass: ["", "", "", "", ""]
   },
@@ -117,13 +117,9 @@ Page({
     // 获取订单列表
     wx.showLoading();
     var that = this;
-    var postData = {
-      token: app.globalData.token
-    };
-    postData.status = that.data.currentType;
     this.getOrderStatistics();
     wx.request({
-      url: app.globalData.domain + '/order/list',
+      url: app.globalData.domain + '/order/list/' + that.data.currentType,
       method: "GET",
       header: {token: "00a1c0366b96e5c3bfff8bd1d85fa557"},
       success: (res) => {

@@ -24,14 +24,15 @@ $root.order = (function() {
          * Properties of a CreateParam.
          * @memberof order
          * @interface ICreateParam
-         * @property {number} [addressID] CreateParam addressID
-         * @property {string} [remark] CreateParam remark
+         * @property {number|null} [addressID] CreateParam addressID
+         * @property {string|null} [remark] CreateParam remark
          */
 
         /**
          * Constructs a new CreateParam.
          * @memberof order
          * @classdesc Represents a CreateParam.
+         * @implements ICreateParam
          * @constructor
          * @param {order.ICreateParam=} [properties] Properties to set
          */
@@ -44,7 +45,7 @@ $root.order = (function() {
 
         /**
          * CreateParam addressID.
-         * @member {number}addressID
+         * @member {number} addressID
          * @memberof order.CreateParam
          * @instance
          */
@@ -52,7 +53,7 @@ $root.order = (function() {
 
         /**
          * CreateParam remark.
-         * @member {string}remark
+         * @member {string} remark
          * @memberof order.CreateParam
          * @instance
          */
@@ -233,15 +234,16 @@ $root.order = (function() {
          * Properties of an Order.
          * @memberof order
          * @interface IOrder
-         * @property {number} [ID] Order ID
-         * @property {string} [orderSN] Order orderSN
-         * @property {number} [totalAmount] Order totalAmount
+         * @property {number|null} [ID] Order ID
+         * @property {string|null} [orderSN] Order orderSN
+         * @property {number|null} [totalAmount] Order totalAmount
          */
 
         /**
          * Constructs a new Order.
          * @memberof order
          * @classdesc Represents an Order.
+         * @implements IOrder
          * @constructor
          * @param {order.IOrder=} [properties] Properties to set
          */
@@ -254,7 +256,7 @@ $root.order = (function() {
 
         /**
          * Order ID.
-         * @member {number}ID
+         * @member {number} ID
          * @memberof order.Order
          * @instance
          */
@@ -262,7 +264,7 @@ $root.order = (function() {
 
         /**
          * Order orderSN.
-         * @member {string}orderSN
+         * @member {string} orderSN
          * @memberof order.Order
          * @instance
          */
@@ -270,7 +272,7 @@ $root.order = (function() {
 
         /**
          * Order totalAmount.
-         * @member {number}totalAmount
+         * @member {number} totalAmount
          * @memberof order.Order
          * @instance
          */
@@ -464,13 +466,14 @@ $root.order = (function() {
          * Properties of a List.
          * @memberof order
          * @interface IList
-         * @property {Array.<order.List.IOrderWithGoods>} [orders] List orders
+         * @property {Array.<order.List.IOrderWithGoods>|null} [orders] List orders
          */
 
         /**
          * Constructs a new List.
          * @memberof order
          * @classdesc Represents a List.
+         * @implements IList
          * @constructor
          * @param {order.IList=} [properties] Properties to set
          */
@@ -484,7 +487,7 @@ $root.order = (function() {
 
         /**
          * List orders.
-         * @member {Array.<order.List.IOrderWithGoods>}orders
+         * @member {Array.<order.List.IOrderWithGoods>} orders
          * @memberof order.List
          * @instance
          */
@@ -668,14 +671,15 @@ $root.order = (function() {
              * Properties of an OrderWithGoods.
              * @memberof order.List
              * @interface IOrderWithGoods
-             * @property {order.List.OrderWithGoods.IOrder} [order] OrderWithGoods order
-             * @property {Array.<order.List.OrderWithGoods.IGoods>} [goodses] OrderWithGoods goodses
+             * @property {order.List.OrderWithGoods.IOrder|null} [order] OrderWithGoods order
+             * @property {Array.<order.List.OrderWithGoods.IGoods>|null} [goodses] OrderWithGoods goodses
              */
 
             /**
              * Constructs a new OrderWithGoods.
              * @memberof order.List
              * @classdesc Represents an OrderWithGoods.
+             * @implements IOrderWithGoods
              * @constructor
              * @param {order.List.IOrderWithGoods=} [properties] Properties to set
              */
@@ -689,7 +693,7 @@ $root.order = (function() {
 
             /**
              * OrderWithGoods order.
-             * @member {(order.List.OrderWithGoods.IOrder|null|undefined)}order
+             * @member {order.List.OrderWithGoods.IOrder|null|undefined} order
              * @memberof order.List.OrderWithGoods
              * @instance
              */
@@ -697,7 +701,7 @@ $root.order = (function() {
 
             /**
              * OrderWithGoods goodses.
-             * @member {Array.<order.List.OrderWithGoods.IGoods>}goodses
+             * @member {Array.<order.List.OrderWithGoods.IGoods>} goodses
              * @memberof order.List.OrderWithGoods
              * @instance
              */
@@ -818,7 +822,7 @@ $root.order = (function() {
                     if (!Array.isArray(message.goodses))
                         return "goodses: array expected";
                     for (var i = 0; i < message.goodses.length; ++i) {
-                        error = $root.order.List.OrderWithGoods.Goods.verify(message.goodses[i]);
+                        var error = $root.order.List.OrderWithGoods.Goods.verify(message.goodses[i]);
                         if (error)
                             return "goodses." + error;
                     }
@@ -900,24 +904,26 @@ $root.order = (function() {
                  * Properties of an Order.
                  * @memberof order.List.OrderWithGoods
                  * @interface IOrder
-                 * @property {number} [ID] Order ID
-                 * @property {number} [orderState] Order orderState
-                 * @property {string} [orderSN] Order orderSN
-                 * @property {number} [shippingState] Order shippingState
-                 * @property {number} [payState] Order payState
-                 * @property {number} [goodsPrice] Order goodsPrice
-                 * @property {number} [shippingPrice] Order shippingPrice
-                 * @property {number} [orderAmount] Order orderAmount
-                 * @property {number} [totalAmount] Order totalAmount
-                 * @property {number|Long} [addTime] Order addTime
-                 * @property {string} [userNote] Order userNote
-                 * @property {string} [adminNote] Order adminNote
+                 * @property {number|null} [ID] Order ID
+                 * @property {number|null} [orderState] Order orderState
+                 * @property {string|null} [orderSN] Order orderSN
+                 * @property {number|null} [shippingState] Order shippingState
+                 * @property {number|null} [payState] Order payState
+                 * @property {number|null} [goodsPrice] Order goodsPrice
+                 * @property {number|null} [shippingPrice] Order shippingPrice
+                 * @property {number|null} [orderAmount] Order orderAmount
+                 * @property {number|null} [totalAmount] Order totalAmount
+                 * @property {string|null} [addTime] Order addTime
+                 * @property {string|null} [userNote] Order userNote
+                 * @property {string|null} [adminNote] Order adminNote
+                 * @property {string|null} [stateName] Order stateName
                  */
 
                 /**
                  * Constructs a new Order.
                  * @memberof order.List.OrderWithGoods
                  * @classdesc Represents an Order.
+                 * @implements IOrder
                  * @constructor
                  * @param {order.List.OrderWithGoods.IOrder=} [properties] Properties to set
                  */
@@ -930,7 +936,7 @@ $root.order = (function() {
 
                 /**
                  * Order ID.
-                 * @member {number}ID
+                 * @member {number} ID
                  * @memberof order.List.OrderWithGoods.Order
                  * @instance
                  */
@@ -938,7 +944,7 @@ $root.order = (function() {
 
                 /**
                  * Order orderState.
-                 * @member {number}orderState
+                 * @member {number} orderState
                  * @memberof order.List.OrderWithGoods.Order
                  * @instance
                  */
@@ -946,7 +952,7 @@ $root.order = (function() {
 
                 /**
                  * Order orderSN.
-                 * @member {string}orderSN
+                 * @member {string} orderSN
                  * @memberof order.List.OrderWithGoods.Order
                  * @instance
                  */
@@ -954,7 +960,7 @@ $root.order = (function() {
 
                 /**
                  * Order shippingState.
-                 * @member {number}shippingState
+                 * @member {number} shippingState
                  * @memberof order.List.OrderWithGoods.Order
                  * @instance
                  */
@@ -962,7 +968,7 @@ $root.order = (function() {
 
                 /**
                  * Order payState.
-                 * @member {number}payState
+                 * @member {number} payState
                  * @memberof order.List.OrderWithGoods.Order
                  * @instance
                  */
@@ -970,7 +976,7 @@ $root.order = (function() {
 
                 /**
                  * Order goodsPrice.
-                 * @member {number}goodsPrice
+                 * @member {number} goodsPrice
                  * @memberof order.List.OrderWithGoods.Order
                  * @instance
                  */
@@ -978,7 +984,7 @@ $root.order = (function() {
 
                 /**
                  * Order shippingPrice.
-                 * @member {number}shippingPrice
+                 * @member {number} shippingPrice
                  * @memberof order.List.OrderWithGoods.Order
                  * @instance
                  */
@@ -986,7 +992,7 @@ $root.order = (function() {
 
                 /**
                  * Order orderAmount.
-                 * @member {number}orderAmount
+                 * @member {number} orderAmount
                  * @memberof order.List.OrderWithGoods.Order
                  * @instance
                  */
@@ -994,7 +1000,7 @@ $root.order = (function() {
 
                 /**
                  * Order totalAmount.
-                 * @member {number}totalAmount
+                 * @member {number} totalAmount
                  * @memberof order.List.OrderWithGoods.Order
                  * @instance
                  */
@@ -1002,15 +1008,15 @@ $root.order = (function() {
 
                 /**
                  * Order addTime.
-                 * @member {number|Long}addTime
+                 * @member {string} addTime
                  * @memberof order.List.OrderWithGoods.Order
                  * @instance
                  */
-                Order.prototype.addTime = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+                Order.prototype.addTime = "";
 
                 /**
                  * Order userNote.
-                 * @member {string}userNote
+                 * @member {string} userNote
                  * @memberof order.List.OrderWithGoods.Order
                  * @instance
                  */
@@ -1018,11 +1024,19 @@ $root.order = (function() {
 
                 /**
                  * Order adminNote.
-                 * @member {string}adminNote
+                 * @member {string} adminNote
                  * @memberof order.List.OrderWithGoods.Order
                  * @instance
                  */
                 Order.prototype.adminNote = "";
+
+                /**
+                 * Order stateName.
+                 * @member {string} stateName
+                 * @memberof order.List.OrderWithGoods.Order
+                 * @instance
+                 */
+                Order.prototype.stateName = "";
 
                 /**
                  * Creates a new Order instance using the specified properties.
@@ -1067,11 +1081,13 @@ $root.order = (function() {
                     if (message.totalAmount != null && message.hasOwnProperty("totalAmount"))
                         writer.uint32(/* id 9, wireType 5 =*/77).float(message.totalAmount);
                     if (message.addTime != null && message.hasOwnProperty("addTime"))
-                        writer.uint32(/* id 10, wireType 0 =*/80).int64(message.addTime);
+                        writer.uint32(/* id 10, wireType 2 =*/82).string(message.addTime);
                     if (message.userNote != null && message.hasOwnProperty("userNote"))
                         writer.uint32(/* id 11, wireType 2 =*/90).string(message.userNote);
                     if (message.adminNote != null && message.hasOwnProperty("adminNote"))
                         writer.uint32(/* id 12, wireType 2 =*/98).string(message.adminNote);
+                    if (message.stateName != null && message.hasOwnProperty("stateName"))
+                        writer.uint32(/* id 13, wireType 2 =*/106).string(message.stateName);
                     return writer;
                 };
 
@@ -1134,13 +1150,16 @@ $root.order = (function() {
                             message.totalAmount = reader.float();
                             break;
                         case 10:
-                            message.addTime = reader.int64();
+                            message.addTime = reader.string();
                             break;
                         case 11:
                             message.userNote = reader.string();
                             break;
                         case 12:
                             message.adminNote = reader.string();
+                            break;
+                        case 13:
+                            message.stateName = reader.string();
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -1205,14 +1224,17 @@ $root.order = (function() {
                         if (typeof message.totalAmount !== "number")
                             return "totalAmount: number expected";
                     if (message.addTime != null && message.hasOwnProperty("addTime"))
-                        if (!$util.isInteger(message.addTime) && !(message.addTime && $util.isInteger(message.addTime.low) && $util.isInteger(message.addTime.high)))
-                            return "addTime: integer|Long expected";
+                        if (!$util.isString(message.addTime))
+                            return "addTime: string expected";
                     if (message.userNote != null && message.hasOwnProperty("userNote"))
                         if (!$util.isString(message.userNote))
                             return "userNote: string expected";
                     if (message.adminNote != null && message.hasOwnProperty("adminNote"))
                         if (!$util.isString(message.adminNote))
                             return "adminNote: string expected";
+                    if (message.stateName != null && message.hasOwnProperty("stateName"))
+                        if (!$util.isString(message.stateName))
+                            return "stateName: string expected";
                     return null;
                 };
 
@@ -1247,18 +1269,13 @@ $root.order = (function() {
                     if (object.totalAmount != null)
                         message.totalAmount = Number(object.totalAmount);
                     if (object.addTime != null)
-                        if ($util.Long)
-                            (message.addTime = $util.Long.fromValue(object.addTime)).unsigned = false;
-                        else if (typeof object.addTime === "string")
-                            message.addTime = parseInt(object.addTime, 10);
-                        else if (typeof object.addTime === "number")
-                            message.addTime = object.addTime;
-                        else if (typeof object.addTime === "object")
-                            message.addTime = new $util.LongBits(object.addTime.low >>> 0, object.addTime.high >>> 0).toNumber();
+                        message.addTime = String(object.addTime);
                     if (object.userNote != null)
                         message.userNote = String(object.userNote);
                     if (object.adminNote != null)
                         message.adminNote = String(object.adminNote);
+                    if (object.stateName != null)
+                        message.stateName = String(object.stateName);
                     return message;
                 };
 
@@ -1285,13 +1302,10 @@ $root.order = (function() {
                         object.shippingPrice = 0;
                         object.orderAmount = 0;
                         object.totalAmount = 0;
-                        if ($util.Long) {
-                            var long = new $util.Long(0, 0, false);
-                            object.addTime = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                        } else
-                            object.addTime = options.longs === String ? "0" : 0;
+                        object.addTime = "";
                         object.userNote = "";
                         object.adminNote = "";
+                        object.stateName = "";
                     }
                     if (message.ID != null && message.hasOwnProperty("ID"))
                         object.ID = message.ID;
@@ -1312,14 +1326,13 @@ $root.order = (function() {
                     if (message.totalAmount != null && message.hasOwnProperty("totalAmount"))
                         object.totalAmount = options.json && !isFinite(message.totalAmount) ? String(message.totalAmount) : message.totalAmount;
                     if (message.addTime != null && message.hasOwnProperty("addTime"))
-                        if (typeof message.addTime === "number")
-                            object.addTime = options.longs === String ? String(message.addTime) : message.addTime;
-                        else
-                            object.addTime = options.longs === String ? $util.Long.prototype.toString.call(message.addTime) : options.longs === Number ? new $util.LongBits(message.addTime.low >>> 0, message.addTime.high >>> 0).toNumber() : message.addTime;
+                        object.addTime = message.addTime;
                     if (message.userNote != null && message.hasOwnProperty("userNote"))
                         object.userNote = message.userNote;
                     if (message.adminNote != null && message.hasOwnProperty("adminNote"))
                         object.adminNote = message.adminNote;
+                    if (message.stateName != null && message.hasOwnProperty("stateName"))
+                        object.stateName = message.stateName;
                     return object;
                 };
 
@@ -1343,20 +1356,21 @@ $root.order = (function() {
                  * Properties of a Goods.
                  * @memberof order.List.OrderWithGoods
                  * @interface IGoods
-                 * @property {number} [ID] Goods ID
-                 * @property {number} [orderID] Goods orderID
-                 * @property {number} [goodsID] Goods goodsID
-                 * @property {string} [goodsName] Goods goodsName
-                 * @property {number} [goodsNum] Goods goodsNum
-                 * @property {number} [goodsPrice] Goods goodsPrice
-                 * @property {number} [costPrice] Goods costPrice
-                 * @property {string} [specKeyName] Goods specKeyName
+                 * @property {number|null} [ID] Goods ID
+                 * @property {number|null} [orderID] Goods orderID
+                 * @property {number|null} [goodsID] Goods goodsID
+                 * @property {string|null} [goodsName] Goods goodsName
+                 * @property {number|null} [goodsNum] Goods goodsNum
+                 * @property {number|null} [goodsPrice] Goods goodsPrice
+                 * @property {number|null} [costPrice] Goods costPrice
+                 * @property {string|null} [specKeyName] Goods specKeyName
                  */
 
                 /**
                  * Constructs a new Goods.
                  * @memberof order.List.OrderWithGoods
                  * @classdesc Represents a Goods.
+                 * @implements IGoods
                  * @constructor
                  * @param {order.List.OrderWithGoods.IGoods=} [properties] Properties to set
                  */
@@ -1369,7 +1383,7 @@ $root.order = (function() {
 
                 /**
                  * Goods ID.
-                 * @member {number}ID
+                 * @member {number} ID
                  * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
@@ -1377,7 +1391,7 @@ $root.order = (function() {
 
                 /**
                  * Goods orderID.
-                 * @member {number}orderID
+                 * @member {number} orderID
                  * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
@@ -1385,7 +1399,7 @@ $root.order = (function() {
 
                 /**
                  * Goods goodsID.
-                 * @member {number}goodsID
+                 * @member {number} goodsID
                  * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
@@ -1393,7 +1407,7 @@ $root.order = (function() {
 
                 /**
                  * Goods goodsName.
-                 * @member {string}goodsName
+                 * @member {string} goodsName
                  * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
@@ -1401,7 +1415,7 @@ $root.order = (function() {
 
                 /**
                  * Goods goodsNum.
-                 * @member {number}goodsNum
+                 * @member {number} goodsNum
                  * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
@@ -1409,7 +1423,7 @@ $root.order = (function() {
 
                 /**
                  * Goods goodsPrice.
-                 * @member {number}goodsPrice
+                 * @member {number} goodsPrice
                  * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
@@ -1417,7 +1431,7 @@ $root.order = (function() {
 
                 /**
                  * Goods costPrice.
-                 * @member {number}costPrice
+                 * @member {number} costPrice
                  * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
@@ -1425,7 +1439,7 @@ $root.order = (function() {
 
                 /**
                  * Goods specKeyName.
-                 * @member {string}specKeyName
+                 * @member {string} specKeyName
                  * @memberof order.List.OrderWithGoods.Goods
                  * @instance
                  */
@@ -1690,19 +1704,20 @@ $root.order = (function() {
          * Properties of an Address.
          * @memberof order
          * @interface IAddress
-         * @property {string} [provinceStr] Address provinceStr
-         * @property {string} [cityStr] Address cityStr
-         * @property {string} [districtStr] Address districtStr
-         * @property {string} [twonStr] Address twonStr
-         * @property {string} [consignee] Address consignee
-         * @property {string} [mobile] Address mobile
-         * @property {string} [address] Address address
+         * @property {string|null} [provinceStr] Address provinceStr
+         * @property {string|null} [cityStr] Address cityStr
+         * @property {string|null} [districtStr] Address districtStr
+         * @property {string|null} [twonStr] Address twonStr
+         * @property {string|null} [consignee] Address consignee
+         * @property {string|null} [mobile] Address mobile
+         * @property {string|null} [address] Address address
          */
 
         /**
          * Constructs a new Address.
          * @memberof order
          * @classdesc Represents an Address.
+         * @implements IAddress
          * @constructor
          * @param {order.IAddress=} [properties] Properties to set
          */
@@ -1715,7 +1730,7 @@ $root.order = (function() {
 
         /**
          * Address provinceStr.
-         * @member {string}provinceStr
+         * @member {string} provinceStr
          * @memberof order.Address
          * @instance
          */
@@ -1723,7 +1738,7 @@ $root.order = (function() {
 
         /**
          * Address cityStr.
-         * @member {string}cityStr
+         * @member {string} cityStr
          * @memberof order.Address
          * @instance
          */
@@ -1731,7 +1746,7 @@ $root.order = (function() {
 
         /**
          * Address districtStr.
-         * @member {string}districtStr
+         * @member {string} districtStr
          * @memberof order.Address
          * @instance
          */
@@ -1739,7 +1754,7 @@ $root.order = (function() {
 
         /**
          * Address twonStr.
-         * @member {string}twonStr
+         * @member {string} twonStr
          * @memberof order.Address
          * @instance
          */
@@ -1747,7 +1762,7 @@ $root.order = (function() {
 
         /**
          * Address consignee.
-         * @member {string}consignee
+         * @member {string} consignee
          * @memberof order.Address
          * @instance
          */
@@ -1755,7 +1770,7 @@ $root.order = (function() {
 
         /**
          * Address mobile.
-         * @member {string}mobile
+         * @member {string} mobile
          * @memberof order.Address
          * @instance
          */
@@ -1763,7 +1778,7 @@ $root.order = (function() {
 
         /**
          * Address address.
-         * @member {string}address
+         * @member {string} address
          * @memberof order.Address
          * @instance
          */
@@ -2009,14 +2024,15 @@ $root.order = (function() {
          * Properties of a Detail.
          * @memberof order
          * @interface IDetail
-         * @property {order.List.IOrderWithGoods} [orderWithGoods] Detail orderWithGoods
-         * @property {order.IAddress} [address] Detail address
+         * @property {order.List.IOrderWithGoods|null} [orderWithGoods] Detail orderWithGoods
+         * @property {order.IAddress|null} [address] Detail address
          */
 
         /**
          * Constructs a new Detail.
          * @memberof order
          * @classdesc Represents a Detail.
+         * @implements IDetail
          * @constructor
          * @param {order.IDetail=} [properties] Properties to set
          */
@@ -2029,7 +2045,7 @@ $root.order = (function() {
 
         /**
          * Detail orderWithGoods.
-         * @member {(order.List.IOrderWithGoods|null|undefined)}orderWithGoods
+         * @member {order.List.IOrderWithGoods|null|undefined} orderWithGoods
          * @memberof order.Detail
          * @instance
          */
@@ -2037,7 +2053,7 @@ $root.order = (function() {
 
         /**
          * Detail address.
-         * @member {(order.IAddress|null|undefined)}address
+         * @member {order.IAddress|null|undefined} address
          * @memberof order.Detail
          * @instance
          */
@@ -2152,7 +2168,7 @@ $root.order = (function() {
                     return "orderWithGoods." + error;
             }
             if (message.address != null && message.hasOwnProperty("address")) {
-                error = $root.order.Address.verify(message.address);
+                var error = $root.order.Address.verify(message.address);
                 if (error)
                     return "address." + error;
             }

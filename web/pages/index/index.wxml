@@ -19,7 +19,7 @@
     <view class="type-container">
         <scroll-view class="type-navbar" scroll-x="true">
             <view class="type-box" wx:for-items="{{categories}}" wx:key="iD">
-                <view id="{{item.iD}}" class="type-navbar-item {{activeCategoryId == item.ID ? 'type-item-on' : ''}}" bindtap="tabClick">
+                <view id="{{item.iD}}" class="type-navbar-item {{activeCategoryId == item.iD ? 'type-item-on' : ''}}" bindtap="tabClick">
                     {{item.mobileName}}
                 </view>
             </view>

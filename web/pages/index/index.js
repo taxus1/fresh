@@ -150,13 +150,16 @@ Page({
   },
 
   getGoodsList: function (categoryId) {
+    var url = '';
     if (categoryId == 0) {
-      categoryId = "";
+      url = app.globalData.domain + "/goods/recommend";
+    } else {
+      url = app.globalData.domain + '/goods/category/' + categoryId;
     }
     var that = this;
     wx.request({
-      url: app.globalData.domain + '/goods/recommend',
-      method: "POST",
+      url: url,
+      method: "GET",
       success: function(res) {
         that.setData({
           goods:[],

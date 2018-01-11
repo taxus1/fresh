@@ -4,6 +4,7 @@ import (
 	"fresh/model"
 	porder "fresh/proto/order"
 	"log"
+	"time"
 
 	"github.com/kataras/iris"
 )
@@ -67,7 +68,9 @@ func (c *orderController) List(ctx iris.Context) {
 		return
 	}
 
-	owgs, err := model.LoadOrderList(u.ID)
+	state, _ := ctx.Params().GetInt("state")
+
+	owgs, err := model.LoadOrderList(u.ID, state == 1, state == 2, state == 3)
 	if err != nil {
 		ctx.Text(err.Error())
 		return
@@ -87,9 +90,10 @@ func (c *orderController) List(ctx iris.Context) {
 				ShippingPrice: v.Order.ShippingPrice,
 				OrderAmount:   v.Order.OrderAmount,
 				TotalAmount:   v.Order.TotalAmount,
-				AddTime:       v.Order.AddTime,
+				AddTime:       time.Unix(v.Order.AddTime, 0).Format("2006-01-02 15:16:17"),
 				UserNote:      v.Order.UserNote,
 				AdminNote:     v.Order.AdminNote,
+				StateName:     v.Order.StateName(),
 			},
 		}
 
@@ -138,9 +142,10 @@ func (c *orderController) Detail(ctx iris.Context) {
 				ShippingPrice: owg.Order.ShippingPrice,
 				OrderAmount:   owg.Order.OrderAmount,
 				TotalAmount:   owg.Order.TotalAmount,
-				AddTime:       owg.Order.AddTime,
+				AddTime:       time.Unix(owg.Order.AddTime, 0).Format("2006-01-02-03 14:15:16"),
 				UserNote:      owg.Order.UserNote,
 				AdminNote:     owg.Order.AdminNote,
+				StateName:     owg.Order.StateName(),
 			},
 		},
 		Address: &porder.Address{

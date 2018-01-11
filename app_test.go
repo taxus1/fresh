@@ -1,15 +1,18 @@
 package main
 
 import (
+	"encoding/base64"
+	pgoods "fresh/proto/goods"
 	"log"
 	"testing"
 
+	"github.com/golang/protobuf/proto"
 	"github.com/kataras/iris/httptest"
 )
 
 // pad "fresh/proto/ad"
 // pcategory "fresh/proto/category"
-// pgoods "fresh/proto/goods"
+
 // pcart "fresh/proto/cart"
 // pregion "fresh/proto/region"
 
@@ -46,6 +49,21 @@ var app = newApp()
 // 		log.Printf("%v", v)
 // 	}
 // }
+
+func TestLoadCategoryGoods(t *testing.T) {
+	app := newApp()
+	e := httptest.New(t, app)
+
+	body := e.GET("/goods/category/130").WithHeader("Content-Type", "application/x-protobuf").Expect().Status(httptest.StatusOK).Body()
+	bytes, _ := base64.StdEncoding.DecodeString(body.Raw())
+	data := &pgoods.RecommendResult{}
+	if err := proto.Unmarshal([]byte(bytes), data); err != nil {
+		panic(err)
+	}
+	for _, v := range data.GetRecommend() {
+		log.Printf("%v", v)
+	}
+}
 
 // func TestLoadHomeBannerAds(t *testing.T) {
 // 	e := httptest.New(t, app)
@@ -272,12 +290,12 @@ var app = newApp()
 // 	log.Printf("[TestDeleteUserAddress] %v", body)
 // }
 
-func TestUserAddressSetDefault(t *testing.T) {
-	e := httptest.New(t, app)
-
-	body := e.PATCH("/address/814/setDefault").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
-	log.Printf("[TestSetUserAddressDefault] %v", body)
-}
+// func TestUserAddressSetDefault(t *testing.T) {
+// 	e := httptest.New(t, app)
+//
+// 	body := e.PATCH("/address/814/setDefault").WithHeader("token", "00a1c0366b96e5c3bfff8bd1d85fa557").Expect().Status(httptest.StatusOK).Body()
+// 	log.Printf("[TestSetUserAddressDefault] %v", body)
+// }
 
 // func TestCreateOrder(t *testing.T) {
 // 	e := httptest.New(t, app)
